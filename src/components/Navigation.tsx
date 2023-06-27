@@ -1,19 +1,26 @@
-import {Text, StyleSheet, Pressable, SafeAreaView, View, Animated} from "react-native";
+import {Text, StyleSheet, Pressable, SafeAreaView, View, Animated, Dimensions} from "react-native";
 import { Feather } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
-import React, {useEffect, useState} from "react";
+import { Ionicons } from '@expo/vector-icons';
+import React, {useEffect, useMemo, useState} from "react";
+import {transform} from "@babel/core";
 
 const Navigation = () => {
+    const windowWidth = Dimensions.get('window').width;
     const NavValues = {
         HOME: "home",
         PROFILE: "profile",
+        FAVOURITE:"favourite",
         SETTINGS: "settings",
+        TRAVELS:"travels",
     }
-    const [selected,setSelected]=useState(NavValues.PROFILE)
+    const [selected,setSelected]=useState(NavValues.HOME)
 
     const [homeAnimation] = useState(new Animated.Value(0));
     const [profileAnimation] = useState(new Animated.Value(0));
     const [settingsAnimation] = useState(new Animated.Value(0));
+    const [favouriteAnimation] = useState(new Animated.Value(0));
+    const [travelsAnimation] = useState(new Animated.Value(0));
 
     useEffect(() => {
         Animated.timing(homeAnimation, {
@@ -31,7 +38,19 @@ const Navigation = () => {
             duration: 200,
             useNativeDriver: false,
         }).start();
+        Animated.timing(favouriteAnimation, {
+            toValue: selected === NavValues.FAVOURITE ? 1.2 : 1,
+            duration: 200,
+            useNativeDriver: false,
+        }).start();
+        Animated.timing(travelsAnimation, {
+            toValue: selected === NavValues.TRAVELS ? 1.2 : 1,
+            duration: 200,
+            useNativeDriver: false,
+        }).start();
     }, [selected]);
+
+
 
 
 
@@ -40,6 +59,7 @@ const Navigation = () => {
 
     return (
         <SafeAreaView style={styles.nav}>
+            {/*<Text style={{position:"absolute",top:0,left:90,zIndex:100}}>{indicatorPositionn}</Text>*/}
             <View style={styles.content}>
                 <Pressable onPress={() => setSelected(NavValues.HOME)}>
                     <Animated.View style={{ transform: [{ scale: homeAnimation }] }}>
@@ -47,9 +67,21 @@ const Navigation = () => {
                     </Animated.View>
                 </Pressable>
 
+                <Pressable onPress={() => setSelected(NavValues.TRAVELS)}>
+                    <Animated.View style={{ transform: [{ scale: travelsAnimation }] }}>
+                        <Ionicons name="earth" style={selected===NavValues.TRAVELS?styles.iconActive:styles.icon} />
+                    </Animated.View>
+                </Pressable>
+
                 <Pressable onPress={() => setSelected(NavValues.PROFILE)}>
                     <Animated.View style={{ transform: [{ scale: profileAnimation }] }}>
                         <AntDesign name="user" style={selected===NavValues.PROFILE?styles.iconActive:styles.icon}/>
+                    </Animated.View>
+                </Pressable>
+
+                <Pressable onPress={() => setSelected(NavValues.FAVOURITE)}>
+                    <Animated.View style={{ transform: [{ scale: favouriteAnimation }] }}>
+                        <Feather name="heart" style={selected===NavValues.FAVOURITE?styles.iconActive:styles.icon} />
                     </Animated.View>
                 </Pressable>
 
@@ -68,12 +100,13 @@ const styles = StyleSheet.create({
         zIndex:100,
         width:"100%",
         position:"absolute",
-        bottom:-10,
-        backgroundColor:"#1B3370",
+        bottom:0,
+        // backgroundColor:"#ffffff",
+        backgroundColor:"#383838"
     },
     content:{
         borderTopWidth:2,
-        paddingTop:10,
+        paddingTop:15,
         borderTop:10,
         borderTopColor:"#a4a4a4",
         display:"flex",
@@ -81,16 +114,29 @@ const styles = StyleSheet.create({
         alignItems:"center",
         textAlign:"center",
         justifyContent:"space-around",
-        backgroundColor:"#1B3370"
-
+        position:"relative",
+        // backgroundColor:"#ffffff"
+        backgroundColor:"#383838"
+    },
+    contentAfter:{
+        position:"absolute",
+        width:"10%",
+        bottom:-10,
+        left: 75,
+        backgroundColor:"red",
+        zIndex:100,
+        height:3
     },
     icon:{
-        fontSize:35,
-        color:"#a4a4a4",
+        fontSize:30,
+        color:"#a2a2a2",
+        // color:"white"
     },
     iconActive:{
-        fontSize:35,
+        fontSize:30,
+        // color:"#6f84e3",
         color:"white",
+
     }
 });
 

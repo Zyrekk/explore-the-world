@@ -38,7 +38,8 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     startButton:{
-        backgroundColor: "#1B3370",
+        // backgroundColor:"#ffffff",
+        backgroundColor:"#383838",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
@@ -52,7 +53,8 @@ const styles = StyleSheet.create({
     },
     startButtonText: {
         fontSize: 16,
-        color: "#fff",
+        // color: "black",
+        color:"white"
     },
 });
 
