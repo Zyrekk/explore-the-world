@@ -4,6 +4,7 @@ import {Navigation} from "../components/Navigation";
 import {StyleSheet, View} from "react-native";
 
 
+
 const HomeScreen =()=>{
     return(
         <View style={styles.container}>
