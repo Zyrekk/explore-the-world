@@ -18,11 +18,11 @@ const Navigation= () => {
     const NavValues = {
         HOME: "Home",
         PROFILE: "Profile",
-        FAVOURITE:"Favourite",
+        FAVOURITE: "Favourite",
         SETTINGS: "Settings",
-        TRAVELS:"Travels",
-    }
-    const [selected,setSelected]=useState(NavValues.HOME)
+        TRAVELS: "Travels",
+    };
+    const [selected, setSelected] = useState(NavValues.HOME);
 
     const [homeAnimation] = useState(new Animated.Value(0));
     const [profileAnimation] = useState(new Animated.Value(0));
@@ -57,6 +57,18 @@ const Navigation= () => {
             useNativeDriver: false,
         }).start();
     }, [selected]);
+
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('state', (e) => {
+            if (e.data.state && e.data.state.routes) {
+                const currentRouteName = e.data.state.routes[e.data.state.index].name;
+                setSelected(currentRouteName);
+            }
+        });
+        return unsubscribe;
+    }, [navigation]);
+
+
 
 
     return (

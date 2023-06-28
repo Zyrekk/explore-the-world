@@ -1,5 +1,6 @@
 import {StyleSheet, View} from "react-native";
 import {UserInformation} from "../components/Profile/UserInformation";
+import {Navigation} from "../components/Home/Navigation";
 
 const ProfileScreen = () => {
     return (

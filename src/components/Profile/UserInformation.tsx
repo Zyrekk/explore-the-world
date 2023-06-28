@@ -1,12 +1,10 @@
 import React from "react";
-import {StyleSheet,SafeAreaView} from "react-native";
+import {StyleSheet, SafeAreaView, Text} from "react-native";
 
 const UserInformation = () => {
-
-
     return (
         <SafeAreaView style={styles.userInfo}>
-
+            <Text>PROFILE SCREEN</Text>
         </SafeAreaView>
     );
 };
@@ -14,7 +12,7 @@ const UserInformation = () => {
 const styles = StyleSheet.create({
 
     userInfo:{
-        backgroundColor:"red",
+        // backgroundColor:"red",
         height:"100%",
         width:"100%",
     }

@@ -1,18 +1,22 @@
 import React, {useState, useRef, useEffect} from 'react';
-import MapView, {Marker} from 'react-native-maps';
-import {StyleSheet, View} from 'react-native';
+import MapView, {Callout, Marker} from 'react-native-maps';
+import {StyleSheet, Text, View} from 'react-native';
 import * as Location from "expo-location";
+import * as events from "events";
 
 const Map = () => {
+    const [markerSelected, setMarkerSelected] = useState(false);
     const [coords, setCoords] = useState({
         latitude: 54.352024,
         longitude: 18.646639,
+        longitudeDelta: 13,
+        latitudeDelta: 13,
     })
     const [markerPosition, setMarkerPosition] = useState({
         latitude: coords.latitude,
         longitude: coords.longitude,
-        longitudeDelta: 13,
-        latitudeDelta: 13,
+        longitudeDelta: 0.1,
+        latitudeDelta: 0.1,
         selected: false,
     });
     const markerRef = useRef(null);
@@ -27,8 +31,13 @@ const Map = () => {
         let currentLocation = await Location.getCurrentPositionAsync({});
         setCoords({
             latitude: currentLocation.coords.latitude,
-            longitude: currentLocation.coords.longitude
+            longitude: currentLocation.coords.longitude,
+            longitudeDelta: 13,
+            latitudeDelta: 13,
         })
+        if (mapRef.current !== null) {
+            mapRef.current.animateToRegion(coords, 1000); // Smoothly animate to the new region
+        }
     };
     useEffect(() => {
         getPermissions().then();
@@ -42,13 +51,15 @@ const Map = () => {
 
     const handleLongPress = (event: any) => {
         const {coordinate} = event.nativeEvent;
+        const {position}=event.nativeEvent;
         setMarkerPosition({
             latitude: coordinate.latitude,
             longitude: coordinate.longitude,
-            longitudeDelta: 0.1,
-            latitudeDelta: 0.1,
+            longitudeDelta: 0.01,
+            latitudeDelta: 0.01,
             selected: true
         });
+        setMarkerSelected(true)
     };
 
     return (
@@ -60,10 +71,20 @@ const Map = () => {
                 showsUserLocation={true}
                 onLongPress={handleLongPress}
             >
-                {markerPosition.selected?<Marker
-                    ref={markerRef}
-                    coordinate={markerPosition}
-                />:null}
+                {markerPosition.selected ? (
+                    <Marker
+                        ref={markerRef}
+                        coordinate={markerPosition}>
+                        {markerSelected && (
+                            <Callout
+                                onPress={()=>{markerRef.current?.hideCallout()}}
+                            >
+                                <Text>lat {markerPosition.latitude}</Text>
+                                <Text>lng {markerPosition.longitude}</Text>
+                            </Callout>
+                        )}
+                    </Marker>
+                ) : null}
             </MapView>
         </View>
     );
