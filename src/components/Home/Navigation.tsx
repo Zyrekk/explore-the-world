@@ -1,18 +1,26 @@
-import {Text, StyleSheet, Pressable, SafeAreaView, View, Animated, Dimensions} from "react-native";
+import {StyleSheet, Pressable, SafeAreaView, View, Animated, Dimensions} from "react-native";
 import { Feather } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
-import React, {useEffect, useMemo, useState} from "react";
-import {transform} from "@babel/core";
+import React, {useEffect, useState} from "react";
+import {useNavigation} from "@react-navigation/native";
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+type RootStackParamList = {
+    Home: undefined;
+    Profile: undefined;
+};
 
-const Navigation = () => {
-    const windowWidth = Dimensions.get('window').width;
+type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
+
+
+const Navigation= () => {
+    const navigation = useNavigation<NavigationProp>();
     const NavValues = {
-        HOME: "home",
-        PROFILE: "profile",
-        FAVOURITE:"favourite",
-        SETTINGS: "settings",
-        TRAVELS:"travels",
+        HOME: "Home",
+        PROFILE: "Profile",
+        FAVOURITE:"Favourite",
+        SETTINGS: "Settings",
+        TRAVELS:"Travels",
     }
     const [selected,setSelected]=useState(NavValues.HOME)
 
@@ -51,17 +59,13 @@ const Navigation = () => {
     }, [selected]);
 
 
-
-
-
-
-
-
     return (
         <SafeAreaView style={styles.nav}>
-            {/*<Text style={{position:"absolute",top:0,left:90,zIndex:100}}>{indicatorPositionn}</Text>*/}
             <View style={styles.content}>
-                <Pressable onPress={() => setSelected(NavValues.HOME)}>
+                <Pressable onPress={() => {
+                    setSelected(NavValues.HOME);
+                    navigation.navigate('Home');
+                }}>
                     <Animated.View style={{ transform: [{ scale: homeAnimation }] }}>
                         <AntDesign name="home" style={selected===NavValues.HOME?styles.iconActive:styles.icon} />
                     </Animated.View>
@@ -73,7 +77,10 @@ const Navigation = () => {
                     </Animated.View>
                 </Pressable>
 
-                <Pressable onPress={() => setSelected(NavValues.PROFILE)}>
+                <Pressable onPress={() => {
+                    setSelected(NavValues.PROFILE);
+                    navigation.navigate('Profile');
+                }}>
                     <Animated.View style={{ transform: [{ scale: profileAnimation }] }}>
                         <AntDesign name="user" style={selected===NavValues.PROFILE?styles.iconActive:styles.icon}/>
                     </Animated.View>

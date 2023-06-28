@@ -1,25 +1,24 @@
-import {StartButton} from "../components/StartButton";
-import {Map} from "../components/Map";
-import {Navigation} from "../components/Navigation";
-import {StyleSheet, View} from "react-native";
+import { View, StyleSheet } from 'react-native';
+import { StartButton } from '../components/Home/StartButton';
+import { Map } from '../components/Home/Map';
 
 
+const HomeScreen= () => {
 
-const HomeScreen =()=>{
-    return(
+    return (
         <View style={styles.container}>
             <StartButton/>
-            <Map/>
-            <Navigation/>
+            <Map />
         </View>
-    )
-}
+    );
+};
+
 const styles = StyleSheet.create({
     container: {
-        width: "100%",
-        minHeight: "100%",
-        alignItems: "center"
+        width: '100%',
+        minHeight: '100%',
+        alignItems: 'center',
     },
 });
 
-export {HomeScreen};
+export { HomeScreen };

@@ -16,7 +16,7 @@ const Map = () => {
         selected: false,
     });
     const markerRef = useRef(null);
-    const mapRef = useRef(null);
+    const mapRef = React.useRef<MapView>(null);
     const getPermissions = async () => {
         let {status} = await Location.requestForegroundPermissionsAsync();
         if (status !== 'granted') {
