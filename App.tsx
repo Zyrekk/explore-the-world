@@ -1,5 +1,5 @@
-import * as React from 'react';
-import {NavigationContainer, useNavigation} from '@react-navigation/native';
+import React, { useState, useEffect } from 'react';
+import { NavigationContainer, useNavigationState } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const Stack = createNativeStackNavigator();
@@ -9,6 +9,8 @@ import { ProfileScreen } from "./src/screens/ProfileScreen";
 import { Navigation } from "./src/components/Home/Navigation";
 
 export default function App() {
+    const [currentScreen, setCurrentScreen] = useState('Home');
+
     return (
         <NavigationContainer>
             <Stack.Navigator>
@@ -23,7 +25,7 @@ export default function App() {
                     options={{ headerShown: false }}
                 />
             </Stack.Navigator>
-            <Navigation />
+            <Navigation/>
         </NavigationContainer>
     );
 }
