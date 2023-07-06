@@ -1,10 +1,11 @@
-import {StyleSheet, Pressable, SafeAreaView, View, Animated, Dimensions} from "react-native";
-import { Feather } from '@expo/vector-icons';
-import { AntDesign } from '@expo/vector-icons';
-import { Ionicons } from '@expo/vector-icons';
+import {StyleSheet, Pressable, SafeAreaView, View, Animated, Text} from "react-native";
+import {Feather} from '@expo/vector-icons';
+import {AntDesign} from '@expo/vector-icons';
+import {Ionicons} from '@expo/vector-icons';
 import React, {useEffect, useState} from "react";
 import {useNavigation} from "@react-navigation/native";
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+
 type RootStackParamList = {
     Home: undefined;
     Profile: undefined;
@@ -13,7 +14,7 @@ type RootStackParamList = {
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 
-const Navigation= () => {
+const Navigation = () => {
     const navigation = useNavigation<NavigationProp>();
     const NavValues = {
         HOME: "Home",
@@ -69,8 +70,6 @@ const Navigation= () => {
     }, [navigation]);
 
 
-
-
     return (
         <SafeAreaView style={styles.nav}>
             <View style={styles.content}>
@@ -78,14 +77,24 @@ const Navigation= () => {
                     setSelected(NavValues.HOME);
                     navigation.navigate('Home');
                 }}>
-                    <Animated.View style={{ transform: [{ scale: homeAnimation }] }}>
-                        <AntDesign name="home" style={selected===NavValues.HOME?styles.iconActive:styles.icon} />
+                    <Animated.View style={{transform: [{scale: homeAnimation}]}}>
+                        <View style={styles.navButton}>
+                            <AntDesign name="home"
+                                       style={selected === NavValues.HOME ? styles.iconActive : styles.icon}/>
+                            <Text
+                                style={selected === NavValues.HOME ? styles.navButtonTextActive : styles.navButtonText}>Home</Text>
+                        </View>
                     </Animated.View>
                 </Pressable>
 
                 <Pressable onPress={() => setSelected(NavValues.TRAVELS)}>
-                    <Animated.View style={{ transform: [{ scale: travelsAnimation }] }}>
-                        <Ionicons name="earth" style={selected===NavValues.TRAVELS?styles.iconActive:styles.icon} />
+                    <Animated.View style={{transform: [{scale: travelsAnimation}]}}>
+                        <View style={styles.navButton}>
+                            <Ionicons name="earth"
+                                      style={selected === NavValues.TRAVELS ? styles.iconActive : styles.icon}/>
+                            <Text
+                                style={selected === NavValues.TRAVELS  ? styles.navButtonTextActive : styles.navButtonText}>Travels</Text>
+                        </View>
                     </Animated.View>
                 </Pressable>
 
@@ -93,20 +102,34 @@ const Navigation= () => {
                     setSelected(NavValues.PROFILE);
                     navigation.navigate('Profile');
                 }}>
-                    <Animated.View style={{ transform: [{ scale: profileAnimation }] }}>
-                        <AntDesign name="user" style={selected===NavValues.PROFILE?styles.iconActive:styles.icon}/>
+                    <Animated.View style={{transform: [{scale: profileAnimation}]}}>
+                        <View style={styles.navButton}>
+                            <AntDesign name="user"
+                                       style={selected === NavValues.PROFILE ? styles.iconActive : styles.icon}/>
+                            <Text
+                                style={selected === NavValues.PROFILE ? styles.navButtonTextActive : styles.navButtonText}>Profile</Text>
+                        </View>
                     </Animated.View>
                 </Pressable>
 
                 <Pressable onPress={() => setSelected(NavValues.FAVOURITE)}>
-                    <Animated.View style={{ transform: [{ scale: favouriteAnimation }] }}>
-                        <Feather name="heart" style={selected===NavValues.FAVOURITE?styles.iconActive:styles.icon} />
+                    <Animated.View style={{transform: [{scale: favouriteAnimation}]}}>
+                        <View style={styles.navButton}>
+                            <Feather name="heart"
+                                     style={selected === NavValues.FAVOURITE ? styles.iconActive : styles.icon}/>
+                            <Text
+                                style={selected === NavValues.FAVOURITE ? styles.navButtonTextActive : styles.navButtonText}>Favourites</Text>
+                        </View>
                     </Animated.View>
                 </Pressable>
 
                 <Pressable onPress={() => setSelected(NavValues.SETTINGS)}>
-                    <Animated.View style={{ transform: [{ scale: settingsAnimation }] }}>
-                        <Feather name="menu" style={selected===NavValues.SETTINGS?styles.iconActive:styles.icon} />
+                    <Animated.View style={{transform: [{scale: settingsAnimation}]}}>
+                        <View style={styles.navButton}>
+                            <Feather name="menu" style={selected === NavValues.SETTINGS ? styles.iconActive : styles.icon}/>
+                            <Text
+                                style={selected === NavValues.SETTINGS ? styles.navButtonTextActive : styles.navButtonText}>Settings</Text>
+                        </View>
                     </Animated.View>
                 </Pressable>
             </View>
@@ -116,47 +139,60 @@ const Navigation= () => {
 
 const styles = StyleSheet.create({
     nav: {
-        zIndex:100,
-        width:"100%",
-        position:"absolute",
-        bottom:0,
+        zIndex: 100,
+        width: "100%",
+        position: "absolute",
+        bottom: 0,
         // backgroundColor:"#ffffff",
-        backgroundColor:"#383838"
+        backgroundColor:"#303134",
     },
-    content:{
-        borderTopWidth:2,
-        paddingTop:15,
-        borderTop:10,
-        borderTopColor:"#a4a4a4",
-        display:"flex",
-        flexDirection:"row",
-        alignItems:"center",
-        textAlign:"center",
-        justifyContent:"space-around",
-        position:"relative",
+    content: {
+        borderTopWidth: 2,
+        paddingTop: 15,
+        borderTop: 10,
+        borderTopColor: "#a4a4a4",
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        textAlign: "center",
+        justifyContent: "space-around",
+        position: "relative",
         // backgroundColor:"#ffffff"
-        backgroundColor:"#383838"
+        backgroundColor:"#303134",
     },
-    contentAfter:{
-        position:"absolute",
-        width:"10%",
-        bottom:-10,
+    contentAfter: {
+        position: "absolute",
+        width: "10%",
+        bottom: -10,
         left: 75,
-        backgroundColor:"red",
-        zIndex:100,
-        height:3
+        backgroundColor: "red",
+        zIndex: 100,
+        height: 3
     },
-    icon:{
-        fontSize:30,
-        color:"#a2a2a2",
+    icon: {
+        fontSize: 26,
+        color: "#a2a2a2",
         // color:"white"
     },
-    iconActive:{
-        fontSize:30,
+    iconActive: {
+        fontSize: 26,
         // color:"#6f84e3",
-        color:"white",
-
-    }
+        color: "#F6F8E2",
+    },
+    navButton: {
+        display: "flex",
+        justifyContent: 'center',
+        alignItems: 'center',
+        color: 'white'
+    },
+    navButtonText: {
+        color: "#a2a2a2",
+        fontSize:12
+    },
+    navButtonTextActive: {
+        color: "#F6F8E2",
+        fontSize:12
+    },
 });
 
 export {Navigation};
