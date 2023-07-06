@@ -42,6 +42,18 @@ const UserInformation = () => {
                         <Text style={styles.titleText}>Your journey will start in</Text>
                         <Text style={styles.timeText}>10 days, 18 hours, 32 minutes</Text>
                         <View style={styles.semiEllipse}></View>
+                        <View style={styles.latestJourneyCountries}>
+                            <View style={styles.singleCountry}>
+                                <Text style={styles.singleCountryText}>Warsaw Chopin Airport</Text>
+                                <Image style={styles.singleCountryImage}
+                                       source={require('../../../assets/poland.png')}/>
+                            </View>
+                            <View style={styles.singleCountry}>
+                                <Text style={styles.singleCountryText}>Mexico City International Airport</Text>
+                                <Image style={styles.singleCountryImage}
+                                       source={require('../../../assets/mexico.png')}/>
+                            </View>
+                        </View>
                     </View>
                 </Pressable>
             </View>
@@ -61,7 +73,7 @@ const styles = StyleSheet.create({
     },
     semiEllipse:{
         position:"absolute",
-        bottom:-170,
+        bottom:-135,
         width: 140,
         height: 160,
         borderWidth:1,
@@ -71,7 +83,7 @@ const styles = StyleSheet.create({
         borderRadius: 10000,
         transform: [
             {scaleX: 1.9,},
-            {scaleY: 2,}
+            {scaleY: 1.6,}
         ],
     },
     mainInfo: {
@@ -167,6 +179,32 @@ const styles = StyleSheet.create({
         color: "#F6F8E2",
         paddingTop: 8,
         fontSize: 18
+    },
+    singleCountry:{
+        display:"flex",
+        flexDirection:"column",
+        gap:5,
+        alignItems:"center"
+
+    },
+    latestJourneyCountries:{
+        paddingHorizontal:5,
+        position:"absolute",
+        bottom:5,
+        width:"100%",
+        display:"flex",
+        flexDirection:"row",
+        justifyContent:"space-between",
+        alignItems:"center"
+    },
+    singleCountryText:{
+        color: "#F6F8E2",
+        fontSize:10,
+    },
+    singleCountryImage:{
+        borderRadius: 5,
+        width: 25,
+        height:15
     }
 
 
