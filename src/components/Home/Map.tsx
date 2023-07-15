@@ -1,8 +1,7 @@
 import React, {useState, useRef, useEffect} from 'react';
-import MapView, {Callout, Marker} from 'react-native-maps';
+import MapView, {Callout, MapMarker, Marker} from 'react-native-maps';
 import {StyleSheet, Text, View} from 'react-native';
 import * as Location from "expo-location";
-import * as events from "events";
 
 const Map = () => {
     const [markerSelected, setMarkerSelected] = useState(false);
@@ -19,7 +18,7 @@ const Map = () => {
         latitudeDelta: 0.1,
         selected: false,
     });
-    const markerRef = useRef(null);
+    const markerRef = React.useRef<MapMarker>(null);
     const mapRef = React.useRef<MapView>(null);
     const getPermissions = async () => {
         let {status} = await Location.requestForegroundPermissionsAsync();
@@ -77,7 +76,9 @@ const Map = () => {
                         coordinate={markerPosition}>
                         {markerSelected && (
                             <Callout
-                                onPress={()=>{markerRef.current?.hideCallout()}}
+                                onPress={()=>{
+                                        markerRef.current?.hideCallout()
+                                }}
                             >
                                 <Text>lat {markerPosition.latitude}</Text>
                                 <Text>lng {markerPosition.longitude}</Text>

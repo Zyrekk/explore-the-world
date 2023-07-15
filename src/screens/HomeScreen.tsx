@@ -1,7 +1,6 @@
 import { View, StyleSheet } from 'react-native';
 import { StartButton } from '../components/Home/StartButton';
 import { Map } from '../components/Home/Map';
-import {Navigation} from "../components/Home/Navigation";
 import * as React from "react";
 
 const HomeScreen= () => {
