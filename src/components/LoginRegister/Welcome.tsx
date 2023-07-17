@@ -1,9 +1,16 @@
 import {Pressable, StyleSheet, Text, View} from "react-native";
-import React, {useState} from "react";
+import React from "react";
 
+type WelcomeProps = {
+    handleButtonPress: (type: string) => void;
+};
 
-export const Welcome = () => {
-    const [loginEmail, setLoginEmail] = useState<String>('')
+export const Welcome = ({ handleButtonPress }: WelcomeProps) => {
+    const types = {
+        LOGIN: "Login",
+        REGISTER: "Register",
+        WELCOME:"Welcome"
+    };
     return (
         <View style={styles.container}>
             <View style={styles.textContainer}>
@@ -12,10 +19,14 @@ export const Welcome = () => {
                 <Text style={styles.text}>World</Text>
             </View>
             <View style={styles.select}>
-                <Pressable style={[styles.button,styles.buttonMain]} >
+                <Pressable style={[styles.button,styles.buttonMain]} onPress={()=>{
+                    handleButtonPress(types.LOGIN)
+                }}>
                     <Text style={styles.buttonText}>Log in</Text>
                 </Pressable>
-                <Pressable style={styles.button} >
+                <Pressable style={styles.button} onPress={()=>{
+                    handleButtonPress(types.REGISTER)
+                }} >
                     <Text style={styles.buttonText}>Sign up</Text>
                 </Pressable>
             </View>
@@ -30,6 +41,13 @@ const styles = StyleSheet.create({
         width: "100%",
         height:"100%",
     },
+    select:{
+        display:"flex",
+        width:"100%",
+        alignItems: "center",
+        gap: 25,
+        paddingBottom:50,
+    },
     textContainer: {
         paddingLeft: 40,
         paddingTop: 40,
@@ -40,13 +58,6 @@ const styles = StyleSheet.create({
     text: {
         fontSize: 60,
         color: "white"
-    },
-    select:{
-        display:"flex",
-        width:"100%",
-        alignItems: "center",
-        gap: 25,
-        paddingBottom:50,
     },
     button:{
         borderRadius:30,
