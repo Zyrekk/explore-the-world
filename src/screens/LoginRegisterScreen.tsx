@@ -6,7 +6,7 @@ import {RegisterForm} from "../components/LoginRegister/RegisterForm";
 import {AntDesign} from "@expo/vector-icons";
 
 type authProps={
-    handleAuth:()=>void;
+    handleAuth:(email:string, password:string)=>void;
 }
 
 

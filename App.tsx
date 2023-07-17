@@ -14,7 +14,7 @@ export default function App() {
     const [auth, setAuth] = useState<Boolean>(false)
     const [opacity, setOpacity] = useState(new Animated.Value(1));
 
-    const handleAuth = () => {
+    const handleAuth = (email:string, password:string) => {
         Animated.timing(opacity, {
             toValue: 0,
             duration: 200,
