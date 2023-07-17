@@ -5,20 +5,34 @@ import {HomeScreen} from "./src/screens/HomeScreen";
 import {ProfileScreen} from "./src/screens/ProfileScreen";
 import {LoginRegisterScreen} from "./src/screens/LoginRegisterScreen"
 import {Navigation} from "./src/components/Home/Navigation";
+import {Animated, View,StyleSheet} from "react-native";
 
 const Stack = createNativeStackNavigator();
 
 
 export default function App() {
     const [auth, setAuth] = useState<Boolean>(false)
+    const [opacity, setOpacity] = useState(new Animated.Value(1));
 
-    const handleAuth=()=>{
-        setAuth(true)
-    }
-    return (
-        <NavigationContainer>
-            {auth ?
-                <>
+    const handleAuth = () => {
+        Animated.timing(opacity, {
+            toValue: 0,
+            duration: 200,
+            useNativeDriver: true,
+        }).start(() => {
+            setAuth(true);
+            Animated.timing(opacity, {
+                toValue: 1,
+                duration: 200,
+                useNativeDriver: true,
+            }).start();
+        });
+    };
+
+    const renderContent = () => {
+        if (auth) {
+            return (<>
+                <NavigationContainer>
                     <Stack.Navigator>
                         <Stack.Screen
                             name="Home"
@@ -32,10 +46,26 @@ export default function App() {
                         />
                     </Stack.Navigator>
                     <Navigation/>
-                </>
-                :
-
-                <LoginRegisterScreen handleAuth={handleAuth}/>}
-        </NavigationContainer>
+                </NavigationContainer>
+            </>)
+        } else {
+            return (<LoginRegisterScreen handleAuth={handleAuth}/>)
+        }
+    }
+    return (
+        <View style={styles.container}>
+            <Animated.View style={[styles.animationContainer, { opacity: opacity }]}>
+                {renderContent()}
+            </Animated.View>
+        </View>
     );
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+    animationContainer: {
+        flex: 1,
+    },
+});
