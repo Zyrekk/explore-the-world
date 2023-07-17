@@ -5,13 +5,16 @@ import {HomeScreen} from "./src/screens/HomeScreen";
 import {ProfileScreen} from "./src/screens/ProfileScreen";
 import {LoginRegisterScreen} from "./src/screens/LoginRegisterScreen"
 import {Navigation} from "./src/components/Home/Navigation";
-import {SafeAreaView, Text, View} from "react-native";
 
 const Stack = createNativeStackNavigator();
 
 
 export default function App() {
     const [auth, setAuth] = useState<Boolean>(false)
+
+    const handleAuth=()=>{
+        setAuth(true)
+    }
     return (
         <NavigationContainer>
             {auth ?
@@ -32,7 +35,7 @@ export default function App() {
                 </>
                 :
 
-                <LoginRegisterScreen/>}
+                <LoginRegisterScreen handleAuth={handleAuth}/>}
         </NavigationContainer>
     );
 }
