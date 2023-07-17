@@ -1,4 +1,4 @@
-import {ImageBackground, SafeAreaView, StyleSheet, Text, View} from "react-native";
+import {ImageBackground, SafeAreaView, StyleSheet, Animated, View} from "react-native";
 import React, {useState} from "react";
 import {Welcome} from "../components/LoginRegister/Welcome"
 import {LoginForm} from "../components/LoginRegister/LoginForm";
@@ -16,10 +16,22 @@ export const LoginRegisterScreen = ({handleAuth}:authProps) => {
         REGISTER: "Register",
         WELCOME:"Welcome"
     };
-    const [screenType,setScreenType]=useState<String>(types.WELCOME)
-    const handleButtonPress=(type:String)=>{
-        setScreenType(type)
-    }
+    const [screenType,setScreenType]=useState<string>(types.WELCOME)
+    const [opacity, setOpacity] = useState(new Animated.Value(1));
+    const handleButtonPress = (type:string) => {
+        Animated.timing(opacity, {
+            toValue: 0,
+            duration: 200,
+            useNativeDriver: true,
+        }).start(() => {
+            setScreenType(type);
+            Animated.timing(opacity, {
+                toValue: 1,
+                duration: 200,
+                useNativeDriver: true,
+            }).start();
+        });
+    };
     const showScreenType=()=>{
         switch (screenType){
             case types.LOGIN:
@@ -35,7 +47,9 @@ export const LoginRegisterScreen = ({handleAuth}:authProps) => {
                          style={styles.image}>
             <View style={styles.overlay}/>
             <SafeAreaView style={styles.container}>
-                {showScreenType()}
+                <Animated.View style={[{ opacity }]}>
+                    {showScreenType()}
+                </Animated.View>
             </SafeAreaView>
         </ImageBackground>
     )
