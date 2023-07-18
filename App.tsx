@@ -5,7 +5,7 @@ import {HomeScreen} from "./src/screens/HomeScreen";
 import {ProfileScreen} from "./src/screens/ProfileScreen";
 import {LoginRegisterScreen} from "./src/screens/LoginRegisterScreen"
 import {Navigation} from "./src/components/Home/Navigation";
-import {Animated, View,StyleSheet} from "react-native";
+import {Animated, View, StyleSheet, StatusBar, Platform} from "react-native";
 
 const Stack = createNativeStackNavigator();
 
@@ -54,7 +54,7 @@ export default function App() {
     }
     return (
         <View style={styles.container}>
-            <Animated.View style={[styles.animationContainer, { opacity: opacity }]}>
+            <Animated.View style={[styles.animationContainer, { opacity: opacity}]}>
                 {renderContent()}
             </Animated.View>
         </View>

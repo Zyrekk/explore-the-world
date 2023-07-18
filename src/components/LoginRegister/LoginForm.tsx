@@ -1,4 +1,15 @@
-import {View, Text, StyleSheet, Pressable, TextInput, KeyboardAvoidingView, ScrollView,Alert} from "react-native";
+import {
+    View,
+    Text,
+    StyleSheet,
+    Pressable,
+    TextInput,
+    KeyboardAvoidingView,
+    ScrollView,
+    Alert,
+    Platform,
+    StatusBar
+} from "react-native";
 import {SocialIcon} from 'react-native-elements'
 import React, {useState} from "react";
 import {AntDesign, Ionicons} from '@expo/vector-icons';
@@ -6,17 +17,19 @@ import {AuthTypes} from "../../commons/AuthTypes";
 
 type WelcomeProps = {
     handleButtonPress: (type: string) => void;
-    handleAuth: (email:string, password:string) => void;
+    handleAuth: (email: string, password: string) => void;
 };
 
 export const LoginForm = ({handleButtonPress, handleAuth}: WelcomeProps) => {
-    const [email,setEmail]=useState<string>('')
-    const [password,setPassword]=useState<string>('')
+    const [email, setEmail] = useState<string>('')
+    const [password, setPassword] = useState<string>('')
+    const platform = Platform.OS === 'ios' ? styles.backButtonIos : styles.backButtonAndroid
+    const offset=Platform.OS === 'ios' ? -100 : -300
 
     return (
-        <KeyboardAvoidingView style={styles.keyboardContainer} behavior='position' keyboardVerticalOffset={-100}>
+        <KeyboardAvoidingView style={styles.keyboardContainer} behavior='position' keyboardVerticalOffset={offset}>
             <ScrollView contentContainerStyle={styles.scrollContainer}>
-                <Pressable style={styles.backButton} onPress={() => {
+                <Pressable style={platform} onPress={() => {
                     handleButtonPress(AuthTypes.WELCOME)
                 }}>
                     <AntDesign name="left" style={[styles.innerFont, {fontSize: 20}]}/>
@@ -74,7 +87,7 @@ export const LoginForm = ({handleButtonPress, handleAuth}: WelcomeProps) => {
                         </View>
                     </View>
                     <Pressable style={styles.loginButton} onPress={() => {
-                        email.length>0?handleAuth('x','x'):Alert.alert("Wrong email or password")
+                        email.length > 0 ? handleAuth('x', 'x') : Alert.alert("Wrong email or password")
                     }}>
                         <Text style={styles.buttonText}>Log in</Text>
                     </Pressable>
@@ -97,7 +110,7 @@ const styles = StyleSheet.create({
         height: "100%",
         paddingBottom: 40,
     },
-    scrollContainer:{
+    scrollContainer: {
         flexGrow: 1,
         height: "100%"
     },
@@ -201,7 +214,7 @@ const styles = StyleSheet.create({
         fontWeight: "600",
         color: "white"
     },
-    backButton: {
+    backButtonIos: {
         position: "absolute",
         zIndex: 100,
         display: "flex",
@@ -209,6 +222,18 @@ const styles = StyleSheet.create({
         alignItems: "center",
         gap: 10,
         top: 20,
+        left: 20,
+        fontSize: 26,
+        color: "white"
+    },
+    backButtonAndroid: {
+        position: "absolute",
+        zIndex: 100,
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        gap: 10,
+        top: 50,
         left: 20,
         fontSize: 26,
         color: "white"

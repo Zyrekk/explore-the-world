@@ -1,4 +1,4 @@
-import {StyleSheet, Pressable, SafeAreaView, View, Animated, Text} from "react-native";
+import {StyleSheet, Pressable, SafeAreaView, View, Animated, Text, Platform} from "react-native";
 import {Feather} from '@expo/vector-icons';
 import {AntDesign} from '@expo/vector-icons';
 import {Ionicons} from '@expo/vector-icons';
@@ -30,6 +30,7 @@ const Navigation = () => {
     const [settingsAnimation] = useState(new Animated.Value(0));
     const [favouriteAnimation] = useState(new Animated.Value(0));
     const [travelsAnimation] = useState(new Animated.Value(0));
+    const platform = Platform.OS === 'ios' ? styles.navIos: styles.navAndroid
 
     useEffect(() => {
         Animated.timing(homeAnimation, {
@@ -71,7 +72,7 @@ const Navigation = () => {
 
 
     return (
-        <SafeAreaView style={styles.nav}>
+        <SafeAreaView style={platform}>
             <View style={styles.content}>
                 <Pressable onPress={() => {
                     setSelected(NavValues.HOME);
@@ -138,11 +139,20 @@ const Navigation = () => {
 };
 
 const styles = StyleSheet.create({
-    nav: {
+    navIos: {
         zIndex: 100,
         width: "100%",
         position: "absolute",
         bottom: 0,
+        // backgroundColor:"#ffffff",
+        backgroundColor:"#303134",
+    },
+    navAndroid: {
+        zIndex: 100,
+        width: "100%",
+        position: "absolute",
+        bottom: 0,
+        paddingBottom:10,
         // backgroundColor:"#ffffff",
         backgroundColor:"#303134",
     },

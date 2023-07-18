@@ -1,9 +1,10 @@
 import React, {useState, useEffect} from "react";
-import {Text, StyleSheet,Pressable, Animated, SafeAreaView} from "react-native";
+import {Text, StyleSheet, Pressable, Animated, SafeAreaView, Platform} from "react-native";
 
 const StartButton = () => {
     const [clicked, setClicked] = useState(false);
     const opacityValue = useState(new Animated.Value(1))[0];
+    const platform = Platform.OS === 'ios' ? styles.headerIos: styles.headerAndroid
 
     useEffect(() => {
         Animated.timing(opacityValue, {
@@ -14,7 +15,7 @@ const StartButton = () => {
     }, [clicked, opacityValue]);
 
     return (
-        <SafeAreaView style={styles.header}>
+        <SafeAreaView style={platform}>
             <Animated.View style={[styles.animatedView, {opacity: opacityValue}]}>
                 <Pressable style={styles.startButton} onPress={() => {
                     setClicked(!clicked)
@@ -27,10 +28,16 @@ const StartButton = () => {
 };
 
 const styles = StyleSheet.create({
-    header: {
+    headerIos: {
         zIndex:100,
         position:"absolute",
         top:0,
+        width:"100%"
+    },
+    headerAndroid: {
+        zIndex:100,
+        position:"absolute",
+        top:50,
         width:"100%"
     },
     animatedView: {

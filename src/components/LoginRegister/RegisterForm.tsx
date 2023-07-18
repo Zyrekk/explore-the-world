@@ -1,4 +1,4 @@
-import {View, Text, StyleSheet, KeyboardAvoidingView, Pressable, TextInput, ScrollView} from "react-native";
+import {View, Text, StyleSheet, KeyboardAvoidingView, Pressable, TextInput, ScrollView, Platform} from "react-native";
 import {AntDesign, Ionicons} from "@expo/vector-icons";
 import React, {useState} from "react";
 import {AuthTypes} from "../../commons/AuthTypes";
@@ -12,10 +12,12 @@ export const RegisterForm = ({handleButtonPress}: WelcomeProps) => {
     const [email,setEmail]=useState<string>('')
     const [password,setPassword]=useState<string>('')
     const [repeatPassword,setRepeatPassword]=useState<string>('')
+    const platform = Platform.OS === 'ios' ? styles.backButtonIos : styles.backButtonAndroid
+    const offset=Platform.OS === 'ios' ? -100 : -300
     return (
-        <KeyboardAvoidingView style={styles.keyboardContainer} behavior='position' keyboardVerticalOffset={-100}>
+        <KeyboardAvoidingView style={styles.keyboardContainer} behavior='position' keyboardVerticalOffset={offset}>
             <ScrollView contentContainerStyle={styles.scrollContainer}>
-                <Pressable style={styles.backButton} onPress={() => {
+                <Pressable style={platform} onPress={() => {
                     handleButtonPress(AuthTypes.WELCOME)
                 }}>
                     <AntDesign name="left" style={[styles.innerFont, {fontSize: 20}]}/>
@@ -193,7 +195,7 @@ const styles = StyleSheet.create({
         fontWeight: "600",
         color: "white"
     },
-    backButton: {
+    backButtonIos: {
         position: "absolute",
         zIndex: 100,
         display: "flex",
@@ -201,6 +203,18 @@ const styles = StyleSheet.create({
         alignItems: "center",
         gap: 10,
         top: 20,
+        left: 20,
+        fontSize: 26,
+        color: "white"
+    },
+    backButtonAndroid: {
+        position: "absolute",
+        zIndex: 100,
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        gap: 10,
+        top: 50,
         left: 20,
         fontSize: 26,
         color: "white"

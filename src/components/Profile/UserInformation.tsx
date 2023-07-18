@@ -1,10 +1,21 @@
 import React from "react";
-import {StyleSheet, SafeAreaView, Image, Text, View, Pressable, ScrollView, ImageBackground} from "react-native";
+import {
+    StyleSheet,
+    SafeAreaView,
+    Image,
+    Text,
+    View,
+    Pressable,
+    ScrollView,
+    ImageBackground,
+    Platform
+} from "react-native";
 import {AntDesign} from '@expo/vector-icons';
 
 const UserInformation = () => {
+    const platform = Platform.OS === 'ios' ? styles.userInfoIos: styles.userInfoAndroid
     return (
-        <SafeAreaView style={styles.userInfo}>
+        <SafeAreaView style={platform}>
             <View style={styles.mainInfo}>
                 <View style={styles.avatarContainer}>
                     <Image
@@ -62,13 +73,23 @@ const UserInformation = () => {
 };
 
 const styles = StyleSheet.create({
-    userInfo: {
+    userInfoIos: {
         display: "flex",
         alignItems: "center",
         // backgroundColor:"#383838",
         // backgroundColor:"black",
         backgroundColor: "#292a2d",
         width: "100%",
+        minHeight: "100%"
+    },
+    userInfoAndroid: {
+        display: "flex",
+        alignItems: "center",
+        // backgroundColor:"#383838",
+        // backgroundColor:"black",
+        backgroundColor: "#292a2d",
+        width: "100%",
+        paddingTop:50,
         minHeight: "100%"
     },
     semiEllipse:{

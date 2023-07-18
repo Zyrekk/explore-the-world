@@ -1,4 +1,4 @@
-import {ImageBackground, SafeAreaView, StyleSheet, Animated, View} from "react-native";
+import {ImageBackground, SafeAreaView, StyleSheet,Text, Animated, View} from "react-native";
 import React, {useState} from "react";
 import {Welcome} from "../components/LoginRegister/Welcome"
 import {LoginForm} from "../components/LoginRegister/LoginForm";
