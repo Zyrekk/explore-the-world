@@ -9,6 +9,7 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 type RootStackParamList = {
     Home: undefined;
     Profile: undefined;
+    Settings: undefined;
 };
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
@@ -30,7 +31,7 @@ const Navigation = () => {
     const [settingsAnimation] = useState(new Animated.Value(0));
     const [favouriteAnimation] = useState(new Animated.Value(0));
     const [travelsAnimation] = useState(new Animated.Value(0));
-    const platform = Platform.OS === 'ios' ? styles.navIos: styles.navAndroid
+    const platform = Platform.OS === 'ios' ? styles.navIos : styles.navAndroid
 
     useEffect(() => {
         Animated.timing(homeAnimation, {
@@ -94,7 +95,7 @@ const Navigation = () => {
                             <Ionicons name="earth"
                                       style={selected === NavValues.TRAVELS ? styles.iconActive : styles.icon}/>
                             <Text
-                                style={selected === NavValues.TRAVELS  ? styles.navButtonTextActive : styles.navButtonText}>Travels</Text>
+                                style={selected === NavValues.TRAVELS ? styles.navButtonTextActive : styles.navButtonText}>Travels</Text>
                         </View>
                     </Animated.View>
                 </Pressable>
@@ -113,7 +114,9 @@ const Navigation = () => {
                     </Animated.View>
                 </Pressable>
 
-                <Pressable onPress={() => setSelected(NavValues.FAVOURITE)}>
+                <Pressable onPress={() => {
+                    setSelected(NavValues.FAVOURITE);
+                }}>
                     <Animated.View style={{transform: [{scale: favouriteAnimation}]}}>
                         <View style={styles.navButton}>
                             <Feather name="heart"
@@ -124,10 +127,14 @@ const Navigation = () => {
                     </Animated.View>
                 </Pressable>
 
-                <Pressable onPress={() => setSelected(NavValues.SETTINGS)}>
+                <Pressable onPress={() => {
+                    setSelected(NavValues.SETTINGS)
+                    navigation.navigate('Settings');
+                }}>
                     <Animated.View style={{transform: [{scale: settingsAnimation}]}}>
                         <View style={styles.navButton}>
-                            <Feather name="menu" style={selected === NavValues.SETTINGS ? styles.iconActive : styles.icon}/>
+                            <Feather name="menu"
+                                     style={selected === NavValues.SETTINGS ? styles.iconActive : styles.icon}/>
                             <Text
                                 style={selected === NavValues.SETTINGS ? styles.navButtonTextActive : styles.navButtonText}>Settings</Text>
                         </View>
@@ -145,16 +152,16 @@ const styles = StyleSheet.create({
         position: "absolute",
         bottom: 0,
         // backgroundColor:"#ffffff",
-        backgroundColor:"#303134",
+        backgroundColor: "#303134",
     },
     navAndroid: {
         zIndex: 100,
         width: "100%",
         position: "absolute",
         bottom: 0,
-        paddingBottom:10,
+        paddingBottom: 10,
         // backgroundColor:"#ffffff",
-        backgroundColor:"#303134",
+        backgroundColor: "#303134",
     },
     content: {
         borderTopWidth: 2,
@@ -168,7 +175,7 @@ const styles = StyleSheet.create({
         justifyContent: "space-around",
         position: "relative",
         // backgroundColor:"#ffffff"
-        backgroundColor:"#303134",
+        backgroundColor: "#303134",
     },
     contentAfter: {
         position: "absolute",
@@ -197,11 +204,11 @@ const styles = StyleSheet.create({
     },
     navButtonText: {
         color: "#a2a2a2",
-        fontSize:12
+        fontSize: 12
     },
     navButtonTextActive: {
         color: "#F6F8E2",
-        fontSize:12
+        fontSize: 12
     },
 });
 

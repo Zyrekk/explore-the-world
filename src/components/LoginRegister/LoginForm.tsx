@@ -17,14 +17,15 @@ import {AuthTypes} from "../../commons/AuthTypes";
 
 type WelcomeProps = {
     handleButtonPress: (type: string) => void;
-    handleAuth: (email: string, password: string) => void;
+    handleAuth: (email: string, password: string) => boolean;
 };
 
 export const LoginForm = ({handleButtonPress, handleAuth}: WelcomeProps) => {
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
     const platform = Platform.OS === 'ios' ? styles.backButtonIos : styles.backButtonAndroid
-    const offset=Platform.OS === 'ios' ? -100 : -300
+    const offset = Platform.OS === 'ios' ? -100 : -300
+
 
     return (
         <KeyboardAvoidingView style={styles.keyboardContainer} behavior='position' keyboardVerticalOffset={offset}>
@@ -71,7 +72,6 @@ export const LoginForm = ({handleButtonPress, handleAuth}: WelcomeProps) => {
                                 underlineColorAndroid="transparent"
                             />
                         </View>
-                        <Text>{email}</Text>
                         <View style={styles.inputContainer}>
                             <Ionicons name="ios-lock-closed-outline" style={styles.innerFont}/>
                             <TextInput
@@ -87,7 +87,7 @@ export const LoginForm = ({handleButtonPress, handleAuth}: WelcomeProps) => {
                         </View>
                     </View>
                     <Pressable style={styles.loginButton} onPress={() => {
-                        email.length > 0 ? handleAuth('x', 'x') : Alert.alert("Wrong email or password")
+                        const auth = handleAuth(email, password) ? null : Alert.alert("Wrong email or password")
                     }}>
                         <Text style={styles.buttonText}>Log in</Text>
                     </Pressable>
