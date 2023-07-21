@@ -70,8 +70,7 @@ export default function App() {
                             name="Settings"
                             options={{ headerShown: false }}
                         >
-                            {/* Pass the handleLogout function as a prop */}
-                            {(props) => <SettingsScreen {...props} handleLogout={handleLogout} />}
+                            {() => <SettingsScreen handleLogout={handleLogout} />}
                         </Stack.Screen>
                     </Stack.Navigator>
                     <Navigation/>

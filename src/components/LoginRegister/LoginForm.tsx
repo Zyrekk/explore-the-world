@@ -189,6 +189,7 @@ const styles = StyleSheet.create({
         flexDirection: "row"
     },
     input: {
+        height:40,
         flex: 1
     },
     loginButton: {
