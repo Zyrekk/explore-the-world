@@ -9,7 +9,7 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 type RootStackParamList = {
     Home: undefined;
     Profile: undefined;
-    Settings: undefined;
+    Options: undefined;
 };
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
@@ -21,14 +21,14 @@ const Navigation = () => {
         HOME: "Home",
         PROFILE: "Profile",
         FAVOURITE: "Favourite",
-        SETTINGS: "Settings",
+        OPTIONS: "Options",
         TRAVELS: "Travels",
     };
     const [selected, setSelected] = useState(NavValues.HOME);
 
     const [homeAnimation] = useState(new Animated.Value(0));
     const [profileAnimation] = useState(new Animated.Value(0));
-    const [settingsAnimation] = useState(new Animated.Value(0));
+    const [optionsAnimation] = useState(new Animated.Value(0));
     const [favouriteAnimation] = useState(new Animated.Value(0));
     const [travelsAnimation] = useState(new Animated.Value(0));
     const platform = Platform.OS === 'ios' ? styles.navIos : styles.navAndroid
@@ -44,8 +44,8 @@ const Navigation = () => {
             duration: 200,
             useNativeDriver: false,
         }).start();
-        Animated.timing(settingsAnimation, {
-            toValue: selected === NavValues.SETTINGS ? 1.2 : 1,
+        Animated.timing(optionsAnimation, {
+            toValue: selected === NavValues.OPTIONS ? 1.2 : 1,
             duration: 200,
             useNativeDriver: false,
         }).start();
@@ -128,15 +128,15 @@ const Navigation = () => {
                 </Pressable>
 
                 <Pressable onPress={() => {
-                    setSelected(NavValues.SETTINGS)
-                    navigation.navigate('Settings');
+                    setSelected(NavValues.OPTIONS)
+                    navigation.navigate('Options');
                 }}>
-                    <Animated.View style={{transform: [{scale: settingsAnimation}]}}>
+                    <Animated.View style={{transform: [{scale: optionsAnimation}]}}>
                         <View style={styles.navButton}>
                             <Feather name="menu"
-                                     style={selected === NavValues.SETTINGS ? styles.iconActive : styles.icon}/>
+                                     style={selected === NavValues.OPTIONS ? styles.iconActive : styles.icon}/>
                             <Text
-                                style={selected === NavValues.SETTINGS ? styles.navButtonTextActive : styles.navButtonText}>Settings</Text>
+                                style={selected === NavValues.OPTIONS ? styles.navButtonTextActive : styles.navButtonText}>Options</Text>
                         </View>
                     </Animated.View>
                 </Pressable>
@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
         position: "absolute",
         bottom: 0,
         // backgroundColor:"#ffffff",
-        backgroundColor: "#303134",
+        backgroundColor: "#030712",
     },
     navAndroid: {
         zIndex: 100,
@@ -161,13 +161,13 @@ const styles = StyleSheet.create({
         bottom: 0,
         paddingBottom: 10,
         // backgroundColor:"#ffffff",
-        backgroundColor: "#303134",
+        backgroundColor: "#030712",
     },
     content: {
         borderTopWidth: 2,
         paddingTop: 15,
         borderTop: 10,
-        borderTopColor: "#a4a4a4",
+        borderTopColor: "#08122d",
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
         justifyContent: "space-around",
         position: "relative",
         // backgroundColor:"#ffffff"
-        backgroundColor: "#303134",
+        backgroundColor: "#030712",
     },
     contentAfter: {
         position: "absolute",
@@ -194,7 +194,7 @@ const styles = StyleSheet.create({
     iconActive: {
         fontSize: 26,
         // color:"#6f84e3",
-        color: "#F6F8E2",
+        color: "#ffffff",
     },
     navButton: {
         display: "flex",

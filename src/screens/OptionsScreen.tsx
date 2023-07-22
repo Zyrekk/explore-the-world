@@ -1,14 +1,14 @@
 import {StyleSheet, View} from "react-native";
-import {Settings} from "../components/Settings/Settings";
+import {Options} from "../components/Options/Options";
 
 interface SettingsScreenProps {
     handleLogout: () => void;
 }
 
-export const SettingsScreen = ({handleLogout}:SettingsScreenProps) => {
+export const OptionsScreen = ({handleLogout}:SettingsScreenProps) => {
     return (
         <View style={styles.container}>
-            <Settings handleLogout={handleLogout}/>
+            <Options handleLogout={handleLogout}/>
         </View>
     )
 }

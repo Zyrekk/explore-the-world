@@ -6,100 +6,128 @@ import {
     Text,
     View,
     Pressable,
-    ScrollView,
-    ImageBackground,
-    Platform
+    Platform, ScrollView
 } from "react-native";
-import {AntDesign} from '@expo/vector-icons';
+import {AntDesign, FontAwesome} from '@expo/vector-icons';
 
 const UserInformation = () => {
-    const platform = Platform.OS === 'ios' ? styles.userInfoIos: styles.userInfoAndroid
+    const platform = Platform.OS === 'ios' ? styles.userInfoIos : styles.userInfoAndroid
     return (
         <SafeAreaView style={platform}>
-            <View style={styles.mainInfo}>
-                <View style={styles.avatarContainer}>
-                    <Image
-                        style={styles.avatarImage}
-                        source={require('../../../assets/stitch2.jpg')}
-                    />
+            <ScrollView style={styles.scroll}>
+                <View style={styles.titleContainer}>
+                    <Text style={styles.title}>Profile</Text>
                 </View>
-                <Text style={styles.mainInfoText}>Pan Sticzątko</Text>
-                <View style={styles.countryInfo}>
-                    <Image style={styles.countryInfoImage} source={require('../../../assets/poland.png')}/>
-                    <Text style={styles.countryInfoText}>POLAND</Text>
-                </View>
-            </View>
-            <View style={styles.eventContainer}>
-                <Pressable style={styles.eventButton}>
-                    <Text style={styles.eventButtonText}>🌏 Your trips</Text>
-                    <AntDesign name="right" size={18} color="black"/>
-                </Pressable>
-                <Pressable style={styles.eventButton}>
-                    <Text style={styles.eventButtonText}>🏆 Achievements</Text>
-                    <AntDesign name="right" size={18} color="black"/>
-                </Pressable>
-                <Pressable style={styles.eventButton}>
-                    <Text style={styles.eventButtonText}>✈️ Flight tickets</Text>
-                    <AntDesign name="right" size={18} color="black"/>
-                </Pressable>
-                <Pressable style={styles.eventButton}>
-                    <Text style={styles.eventButtonText}>🧑 Friends</Text>
-                    <AntDesign name="right" size={18} color="black"/>
-                </Pressable>
-                <Pressable style={styles.latestJourneyEvent}>
-                    <View style={styles.latestJourneyEventContent}>
-                        <Image style={styles.latestJourneyEventImage}
-                               source={require('../../../assets/Mexico-City.jpg')}/>
-                        <Text style={styles.titleText}>Your journey will start in</Text>
-                        <Text style={styles.timeText}>10 days, 18 hours, 32 minutes</Text>
-                        <View style={styles.semiEllipse}></View>
-                        <View style={styles.latestJourneyCountries}>
-                            <View style={styles.singleCountry}>
-                                <Text style={styles.singleCountryText}>Warsaw Chopin Airport</Text>
-                                <Image style={styles.singleCountryImage}
-                                       source={require('../../../assets/poland.png')}/>
-                            </View>
-                            <View style={styles.singleCountry}>
-                                <Text style={styles.singleCountryText}>Mexico City International Airport</Text>
-                                <Image style={styles.singleCountryImage}
-                                       source={require('../../../assets/mexico.png')}/>
-                            </View>
+                <View style={styles.mainInfo}>
+                    <View style={styles.avatarContainer}>
+                        <Image
+                            style={styles.avatarImage}
+                            source={require('../../../assets/stitch2.jpg')}
+                        />
+                    </View>
+                    <View style={styles.mainInfoContent}>
+                        <Text style={styles.mainInfoText}>Stitch</Text>
+                        <View style={styles.countryInfo}>
+                            <Image style={styles.countryInfoImage} source={require('../../../assets/poland.png')}/>
+                            <Text style={styles.countryInfoText}>POLAND</Text>
                         </View>
                     </View>
-                </Pressable>
-            </View>
+                </View>
+                <View style={styles.eventContainer}>
+                    <Pressable style={styles.eventButton}>
+                        <View style={styles.eventButtonFlex}>
+                            <Text style={styles.eventButtonText}>🌏 Your trips</Text>
+                        </View>
+                        <AntDesign name="right" size={18} color="white"/>
+                    </Pressable>
+                    <Pressable style={styles.eventButton}>
+                        <View style={styles.eventButtonFlex}>
+                            <Text style={styles.eventButtonText}>🏆 Achievements</Text>
+                        </View>
+                        <AntDesign name="right" size={18} color="white"/>
+                    </Pressable>
+                    <Pressable style={styles.eventButton}>
+                        <View style={styles.eventButtonFlex}>
+                            <Text style={styles.eventButtonText}>️️✈️ Flight tickets</Text>
+                        </View>
+                        <AntDesign name="right" size={18} color="white"/>
+                    </Pressable>
+                    <Pressable style={styles.eventButton}>
+                        <View style={styles.eventButtonFlex}>
+                            <Text style={styles.eventButtonText}>️🧑 Friends</Text>
+                        </View>
+                        <AntDesign name="right" size={18} color="white"/>
+                    </Pressable>
+                    <Pressable style={styles.latestJourneyEvent}>
+                        <View style={styles.latestJourneyEventContent}>
+                            <Image style={styles.latestJourneyEventImage}
+                                   source={require('../../../assets/Mexico-City.jpg')}/>
+                            <Text style={styles.titleText}>Your journey will start in</Text>
+                            <Text style={styles.timeText}>10 days, 18 hours, 32 minutes</Text>
+                            <View style={styles.semiEllipse}></View>
+                            <View style={styles.latestJourneyCountries}>
+                                <View style={styles.singleCountry}>
+                                    <Text style={styles.singleCountryText}>Warsaw Chopin Airport</Text>
+                                    <Image style={styles.singleCountryImage}
+                                           source={require('../../../assets/poland.png')}/>
+                                </View>
+                                <View style={styles.singleCountry}>
+                                    <Text style={styles.singleCountryText}>Mexico City International Airport</Text>
+                                    <Image style={styles.singleCountryImage}
+                                           source={require('../../../assets/mexico.png')}/>
+                                </View>
+                            </View>
+                        </View>
+                    </Pressable>
+                </View>
+            </ScrollView>
         </SafeAreaView>
     );
 };
 
 const styles = StyleSheet.create({
+    scroll: {
+        width: "100%",
+        backgroundColor: "#030712"
+    },
     userInfoIos: {
         display: "flex",
         alignItems: "center",
-        // backgroundColor:"#383838",
-        // backgroundColor:"black",
-        backgroundColor: "#292a2d",
+        backgroundColor: "#030712",
         width: "100%",
         minHeight: "100%"
     },
     userInfoAndroid: {
         display: "flex",
         alignItems: "center",
-        // backgroundColor:"#383838",
-        // backgroundColor:"black",
-        backgroundColor: "#292a2d",
+        backgroundColor: "#030712",
         width: "100%",
-        paddingTop:50,
+        paddingTop: 50,
         minHeight: "100%"
     },
-    semiEllipse:{
-        position:"absolute",
-        bottom:-135,
+    titleContainer: {
+        display: "flex",
+        justifyContent: "flex-start",
+        paddingHorizontal:20,
+        paddingTop: 30,
+        paddingBottom: 30,
+    },
+    title: {
+        paddingTop: 20,
+        color: "#8ca5ff",
+        fontSize: 32
+    },
+    mainInfoContent:{
+        width:"50%"
+    },
+    semiEllipse: {
+        position: "absolute",
+        bottom: -135,
         width: 140,
         height: 160,
-        borderWidth:1,
-        borderColor:"transparent",
-        borderTopColor:"white",
+        borderWidth: 1,
+        borderColor: "transparent",
+        borderTopColor: "white",
 
         borderRadius: 10000,
         transform: [
@@ -109,13 +137,16 @@ const styles = StyleSheet.create({
     },
     mainInfo: {
         display: "flex",
+        flexDirection:"row",
+        justifyContent:"center",
         alignItems: "center",
+        padding:0,
+        gap:30,
     },
     avatarContainer: {
         overflow: "hidden",
         borderWidth: 2,
         borderColor: "#F6F8E2",
-        marginTop: 30,
         display: "flex",
         borderRadius: 100,
         justifyContent: "center",
@@ -137,7 +168,6 @@ const styles = StyleSheet.create({
         paddingTop: 15,
         display: "flex",
         flexDirection: "row",
-        justifyContent: "center",
         alignItems: "center",
         gap: 10
     },
@@ -156,23 +186,29 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         width: "100%",
-        gap: 25,
+        gap: 35,
     },
     eventButton: {
-        padding: 10,
-        borderRadius: 10,
-        width: "90%",
-        backgroundColor: "#F6F8E2",
+        width: "100%",
+        paddingHorizontal: 20,
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between"
     },
+    eventButtonFlex: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        gap: 10
+    },
     eventButtonText: {
-        color: "black",
+        color: "white",
         fontSize: 18
     },
     latestJourneyEvent: {
+        marginTop: 25,
         borderRadius: 10,
         backgroundColor: "#000000",
         width: "90%",
@@ -201,31 +237,31 @@ const styles = StyleSheet.create({
         paddingTop: 8,
         fontSize: 18
     },
-    singleCountry:{
-        display:"flex",
-        flexDirection:"column",
-        gap:5,
-        alignItems:"center"
+    singleCountry: {
+        display: "flex",
+        flexDirection: "column",
+        gap: 5,
+        alignItems: "center"
 
     },
-    latestJourneyCountries:{
-        paddingHorizontal:5,
-        position:"absolute",
-        bottom:5,
-        width:"100%",
-        display:"flex",
-        flexDirection:"row",
-        justifyContent:"space-between",
-        alignItems:"center"
+    latestJourneyCountries: {
+        paddingHorizontal: 5,
+        position: "absolute",
+        bottom: 5,
+        width: "100%",
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center"
     },
-    singleCountryText:{
+    singleCountryText: {
         color: "#F6F8E2",
-        fontSize:10,
+        fontSize: 10,
     },
-    singleCountryImage:{
+    singleCountryImage: {
         borderRadius: 5,
         width: 25,
-        height:15
+        height: 15
     }
 
 

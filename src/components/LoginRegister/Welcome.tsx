@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     },
     buttonMain:{
         borderColor:"transparent",
-        backgroundColor:"rgba(45,80,169,0.7)",
+        backgroundColor: "rgba(140,165,255,0.7)",
     },
     buttonText:{
         color:"white",

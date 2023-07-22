@@ -6,13 +6,9 @@ import {ProfileScreen} from "./src/screens/ProfileScreen";
 import {LoginRegisterScreen} from "./src/screens/LoginRegisterScreen"
 import {Navigation} from "./src/components/Navigation/Navigation";
 import {Animated, View, StyleSheet} from "react-native";
-import {SettingsScreen} from "./src/screens/SettingsScreen";
+import {OptionsScreen} from "./src/screens/OptionsScreen";
 
 const Stack = createNativeStackNavigator();
-
-interface SettingsScreenFunctionProps {
-    handleLogout: () => void;
-}
 
 export default function App() {
     const tempCredentials={
@@ -23,7 +19,7 @@ export default function App() {
         lastName:"Żyra",
         nationality:"poland",
     };
-    const [auth, setAuth] = useState<Boolean>(false)
+    const [auth, setAuth] = useState<Boolean>(true)
     const [opacity, setOpacity] = useState(new Animated.Value(1));
 
     const handleAuth = (email:string, password:string) => {
@@ -48,7 +44,18 @@ export default function App() {
     };
 
     const handleLogout=()=>{
-        setAuth(false)
+        Animated.timing(opacity, {
+            toValue: 0,
+            duration: 200,
+            useNativeDriver: true,
+        }).start(() => {
+            setAuth(false)
+            Animated.timing(opacity, {
+                toValue: 1,
+                duration: 200,
+                useNativeDriver: true,
+            }).start();
+        });
     }
 
     const renderContent = () => {
@@ -67,10 +74,10 @@ export default function App() {
                             options={{headerShown: false}}
                         />
                         <Stack.Screen
-                            name="Settings"
+                            name="Options"
                             options={{ headerShown: false }}
                         >
-                            {() => <SettingsScreen handleLogout={handleLogout} />}
+                            {() => <OptionsScreen handleLogout={handleLogout} />}
                         </Stack.Screen>
                     </Stack.Navigator>
                     <Navigation/>
