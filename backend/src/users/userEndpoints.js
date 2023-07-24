@@ -21,6 +21,41 @@ router.get('/all', (req, res) => {
     run().catch(console.dir);
 });
 
+router.get('/get/:username', async (req, res) => {
+    try {
+        // Connect the client to the server (optional starting in v4.7)
+        await client.connect();
+        const database = client.db(process.env.DATABASE_NAME);
+        const collection = database.collection("Users");
+
+        const username = req.params.username;
+        const email = req.query.email;
+        const nationality = req.query.nationality;
+
+        // Create a filter object based on the provided parameters
+        const filter = { username };
+        if (email) filter.email = email;
+        if (nationality) filter.nationality = nationality;
+
+        // Find the user in the database by the filter
+        const user = await collection.findOne(filter);
+
+        if (!user) {
+            return res.status(404).json({ error: "User not found" });
+        }
+
+        // Response message
+        res.status(200).json(user);
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ error: "Failed to get user" });
+    } finally {
+        // Ensures that the client will close when you finish/error
+        await client.close();
+    }
+});
+
+
 router.post('/add', async (req, res) => {
     try {
         // Connect the client to the server (optional starting in v4.7)
