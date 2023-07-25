@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const router = express.Router();
-const {client } = require('../MongoClient/MongoClient');
+const {client} = require('../MongoClient/MongoClient');
 
 
 router.get('/all', (req, res) => {
@@ -18,10 +18,12 @@ router.get('/all', (req, res) => {
             await client.close();
         }
     }
+
     run().catch(console.dir);
 });
 
 router.get('/get/:username', async (req, res) => {
+    // res.json({siema: 'lolek'})
     try {
         // Connect the client to the server (optional starting in v4.7)
         await client.connect();
@@ -33,7 +35,7 @@ router.get('/get/:username', async (req, res) => {
         const nationality = req.query.nationality;
 
         // Create a filter object based on the provided parameters
-        const filter = { username };
+        const filter = {username};
         if (email) filter.email = email;
         if (nationality) filter.nationality = nationality;
 
@@ -41,14 +43,14 @@ router.get('/get/:username', async (req, res) => {
         const user = await collection.findOne(filter);
 
         if (!user) {
-            return res.status(404).json({ error: "User not found" });
+            return res.status(404).json({error: "User not found"});
         }
 
         // Response message
         res.status(200).json(user);
     } catch (error) {
         console.error('Error:', error);
-        res.status(500).json({ error: "Failed to get user" });
+        res.status(500).json({error: "Failed to get user"});
     } finally {
         // Ensures that the client will close when you finish/error
         await client.close();
@@ -63,17 +65,17 @@ router.delete('/deleteByUsername/:username', async (req, res) => {
         const collection = database.collection("Users");
 
         const username = req.params.username;
-        const filter = { username: username };
+        const filter = {username: username};
 
         const result = await collection.deleteOne(filter);
         if (result.deletedCount === 0) {
-            return res.status(404).json({ error: "User not found" });
+            return res.status(404).json({error: "User not found"});
         }
-        res.status(200).json({ message: "User deleted successfully" });
+        res.status(200).json({message: "User deleted successfully"});
 
     } catch (error) {
         console.error('Error:', error);
-        res.status(500).json({ error: "Failed to delete the user" });
+        res.status(500).json({error: "Failed to delete the user"});
     } finally {
         await client.close();
     }
@@ -82,31 +84,30 @@ router.delete('/deleteByUsername/:username', async (req, res) => {
 
 router.post('/add', async (req, res) => {
     try {
-        // Connect the client to the server (optional starting in v4.7)
         await client.connect();
         const database = client.db(process.env.DATABASE_NAME);
         const collection = database.collection("Users");
-
         // Data for the new user
         const newUser = {
-            email: req.body.email,
-            password: req.body.password,
             username: req.body.username,
-            name: '',
-            lastName: '',
-            nationality: '',
+            password: req.body.password,
+            email: req.body.email,
+            avatar: req.file ? req.file.buffer : null, // Store the file buffer in the 'avatar' field if a file was uploaded
+            name: req.body.name || '',
+            lastName: req.body.lastName || '',
+            nationality: req.body.nationality || '',
         };
 
         // Insert the new user to the database
         await collection.insertOne(newUser);
 
         // Response message
-        res.status(201).json({ message: "User added successfully" });
+        res.status(201).json({message: "User added successfully"});
     } catch (error) {
         console.error('Error:', error);
-        res.status(500).json({ error: "Failed to add user" });
+        res.status(500).json({error: "Failed to add user"});
     } finally {
-        // Ensures that the client will close when you finish/error
+        // Ensure the MongoDB client is closed when you finish/error
         await client.close();
     }
 });
