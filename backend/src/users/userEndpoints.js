@@ -55,6 +55,30 @@ router.get('/get/:username', async (req, res) => {
     }
 });
 
+router.delete('/deleteByUsername/:username', async (req, res) => {
+    try {
+        // Connect the client to the server (optional starting in v4.7)
+        await client.connect();
+        const database = client.db(process.env.DATABASE_NAME);
+        const collection = database.collection("Users");
+
+        const username = req.params.username;
+        const filter = { username: username };
+
+        const result = await collection.deleteOne(filter);
+        if (result.deletedCount === 0) {
+            return res.status(404).json({ error: "User not found" });
+        }
+        res.status(200).json({ message: "User deleted successfully" });
+
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).json({ error: "Failed to delete the user" });
+    } finally {
+        await client.close();
+    }
+});
+
 
 router.post('/add', async (req, res) => {
     try {
