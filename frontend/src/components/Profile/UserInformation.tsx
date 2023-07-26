@@ -1,19 +1,43 @@
 import React from "react";
-import {
-    StyleSheet,
-    SafeAreaView,
-    Image,
-    Text,
-    View,
-    Pressable,
-    Platform, ScrollView
-} from "react-native";
-import {AntDesign, FontAwesome} from '@expo/vector-icons';
+import {Image, Platform, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View} from "react-native";
+import {AntDesign} from '@expo/vector-icons';
+
+interface UserData {
+    username?: string;
+    name?: string;
+    email?: string;
+    password?: string;
+    lastName?: string;
+    nationality?: string;
+    avatar?: string;
+}
 
 const UserInformation = () => {
     const platform = Platform.OS === 'ios' ? styles.userInfoIos : styles.userInfoAndroid
+    // const [user, setUser] = useState<UserData | null>(null);
+    //
+    // useEffect(() => {
+    //     // Fetch user data from the server
+    //     fetch('http://192.168.0.30:5000/users/get/kapibara')
+    //         .then(response => response.json())
+    //         .then(userData => {
+    //             // if (userData.avatar) {
+    //             //     // Convert the base64-encoded avatar back to a string (from Buffer)
+    //             //     userData.avatar = Buffer.from(userData.avatar, 'base64').toString('base64');
+    //             // }
+    //             setUser(userData);
+    //         })
+    //         .catch(error => {
+    //             console.error('Error:', error);
+    //         });
+    // }, []);
+
     return (
         <SafeAreaView style={platform}>
+            {/*<Text style={{color: "white"}}>{user?.email}</Text>*/}
+            {/*{user?.avatar && (*/}
+            {/*    <Image source={{uri: `data:image/jpeg;base64,${user.avatar}`}} style={{width: 100, height: 100}}/>*/}
+            {/*)}*/}
             <ScrollView style={styles.scroll}>
                 <View style={styles.titleContainer}>
                     <Text style={styles.title}>Profile</Text>
@@ -108,7 +132,7 @@ const styles = StyleSheet.create({
     titleContainer: {
         display: "flex",
         justifyContent: "flex-start",
-        paddingHorizontal:20,
+        paddingHorizontal: 20,
         paddingTop: 30,
         paddingBottom: 30,
     },
@@ -117,8 +141,8 @@ const styles = StyleSheet.create({
         color: "#8ca5ff",
         fontSize: 32
     },
-    mainInfoContent:{
-        width:"50%"
+    mainInfoContent: {
+        width: "50%"
     },
     semiEllipse: {
         position: "absolute",
@@ -137,11 +161,11 @@ const styles = StyleSheet.create({
     },
     mainInfo: {
         display: "flex",
-        flexDirection:"row",
-        justifyContent:"center",
+        flexDirection: "row",
+        justifyContent: "center",
         alignItems: "center",
-        padding:0,
-        gap:30,
+        padding: 0,
+        gap: 30,
     },
     avatarContainer: {
         overflow: "hidden",
