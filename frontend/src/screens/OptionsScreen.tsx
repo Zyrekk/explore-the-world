@@ -1,25 +1,25 @@
 import {Animated, Platform, SafeAreaView, ScrollView, StyleSheet, Text, View} from "react-native";
 import {Options} from "../components/Options/Options";
 import {EditProfile} from "../components/Options/EditProfile";
-import {OptionTypes} from "../commons/OptionTypes";
+import {OptionTypes} from "../commons/types/OptionTypes";
 import React, {useState} from "react";
 
 interface SettingsScreenProps {
-    handleLogout: () => void;
+    handleAuth: (type: boolean) => void;
 }
 
 
-export const OptionsScreen = ({handleLogout}: SettingsScreenProps) => {
+export const OptionsScreen = ({handleAuth}: SettingsScreenProps) => {
     const platform = Platform.OS === 'ios' ? styles.settingsIos : styles.settingsAndroid
     const [screenType, setScreenType] = useState<string>(OptionTypes.OPTIONS)
     const [opacity, setOpacity] = useState(new Animated.Value(1));
-    const handleBack=()=>{
+    const handleBack = () => {
         setScreenType(OptionTypes.OPTIONS)
     }
     const showScreenType = () => {
         switch (screenType) {
             case OptionTypes.OPTIONS:
-                return <Options handleLogout={handleLogout} setScreenType={setScreenType}/>
+                return <Options handleAuth={handleAuth} setScreenType={setScreenType}/>
             case OptionTypes.EDIT:
                 return <EditProfile handleBack={handleBack}/>
             case OptionTypes.PASSWORD:
@@ -29,7 +29,7 @@ export const OptionsScreen = ({handleLogout}: SettingsScreenProps) => {
             case OptionTypes.LANGUAGE:
                 return <Text>EDIT</Text>
             default:
-                return <Options handleLogout={handleLogout} setScreenType={setScreenType}/>
+                return <Options handleAuth={handleAuth} setScreenType={setScreenType}/>
         }
 
     }

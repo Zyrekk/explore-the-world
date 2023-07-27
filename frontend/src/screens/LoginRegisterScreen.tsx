@@ -1,24 +1,33 @@
-import {ImageBackground, SafeAreaView, StyleSheet,Text, Animated, View} from "react-native";
+import {Animated, ImageBackground, SafeAreaView, StyleSheet, View} from "react-native";
 import React, {useState} from "react";
 import {Welcome} from "../components/LoginRegister/Welcome"
 import {LoginForm} from "../components/LoginRegister/LoginForm";
 import {RegisterForm} from "../components/LoginRegister/RegisterForm";
-import {AntDesign} from "@expo/vector-icons";
 
-type authProps={
-    handleAuth:(email:string, password:string)=>boolean;
+interface authProps {
+    handleAuth: (type: boolean) => void;
+}
+
+interface UserData {
+    username?: string;
+    name?: string;
+    email?: string;
+    password?: string;
+    lastName?: string;
+    nationality?: string;
+    avatar?: string;
 }
 
 
-export const LoginRegisterScreen = ({handleAuth}:authProps) => {
+export const LoginRegisterScreen = ({handleAuth}: authProps) => {
     const types = {
         LOGIN: "Login",
         REGISTER: "Register",
-        WELCOME:"Welcome"
+        WELCOME: "Welcome"
     };
-    const [screenType,setScreenType]=useState<string>(types.WELCOME)
+    const [screenType, setScreenType] = useState<string>(types.WELCOME)
     const [opacity, setOpacity] = useState(new Animated.Value(1));
-    const handleButtonPress = (type:string) => {
+    const handleButtonPress = (type: string) => {
         Animated.timing(opacity, {
             toValue: 0,
             duration: 200,
@@ -32,8 +41,8 @@ export const LoginRegisterScreen = ({handleAuth}:authProps) => {
             }).start();
         });
     };
-    const showScreenType=()=>{
-        switch (screenType){
+    const showScreenType = () => {
+        switch (screenType) {
             case types.LOGIN:
                 return <LoginForm handleButtonPress={handleButtonPress} handleAuth={handleAuth}/>
             case types.REGISTER:
@@ -47,7 +56,7 @@ export const LoginRegisterScreen = ({handleAuth}:authProps) => {
                          style={styles.image}>
             <View style={styles.overlay}/>
             <SafeAreaView style={styles.container}>
-                <Animated.View style={[{ opacity }]}>
+                <Animated.View style={[{opacity}]}>
                     {showScreenType()}
                 </Animated.View>
             </SafeAreaView>
@@ -58,9 +67,9 @@ export const LoginRegisterScreen = ({handleAuth}:authProps) => {
 const styles = StyleSheet.create({
     container: {
         display: "flex",
-        justifyContent:"center",
+        justifyContent: "center",
         width: "100%",
-        height:"100%",
+        height: "100%",
     },
     image: {
         flex: 1,

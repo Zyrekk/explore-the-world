@@ -1,16 +1,25 @@
-import {Text,StyleSheet, Pressable,View, Switch} from "react-native";
+import {Pressable, StyleSheet, Switch, Text, View} from "react-native";
 import React, {useState} from "react";
-import {AntDesign, Foundation, Ionicons, FontAwesome} from '@expo/vector-icons';
-import {OptionTypes} from "../../commons/OptionTypes";
+import {AntDesign, FontAwesome, Foundation, Ionicons} from '@expo/vector-icons';
+import {OptionTypes} from "../../commons/types/OptionTypes";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 interface OptionsProps {
-    handleLogout: () => void;
-    setScreenType:(value:string)=>void;
+    handleAuth: (type: boolean) => void;
+    setScreenType: (value: string) => void;
 }
 
 
-export const Options = ({handleLogout,setScreenType}: OptionsProps) => {
+export const Options = ({handleAuth, setScreenType}: OptionsProps) => {
     const [isEnabled, setIsEnabled] = useState(false);
+    const logout = async () => {
+        try {
+            await AsyncStorage.setItem('auth', JSON.stringify(false));
+        } catch (err) {
+            alert(err)
+        }
+        handleAuth(false)
+    }
     const toggleSwitch = () => setIsEnabled(previousState => !previousState);
     return (
         <>
@@ -23,7 +32,7 @@ export const Options = ({handleLogout,setScreenType}: OptionsProps) => {
                         <Text style={styles.actionText}>Account</Text>
                     </View>
                     <View style={styles.options}>
-                        <Pressable style={styles.eventButton} onPress={()=>{
+                        <Pressable style={styles.eventButton} onPress={() => {
                             setScreenType(OptionTypes.EDIT)
                         }}>
                             <View style={styles.eventButtonFlex}>
@@ -88,9 +97,7 @@ export const Options = ({handleLogout,setScreenType}: OptionsProps) => {
                     <View style={styles.actionTextContainer}>
                         <Text style={styles.actionText}>Log out</Text>
                     </View>
-                    <Pressable style={styles.eventButton} onPress={() => {
-                        handleLogout()
-                    }}>
+                    <Pressable style={styles.eventButton} onPress={logout}>
                         <View style={styles.eventButtonFlex}>
                             <Ionicons name="log-out-outline" size={22} color="#C0C0C0FF"/>
                             <Text style={styles.eventButtonText}>Log out</Text>

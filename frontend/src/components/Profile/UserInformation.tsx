@@ -1,56 +1,41 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {Image, Platform, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View} from "react-native";
 import {AntDesign} from '@expo/vector-icons';
-
-interface UserData {
-    username?: string;
-    name?: string;
-    email?: string;
-    password?: string;
-    lastName?: string;
-    nationality?: string;
-    avatar?: string;
-}
+import {UserData} from "../../commons/interfaces/interfaces";
 
 const UserInformation = () => {
     const platform = Platform.OS === 'ios' ? styles.userInfoIos : styles.userInfoAndroid
-    // const [user, setUser] = useState<UserData | null>(null);
+    const [user, setUser] = useState<UserData | null>(null);
     //
-    // useEffect(() => {
-    //     // Fetch user data from the server
-    //     fetch('http://192.168.0.30:5000/users/get/kapibara')
-    //         .then(response => response.json())
-    //         .then(userData => {
-    //             // if (userData.avatar) {
-    //             //     // Convert the base64-encoded avatar back to a string (from Buffer)
-    //             //     userData.avatar = Buffer.from(userData.avatar, 'base64').toString('base64');
-    //             // }
-    //             setUser(userData);
-    //         })
-    //         .catch(error => {
-    //             console.error('Error:', error);
-    //         });
-    // }, []);
+    useEffect(() => {
+        // Fetch user data from the server
+        fetch('http://192.168.0.30:5000/users/get/kapibara')
+            .then(response => response.json())
+            .then(userData => {
+                setUser(userData);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }, []);
 
     return (
         <SafeAreaView style={platform}>
-            {/*<Text style={{color: "white"}}>{user?.email}</Text>*/}
-            {/*{user?.avatar && (*/}
-            {/*    <Image source={{uri: `data:image/jpeg;base64,${user.avatar}`}} style={{width: 100, height: 100}}/>*/}
-            {/*)}*/}
             <ScrollView style={styles.scroll}>
                 <View style={styles.titleContainer}>
                     <Text style={styles.title}>Profile</Text>
                 </View>
                 <View style={styles.mainInfo}>
                     <View style={styles.avatarContainer}>
-                        <Image
-                            style={styles.avatarImage}
-                            source={require('../../../assets/stitch2.jpg')}
-                        />
+                        {user?.avatar && (
+                            <Image
+                                style={styles.avatarImage}
+                                source={{uri: `data:image/jpeg;base64,${user.avatar}`}}
+                            />
+                        )}
                     </View>
                     <View style={styles.mainInfoContent}>
-                        <Text style={styles.mainInfoText}>Stitch</Text>
+                        <Text style={styles.mainInfoText}>{user?.username}</Text>
                         <View style={styles.countryInfo}>
                             <Image style={styles.countryInfoImage} source={require('../../../assets/poland.png')}/>
                             <Text style={styles.countryInfoText}>POLAND</Text>

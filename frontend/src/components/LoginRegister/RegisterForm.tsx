@@ -1,19 +1,19 @@
-import {View, Text, StyleSheet, KeyboardAvoidingView, Pressable, TextInput, ScrollView, Platform} from "react-native";
+import {KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View} from "react-native";
 import {AntDesign, Ionicons} from "@expo/vector-icons";
 import React, {useState} from "react";
-import {AuthTypes} from "../../commons/AuthTypes";
+import {AuthTypes} from "../../commons/types/AuthTypes";
 
 type WelcomeProps = {
     handleButtonPress: (type: string) => void;
 };
 
 export const RegisterForm = ({handleButtonPress}: WelcomeProps) => {
-    const [nickname,setNickname]=useState<string>('')
-    const [email,setEmail]=useState<string>('')
-    const [password,setPassword]=useState<string>('')
-    const [repeatPassword,setRepeatPassword]=useState<string>('')
+    const [nickname, setNickname] = useState<string>('')
+    const [email, setEmail] = useState<string>('')
+    const [password, setPassword] = useState<string>('')
+    const [repeatPassword, setRepeatPassword] = useState<string>('')
     const platform = Platform.OS === 'ios' ? styles.backButtonIos : styles.backButtonAndroid
-    const offset=Platform.OS === 'ios' ? -100 : -300
+    const offset = Platform.OS === 'ios' ? -100 : -300
     return (
         <KeyboardAvoidingView style={styles.keyboardContainer} behavior='position' keyboardVerticalOffset={offset}>
             <ScrollView contentContainerStyle={styles.scrollContainer}>
