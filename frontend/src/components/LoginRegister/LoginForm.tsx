@@ -1,23 +1,23 @@
 import {
-    View,
-    Text,
-    StyleSheet,
-    Pressable,
-    TextInput,
     KeyboardAvoidingView,
-    ScrollView,
-    Alert,
     Platform,
-    StatusBar
+    Pressable,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
 } from "react-native";
 import {SocialIcon} from 'react-native-elements'
 import React, {useState} from "react";
 import {AntDesign, Ionicons} from '@expo/vector-icons';
-import {AuthTypes} from "../../commons/AuthTypes";
+import {AuthTypes} from "../../commons/types/AuthTypes";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 type WelcomeProps = {
     handleButtonPress: (type: string) => void;
-    handleAuth: (email: string, password: string) => boolean;
+    handleAuth: (type: boolean) => void;
 };
 
 export const LoginForm = ({handleButtonPress, handleAuth}: WelcomeProps) => {
@@ -26,6 +26,14 @@ export const LoginForm = ({handleButtonPress, handleAuth}: WelcomeProps) => {
     const platform = Platform.OS === 'ios' ? styles.backButtonIos : styles.backButtonAndroid
     const offset = Platform.OS === 'ios' ? -100 : -300
 
+    const save = async () => {
+        try {
+            await AsyncStorage.setItem('auth', JSON.stringify(true));
+            handleAuth(true)
+        } catch (err) {
+            alert(err)
+        }
+    }
 
     return (
         <KeyboardAvoidingView style={styles.keyboardContainer} behavior='position' keyboardVerticalOffset={offset}>
@@ -86,17 +94,15 @@ export const LoginForm = ({handleButtonPress, handleAuth}: WelcomeProps) => {
                             />
                         </View>
                     </View>
-                    <Pressable style={styles.loginButton} onPress={() => {
-                        const auth = handleAuth(email, password) ? null : Alert.alert("Wrong email or password")
-                    }}>
+                    <Pressable style={styles.loginButton} onPress={save}>
                         <Text style={styles.buttonText}>Log in</Text>
                     </Pressable>
-                    <Pressable style={styles.signUpButton} onPress={() => {
+                    <TouchableOpacity style={styles.signUpButton} onPress={() => {
                         handleButtonPress(AuthTypes.REGISTER)
                     }}>
                         <Text style={styles.signUpButtonText}>Don't have an account?</Text>
                         <Text style={styles.signUpButtonTextBold}>SIGN UP</Text>
-                    </Pressable>
+                    </TouchableOpacity>
                 </View>
 
             </ScrollView>
@@ -189,7 +195,7 @@ const styles = StyleSheet.create({
         flexDirection: "row"
     },
     input: {
-        height:40,
+        height: 40,
         flex: 1
     },
     loginButton: {
