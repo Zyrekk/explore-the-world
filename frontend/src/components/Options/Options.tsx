@@ -5,12 +5,12 @@ import {OptionTypes} from "../../commons/types/OptionTypes";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 interface OptionsProps {
-    handleAuth: (type: boolean) => void;
+    handleLogout: () => void;
     setScreenType: (value: string) => void;
 }
 
 
-export const Options = ({handleAuth, setScreenType}: OptionsProps) => {
+export const Options = ({handleLogout, setScreenType}: OptionsProps) => {
     const [isEnabled, setIsEnabled] = useState(false);
     const logout = async () => {
         try {
@@ -18,7 +18,7 @@ export const Options = ({handleAuth, setScreenType}: OptionsProps) => {
         } catch (err) {
             alert(err)
         }
-        handleAuth(false)
+        handleLogout()
     }
     const toggleSwitch = () => setIsEnabled(previousState => !previousState);
     return (

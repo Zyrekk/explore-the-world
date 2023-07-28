@@ -5,7 +5,7 @@ import {LoginForm} from "../components/LoginRegister/LoginForm";
 import {RegisterForm} from "../components/LoginRegister/RegisterForm";
 
 interface authProps {
-    handleAuth: (type: boolean) => void;
+    handleAuth: (email: string, password: string) => void;
 }
 
 interface UserData {
