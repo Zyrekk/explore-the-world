@@ -10,24 +10,36 @@ import {
     View,
 } from "react-native";
 import {SocialIcon} from 'react-native-elements'
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import {AntDesign, Ionicons} from '@expo/vector-icons';
 import {AuthTypes} from "../../commons/types/AuthTypes";
+import {AuthContext} from "../../commons/utils/AuthContext";
 
 type WelcomeProps = {
     handleButtonPress: (type: string) => void;
-    handleAuth: (email: string, password: string) => void;
 };
 
-export const LoginForm = ({handleButtonPress, handleAuth}: WelcomeProps) => {
+export const LoginForm = ({handleButtonPress}: WelcomeProps) => {
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
     const platform = Platform.OS === 'ios' ? styles.backButtonIos : styles.backButtonAndroid
     const offset = Platform.OS === 'ios' ? -100 : -300
+    const {user, setUser} = useContext(AuthContext);
 
-    const save = () => {
-        handleAuth(email, password)
-    }
+    const signIn = () => {
+        const usertest = {
+            // Define user data here, for example:
+            id: 'aaaa',
+            name: 'a',
+            email: 'a',
+            password: 'a',
+            token: 'a'
+        };
+
+        // Set the user using setUser
+        setUser(usertest);
+        console.log(user);
+    };
 
     return (
         <KeyboardAvoidingView style={styles.keyboardContainer} behavior='position' keyboardVerticalOffset={offset}>
@@ -88,7 +100,7 @@ export const LoginForm = ({handleButtonPress, handleAuth}: WelcomeProps) => {
                             />
                         </View>
                     </View>
-                    <Pressable style={styles.loginButton} onPress={save}>
+                    <Pressable style={styles.loginButton} onPress={signIn}>
                         <Text style={styles.buttonText}>Log in</Text>
                     </Pressable>
                     <TouchableOpacity style={styles.signUpButton} onPress={() => {
