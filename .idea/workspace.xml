@@ -6,17 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="66e926f2-db0d-4144-b38e-eead7c62e692" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/users/userEndpoints.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/users/userEndpoints.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/commons/AuthTypes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/commons/types/AuthTypes.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/commons/OptionTypes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/commons/types/OptionTypes.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/LoginRegister/LoginForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/LoginRegister/LoginForm.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/LoginRegister/RegisterForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/LoginRegister/RegisterForm.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/Options/Options.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Options/Options.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Profile/UserInformation.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Profile/UserInformation.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/screens/LoginRegisterScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/screens/LoginRegisterScreen.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/screens/OptionsScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/screens/OptionsScreen.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,7 +52,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;connection&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;storage&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -120,7 +115,8 @@
       <workItem from="1690229944880" duration="727000" />
       <workItem from="1690231727090" duration="37000" />
       <workItem from="1690310825273" duration="9173000" />
-      <workItem from="1690489573898" duration="4190000" />
+      <workItem from="1690489573898" duration="4336000" />
+      <workItem from="1690573052364" duration="2000000" />
     </task>
     <servers />
   </component>

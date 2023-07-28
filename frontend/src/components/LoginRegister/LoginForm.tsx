@@ -13,11 +13,10 @@ import {SocialIcon} from 'react-native-elements'
 import React, {useState} from "react";
 import {AntDesign, Ionicons} from '@expo/vector-icons';
 import {AuthTypes} from "../../commons/types/AuthTypes";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 type WelcomeProps = {
     handleButtonPress: (type: string) => void;
-    handleAuth: (type: boolean) => void;
+    handleAuth: (email: string, password: string) => void;
 };
 
 export const LoginForm = ({handleButtonPress, handleAuth}: WelcomeProps) => {
@@ -26,13 +25,8 @@ export const LoginForm = ({handleButtonPress, handleAuth}: WelcomeProps) => {
     const platform = Platform.OS === 'ios' ? styles.backButtonIos : styles.backButtonAndroid
     const offset = Platform.OS === 'ios' ? -100 : -300
 
-    const save = async () => {
-        try {
-            await AsyncStorage.setItem('auth', JSON.stringify(true));
-            handleAuth(true)
-        } catch (err) {
-            alert(err)
-        }
+    const save = () => {
+        handleAuth(email, password)
     }
 
     return (

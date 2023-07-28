@@ -26,31 +26,34 @@ export default function App() {
     const [opacity, setOpacity] = useState(new Animated.Value(1));
     const [user, setUser] = useState<UserData | null>(null);
 
+    const handleLogout = () => {
+        setAuth(false);
+    }
 
-    const handleAuth = (type: boolean) => {
-        // useEffect(() => {
-        //     // Fetch user data from the server
-        //     fetch('http://192.168.0.30:5000/users/get/kapibara')
-        //         .then(response => response.json())
-        //         .then(userData => {
-        //             setUser(userData);
-        //         })
-        //         .catch(error => {
-        //             console.error('Error:', error);
-        //         });
-        // }, []);
-        Animated.timing(opacity, {
-            toValue: 0,
-            duration: 200,
-            useNativeDriver: true,
-        }).start(() => {
-            setAuth(type);
-            Animated.timing(opacity, {
-                toValue: 1,
-                duration: 200,
-                useNativeDriver: true,
-            }).start();
-        });
+
+    const handleAuth = async (email: string, password: string) => {
+        const response = await fetch(`http://192.168.0.30:5000/users/getByEmail/kapibara@wp.pl`).then(response => response.json())
+        console.log("handle auth")
+        if (response.email === email && response.password === password) {
+            try {
+                await AsyncStorage.setItem('auth', JSON.stringify(true));
+                Animated.timing(opacity, {
+                    toValue: 0,
+                    duration: 200,
+                    useNativeDriver: true,
+                }).start(() => {
+                    setAuth(true);
+                    Animated.timing(opacity, {
+                        toValue: 1,
+                        duration: 200,
+                        useNativeDriver: true,
+                    }).start();
+                });
+            } catch (err) {
+                alert(err)
+            }
+
+        }
     };
     const loadAuthData = async () => {
         try {
@@ -58,7 +61,7 @@ export default function App() {
             const authItem = authString ? JSON.parse(authString) : false;
             setAuth(authItem)
         } catch (error) {
-            // Handle any errors that occurred during AsyncStorage retrieval
+            setAuth(false)
         }
     };
     useEffect(() => {
@@ -85,7 +88,7 @@ export default function App() {
                             name="Options"
                             options={{headerShown: false}}
                         >
-                            {() => <OptionsScreen handleAuth={handleAuth}/>}
+                            {() => <OptionsScreen handleLogout={handleLogout}/>}
                         </Stack.Screen>
                     </Stack.Navigator>
                     <Navigation/>

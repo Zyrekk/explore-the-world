@@ -5,11 +5,11 @@ import {OptionTypes} from "../commons/types/OptionTypes";
 import React, {useState} from "react";
 
 interface SettingsScreenProps {
-    handleAuth: (type: boolean) => void;
+    handleLogout: () => void;
 }
 
 
-export const OptionsScreen = ({handleAuth}: SettingsScreenProps) => {
+export const OptionsScreen = ({handleLogout}: SettingsScreenProps) => {
     const platform = Platform.OS === 'ios' ? styles.settingsIos : styles.settingsAndroid
     const [screenType, setScreenType] = useState<string>(OptionTypes.OPTIONS)
     const [opacity, setOpacity] = useState(new Animated.Value(1));
@@ -19,7 +19,7 @@ export const OptionsScreen = ({handleAuth}: SettingsScreenProps) => {
     const showScreenType = () => {
         switch (screenType) {
             case OptionTypes.OPTIONS:
-                return <Options handleAuth={handleAuth} setScreenType={setScreenType}/>
+                return <Options handleLogout={handleLogout} setScreenType={setScreenType}/>
             case OptionTypes.EDIT:
                 return <EditProfile handleBack={handleBack}/>
             case OptionTypes.PASSWORD:
@@ -29,7 +29,7 @@ export const OptionsScreen = ({handleAuth}: SettingsScreenProps) => {
             case OptionTypes.LANGUAGE:
                 return <Text>EDIT</Text>
             default:
-                return <Options handleAuth={handleAuth} setScreenType={setScreenType}/>
+                return <Options handleLogout={handleLogout} setScreenType={setScreenType}/>
         }
 
     }
