@@ -1,18 +1,20 @@
-import React, {useEffect, useState} from 'react';
-import {NavigationContainer} from '@react-navigation/native';
+import React, {useState} from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {Animated, StyleSheet, View} from "react-native";
+import {NavigationContainer} from "@react-navigation/native";
+import {LoginRegisterScreen} from "./src/screens/LoginRegisterScreen";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import {HomeScreen} from "./src/screens/HomeScreen";
 import {ProfileScreen} from "./src/screens/ProfileScreen";
-import {LoginRegisterScreen} from "./src/screens/LoginRegisterScreen"
-import {Navigation} from "./src/components/Navigation/Navigation";
-import {Animated, StyleSheet, View} from "react-native";
 import {OptionsScreen} from "./src/screens/OptionsScreen";
-import {UserData} from "./src/commons/interfaces/interfaces";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import {Navigation} from "./src/components/Navigation/Navigation";
+import {AuthContext, UserData} from './src/commons/utils/AuthContext';
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+    const [user, setUser] = useState<UserData | null>(null);
+    // const {user} = useContext(AuthContext);
 
     // const tempCredentials = {
     //     email: "Konrad@gmail.com",
@@ -24,15 +26,15 @@ export default function App() {
     // };
     const [auth, setAuth] = useState<Boolean>(false)
     const [opacity, setOpacity] = useState(new Animated.Value(1));
-    const [user, setUser] = useState<UserData | null>(null);
-
+    // const [user, setUser] = useState<UserData | null>(null);
+    //
     const handleLogout = () => {
         setAuth(false);
     }
-
-
+    //
+    //
     const handleAuth = async (email: string, password: string) => {
-        const response = await fetch(`http://192.168.0.30:5000/users/getByEmail/kapibara@wp.pl`).then(response => response.json())
+        const response = await fetch(`http://192.168.0.30:5000/users/getByEmail/${email}`).then(response => response.json())
         console.log("handle auth")
         if (response.email === email && response.password === password) {
             try {
@@ -55,22 +57,22 @@ export default function App() {
 
         }
     };
-    const loadAuthData = async () => {
-        try {
-            const authString = await AsyncStorage.getItem('auth');
-            const authItem = authString ? JSON.parse(authString) : false;
-            setAuth(authItem)
-        } catch (error) {
-            setAuth(false)
-        }
-    };
-    useEffect(() => {
-
-        loadAuthData(); // Call the async function inside useEffect
-    }, []);
+    // const loadAuthData = async () => {
+    //     try {
+    //         const authString = await AsyncStorage.getItem('auth');
+    //         const authItem = authString ? JSON.parse(authString) : false;
+    //         setAuth(authItem)
+    //     } catch (error) {
+    //         setAuth(false)
+    //     }
+    // };
+    // useEffect(() => {
+    //
+    //     loadAuthData(); // Call the async function inside useEffect
+    // }, []);
 
     const renderContent = () => {
-        if (auth) {
+        if (user) {
             return (<>
                 <NavigationContainer>
                     <Stack.Navigator>
@@ -99,12 +101,16 @@ export default function App() {
         }
     }
     return (
-        <View style={styles.container}>
-            <Animated.View style={[styles.animationContainer, {opacity: opacity}]}>
-                {renderContent()}
-            </Animated.View>
-        </View>
+        <AuthContext.Provider value={{user, setUser}}>
+            <View style={styles.container}>
+                <Animated.View style={[styles.animationContainer, {opacity: opacity}]}>
+                    {renderContent()}
+                </Animated.View>
+            </View>
+        </AuthContext.Provider>
     );
+
+
 }
 
 const styles = StyleSheet.create({

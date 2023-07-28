@@ -44,7 +44,7 @@ export const LoginRegisterScreen = ({handleAuth}: authProps) => {
     const showScreenType = () => {
         switch (screenType) {
             case types.LOGIN:
-                return <LoginForm handleButtonPress={handleButtonPress} handleAuth={handleAuth}/>
+                return <LoginForm handleButtonPress={handleButtonPress}/>
             case types.REGISTER:
                 return <RegisterForm handleButtonPress={handleButtonPress}/>
             default:
