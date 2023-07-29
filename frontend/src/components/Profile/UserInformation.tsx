@@ -1,18 +1,19 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {Image, Platform, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View} from "react-native";
 import {AntDesign} from '@expo/vector-icons';
 import {UserData} from "../../commons/interfaces/interfaces";
+import {AuthContext} from "../../commons/utils/AuthContext";
 
 const UserInformation = () => {
     const platform = Platform.OS === 'ios' ? styles.userInfoIos : styles.userInfoAndroid
-    const [user, setUser] = useState<UserData | null>(null);
-    //
+    const {user} = useContext(AuthContext)
+    const [fetchedUser, setFetchedUser] = useState<UserData | null>(null)
+
     useEffect(() => {
-        // Fetch user data from the server
-        fetch('http://192.168.0.30:5000/users/get/kapibara')
+        fetch(`http://192.168.0.30:5000/users/getByEmail/${user?.email}`)
             .then(response => response.json())
             .then(userData => {
-                setUser(userData);
+                setFetchedUser(userData);
             })
             .catch(error => {
                 console.error('Error:', error);
@@ -27,15 +28,15 @@ const UserInformation = () => {
                 </View>
                 <View style={styles.mainInfo}>
                     <View style={styles.avatarContainer}>
-                        {user?.avatar && (
+                        {fetchedUser?.avatar && (
                             <Image
                                 style={styles.avatarImage}
-                                source={{uri: `data:image/jpeg;base64,${user.avatar}`}}
+                                source={{uri: `data:image/jpeg;base64,${fetchedUser.avatar}`}}
                             />
                         )}
                     </View>
                     <View style={styles.mainInfoContent}>
-                        <Text style={styles.mainInfoText}>{user?.username}</Text>
+                        <Text style={styles.mainInfoText}>{fetchedUser?.username}</Text>
                         <View style={styles.countryInfo}>
                             <Image style={styles.countryInfoImage} source={require('../../../assets/poland.png')}/>
                             <Text style={styles.countryInfoText}>POLAND</Text>

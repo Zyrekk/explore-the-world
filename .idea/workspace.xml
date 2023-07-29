@@ -10,6 +10,9 @@
       <change beforePath="$PROJECT_DIR$/frontend/src/commons/utils/AuthContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/commons/utils/AuthContext.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/LoginRegister/LoginForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/LoginRegister/LoginForm.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/Options/Options.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Options/Options.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Profile/UserInformation.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Profile/UserInformation.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/screens/LoginRegisterScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/screens/LoginRegisterScreen.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/screens/OptionsScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/screens/OptionsScreen.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,7 +53,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "auth-context",
+    "git-widget-placeholder": "auth-local-storage",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.standard": "true",
     "node.js.detected.package.tslint": "true",
@@ -115,7 +118,7 @@
       <workItem from="1690310825273" duration="9173000" />
       <workItem from="1690489573898" duration="4336000" />
       <workItem from="1690573052364" duration="9450000" />
-      <workItem from="1690628692167" duration="1615000" />
+      <workItem from="1690628692167" duration="3442000" />
     </task>
     <servers />
   </component>

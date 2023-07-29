@@ -4,9 +4,6 @@ import {Welcome} from "../components/LoginRegister/Welcome"
 import {LoginForm} from "../components/LoginRegister/LoginForm";
 import {RegisterForm} from "../components/LoginRegister/RegisterForm";
 
-interface authProps {
-    handleAuth: (email: string, password: string) => void;
-}
 
 interface UserData {
     username?: string;
@@ -19,7 +16,7 @@ interface UserData {
 }
 
 
-export const LoginRegisterScreen = ({handleAuth}: authProps) => {
+export const LoginRegisterScreen = () => {
     const types = {
         LOGIN: "Login",
         REGISTER: "Register",

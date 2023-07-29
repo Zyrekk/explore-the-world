@@ -28,18 +28,15 @@ export const LoginForm = ({handleButtonPress}: WelcomeProps) => {
 
     const signIn = () => {
         const usertest = {
-            // Define user data here, for example:
-            id: 'aaaa',
-            name: 'a',
-            email: 'a',
-            password: 'a',
-            token: 'a'
+            id: '1',
+            name: 'kapibara',
+            email: 'kapibara@wp.pl',
+            password: 'kapibara',
+            token: 'none'
         };
-        //
+
         setUserDataToStorage(usertest);
         setUser(usertest);
-        // const userFromContext = user
-        // console.log("userFromContext", userFromContext);
     };
 
     return (
