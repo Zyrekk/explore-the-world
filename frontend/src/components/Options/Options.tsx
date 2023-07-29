@@ -1,8 +1,8 @@
 import {Pressable, StyleSheet, Switch, Text, View} from "react-native";
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import {AntDesign, FontAwesome, Foundation, Ionicons} from '@expo/vector-icons';
 import {OptionTypes} from "../../commons/types/OptionTypes";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import {AuthContext, removeUserDataFromStorage} from "../../commons/utils/AuthContext";
 
 interface OptionsProps {
     handleLogout: () => void;
@@ -12,13 +12,20 @@ interface OptionsProps {
 
 export const Options = ({handleLogout, setScreenType}: OptionsProps) => {
     const [isEnabled, setIsEnabled] = useState(false);
+    const {user, setUser} = useContext(AuthContext)
     const logout = async () => {
-        try {
-            await AsyncStorage.setItem('auth', JSON.stringify(false));
-        } catch (err) {
-            alert(err)
-        }
+        // try {
+        //     await AsyncStorage.setItem('auth', JSON.stringify(false));
+        // } catch (err) {
+        //     alert(err)
+        // }
+
         handleLogout()
+    }
+
+    const out = () => {
+        removeUserDataFromStorage();
+        setUser(null);
     }
     const toggleSwitch = () => setIsEnabled(previousState => !previousState);
     return (
@@ -97,7 +104,7 @@ export const Options = ({handleLogout, setScreenType}: OptionsProps) => {
                     <View style={styles.actionTextContainer}>
                         <Text style={styles.actionText}>Log out</Text>
                     </View>
-                    <Pressable style={styles.eventButton} onPress={logout}>
+                    <Pressable style={styles.eventButton} onPress={out}>
                         <View style={styles.eventButtonFlex}>
                             <Ionicons name="log-out-outline" size={22} color="#C0C0C0FF"/>
                             <Text style={styles.eventButtonText}>Log out</Text>

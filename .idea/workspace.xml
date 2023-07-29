@@ -7,8 +7,9 @@
     <list default="true" id="66e926f2-db0d-4144-b38e-eead7c62e692" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/commons/utils/AuthContext.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/commons/utils/AuthContext.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/LoginRegister/LoginForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/LoginRegister/LoginForm.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/screens/LoginRegisterScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/screens/LoginRegisterScreen.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Options/Options.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Options/Options.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,7 +50,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "auth-context",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.standard": "true",
     "node.js.detected.package.tslint": "true",
@@ -114,6 +115,7 @@
       <workItem from="1690310825273" duration="9173000" />
       <workItem from="1690489573898" duration="4336000" />
       <workItem from="1690573052364" duration="9450000" />
+      <workItem from="1690628692167" duration="1615000" />
     </task>
     <servers />
   </component>
