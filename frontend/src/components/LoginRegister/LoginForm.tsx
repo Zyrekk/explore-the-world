@@ -13,7 +13,7 @@ import {SocialIcon} from 'react-native-elements'
 import React, {useContext, useState} from "react";
 import {AntDesign, Ionicons} from '@expo/vector-icons';
 import {AuthTypes} from "../../commons/types/AuthTypes";
-import {AuthContext} from "../../commons/utils/AuthContext";
+import {AuthContext, setUserDataToStorage} from "../../commons/utils/AuthContext";
 
 type WelcomeProps = {
     handleButtonPress: (type: string) => void;
@@ -28,17 +28,15 @@ export const LoginForm = ({handleButtonPress}: WelcomeProps) => {
 
     const signIn = () => {
         const usertest = {
-            // Define user data here, for example:
-            id: 'aaaa',
-            name: 'a',
-            email: 'a',
-            password: 'a',
-            token: 'a'
+            id: '1',
+            name: 'kapibara',
+            email: 'kapibara@wp.pl',
+            password: 'kapibara',
+            token: 'none'
         };
 
-        // Set the user using setUser
+        setUserDataToStorage(usertest);
         setUser(usertest);
-        console.log(user);
     };
 
     return (
