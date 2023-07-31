@@ -1,23 +1,48 @@
-import React, {useContext, useEffect, useState} from "react";
-import {Image, Platform, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View} from "react-native";
-import {AntDesign} from '@expo/vector-icons';
-import {UserData} from "../../commons/interfaces/interfaces";
-import {AuthContext} from "../../commons/utils/AuthContext";
+import React, { useContext, useEffect, useState } from "react";
+import {
+    Image,
+    Platform,
+    Pressable,
+    SafeAreaView,
+    ScrollView,
+    StyleSheet,
+    Text,
+    View,
+} from "react-native";
+import { AntDesign } from "@expo/vector-icons";
+import { UserData } from "../../commons/interfaces/interfaces";
+import {
+    AuthContext,
+    getUserDataFromStorage,
+} from "../../commons/utils/AuthContext";
 
 const UserInformation = () => {
-    const platform = Platform.OS === 'ios' ? styles.userInfoIos : styles.userInfoAndroid
-    const {user} = useContext(AuthContext)
-    const [fetchedUser, setFetchedUser] = useState<UserData | null>(null)
+    const platform =
+        Platform.OS === "ios" ? styles.userInfoIos : styles.userInfoAndroid;
+    const { user } = useContext(AuthContext);
+    const [fetchedUser, setFetchedUser] = useState<UserData | null>(null);
 
     useEffect(() => {
-        fetch(`http://192.168.0.30:5000/users/getByEmail/${user?.email}`)
-            .then(response => response.json())
-            .then(userData => {
-                setFetchedUser(userData);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+        const getUserData = async () => {
+            try {
+                // Check if user data is available in local storage
+                const userData = await getUserDataFromStorage();
+                if (userData) {
+                    setFetchedUser(userData);
+                } else {
+                    // If user data is not in local storage, fetch it from the database
+                    const response = await fetch(
+                        `http://192.168.0.30:5000/users/getByEmail/${user?.email}`
+                    );
+                    const userDataFromAPI = await response.json();
+                    setFetchedUser(userDataFromAPI);
+                }
+            } catch (error) {
+                console.error("Error:", error);
+            }
+        };
+
+        getUserData();
     }, []);
 
     return (
@@ -31,14 +56,21 @@ const UserInformation = () => {
                         {fetchedUser?.avatar && (
                             <Image
                                 style={styles.avatarImage}
-                                source={{uri: `data:image/jpeg;base64,${fetchedUser.avatar}`}}
+                                source={{
+                                    uri: `data:image/jpeg;base64,${fetchedUser.avatar}`,
+                                }}
                             />
                         )}
                     </View>
                     <View style={styles.mainInfoContent}>
-                        <Text style={styles.mainInfoText}>{fetchedUser?.username}</Text>
+                        <Text style={styles.mainInfoText}>
+                            {fetchedUser?.username}
+                        </Text>
                         <View style={styles.countryInfo}>
-                            <Image style={styles.countryInfoImage} source={require('../../../assets/poland.png')}/>
+                            <Image
+                                style={styles.countryInfoImage}
+                                source={require("../../../assets/poland.png")}
+                            />
                             <Text style={styles.countryInfoText}>POLAND</Text>
                         </View>
                     </View>
@@ -46,45 +78,67 @@ const UserInformation = () => {
                 <View style={styles.eventContainer}>
                     <Pressable style={styles.eventButton}>
                         <View style={styles.eventButtonFlex}>
-                            <Text style={styles.eventButtonText}>🌏 Your trips</Text>
+                            <Text style={styles.eventButtonText}>
+                                🌏 Your trips
+                            </Text>
                         </View>
-                        <AntDesign name="right" size={18} color="white"/>
+                        <AntDesign name="right" size={18} color="white" />
                     </Pressable>
                     <Pressable style={styles.eventButton}>
                         <View style={styles.eventButtonFlex}>
-                            <Text style={styles.eventButtonText}>🏆 Achievements</Text>
+                            <Text style={styles.eventButtonText}>
+                                🏆 Achievements
+                            </Text>
                         </View>
-                        <AntDesign name="right" size={18} color="white"/>
+                        <AntDesign name="right" size={18} color="white" />
                     </Pressable>
                     <Pressable style={styles.eventButton}>
                         <View style={styles.eventButtonFlex}>
-                            <Text style={styles.eventButtonText}>️️✈️ Flight tickets</Text>
+                            <Text style={styles.eventButtonText}>
+                                ️️✈️ Flight tickets
+                            </Text>
                         </View>
-                        <AntDesign name="right" size={18} color="white"/>
+                        <AntDesign name="right" size={18} color="white" />
                     </Pressable>
                     <Pressable style={styles.eventButton}>
                         <View style={styles.eventButtonFlex}>
-                            <Text style={styles.eventButtonText}>️🧑 Friends</Text>
+                            <Text style={styles.eventButtonText}>
+                                ️🧑 Friends
+                            </Text>
                         </View>
-                        <AntDesign name="right" size={18} color="white"/>
+                        <AntDesign name="right" size={18} color="white" />
                     </Pressable>
                     <Pressable style={styles.latestJourneyEvent}>
                         <View style={styles.latestJourneyEventContent}>
-                            <Image style={styles.latestJourneyEventImage}
-                                   source={require('../../../assets/Mexico-City.jpg')}/>
-                            <Text style={styles.titleText}>Your journey will start in</Text>
-                            <Text style={styles.timeText}>10 days, 18 hours, 32 minutes</Text>
+                            <Image
+                                style={styles.latestJourneyEventImage}
+                                source={require("../../../assets/Mexico-City.jpg")}
+                            />
+                            <Text style={styles.titleText}>
+                                Your journey will start in
+                            </Text>
+                            <Text style={styles.timeText}>
+                                10 days, 18 hours, 32 minutes
+                            </Text>
                             <View style={styles.semiEllipse}></View>
                             <View style={styles.latestJourneyCountries}>
                                 <View style={styles.singleCountry}>
-                                    <Text style={styles.singleCountryText}>Warsaw Chopin Airport</Text>
-                                    <Image style={styles.singleCountryImage}
-                                           source={require('../../../assets/poland.png')}/>
+                                    <Text style={styles.singleCountryText}>
+                                        Warsaw Chopin Airport
+                                    </Text>
+                                    <Image
+                                        style={styles.singleCountryImage}
+                                        source={require("../../../assets/poland.png")}
+                                    />
                                 </View>
                                 <View style={styles.singleCountry}>
-                                    <Text style={styles.singleCountryText}>Mexico City International Airport</Text>
-                                    <Image style={styles.singleCountryImage}
-                                           source={require('../../../assets/mexico.png')}/>
+                                    <Text style={styles.singleCountryText}>
+                                        Mexico City International Airport
+                                    </Text>
+                                    <Image
+                                        style={styles.singleCountryImage}
+                                        source={require("../../../assets/mexico.png")}
+                                    />
                                 </View>
                             </View>
                         </View>
@@ -98,14 +152,14 @@ const UserInformation = () => {
 const styles = StyleSheet.create({
     scroll: {
         width: "100%",
-        backgroundColor: "#030712"
+        backgroundColor: "#030712",
     },
     userInfoIos: {
         display: "flex",
         alignItems: "center",
         backgroundColor: "#030712",
         width: "100%",
-        minHeight: "100%"
+        minHeight: "100%",
     },
     userInfoAndroid: {
         display: "flex",
@@ -113,7 +167,7 @@ const styles = StyleSheet.create({
         backgroundColor: "#030712",
         width: "100%",
         paddingTop: 50,
-        minHeight: "100%"
+        minHeight: "100%",
     },
     titleContainer: {
         display: "flex",
@@ -125,10 +179,10 @@ const styles = StyleSheet.create({
     title: {
         paddingTop: 20,
         color: "#8ca5ff",
-        fontSize: 32
+        fontSize: 32,
     },
     mainInfoContent: {
-        width: "50%"
+        width: "50%",
     },
     semiEllipse: {
         position: "absolute",
@@ -140,10 +194,7 @@ const styles = StyleSheet.create({
         borderTopColor: "white",
 
         borderRadius: 10000,
-        transform: [
-            {scaleX: 1.9,},
-            {scaleY: 1.6,}
-        ],
+        transform: [{ scaleX: 1.9 }, { scaleY: 1.6 }],
     },
     mainInfo: {
         display: "flex",
@@ -172,23 +223,23 @@ const styles = StyleSheet.create({
     mainInfoText: {
         color: "#F6F8E2",
         paddingTop: 15,
-        fontSize: 22
+        fontSize: 22,
     },
     countryInfo: {
         paddingTop: 15,
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
-        gap: 10
+        gap: 10,
     },
     countryInfoImage: {
         borderRadius: 5,
         width: 25,
-        aspectRatio: "8/5"
+        aspectRatio: "8/5",
     },
     countryInfoText: {
         fontSize: 14,
-        color: "#F6F8E2"
+        color: "#F6F8E2",
     },
     eventContainer: {
         marginTop: 35,
@@ -204,18 +255,18 @@ const styles = StyleSheet.create({
         display: "flex",
         flexDirection: "row",
         alignItems: "center",
-        justifyContent: "space-between"
+        justifyContent: "space-between",
     },
     eventButtonFlex: {
         display: "flex",
         flexDirection: "row",
         justifyContent: "center",
         alignItems: "center",
-        gap: 10
+        gap: 10,
     },
     eventButtonText: {
         color: "white",
-        fontSize: 18
+        fontSize: 18,
     },
     latestJourneyEvent: {
         marginTop: 25,
@@ -228,31 +279,30 @@ const styles = StyleSheet.create({
         alignItems: "center",
         position: "relative",
         width: "100%",
-        height: 140
+        height: 140,
     },
     latestJourneyEventImage: {
         borderRadius: 10,
         position: "absolute",
         width: "100%",
         height: "100%",
-        opacity: 0.6
+        opacity: 0.6,
     },
     titleText: {
         color: "#F6F8E2",
         paddingTop: 10,
-        fontSize: 16
+        fontSize: 16,
     },
     timeText: {
         color: "#F6F8E2",
         paddingTop: 8,
-        fontSize: 18
+        fontSize: 18,
     },
     singleCountry: {
         display: "flex",
         flexDirection: "column",
         gap: 5,
-        alignItems: "center"
-
+        alignItems: "center",
     },
     latestJourneyCountries: {
         paddingHorizontal: 5,
@@ -262,7 +312,7 @@ const styles = StyleSheet.create({
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-between",
-        alignItems: "center"
+        alignItems: "center",
     },
     singleCountryText: {
         color: "#F6F8E2",
@@ -271,10 +321,8 @@ const styles = StyleSheet.create({
     singleCountryImage: {
         borderRadius: 5,
         width: 25,
-        height: 15
-    }
-
-
+        height: 15,
+    },
 });
 
-export {UserInformation};
+export { UserInformation };
