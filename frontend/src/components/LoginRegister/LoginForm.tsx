@@ -33,19 +33,6 @@ export const LoginForm = ({ handleButtonPress }: WelcomeProps) => {
     const { user, setUser } = useContext(AuthContext);
     const [tempUser, setTempUser] = useState<any>(null);
 
-    // const logIn = async () => {
-    //     const body = fetch(`http://192.168.0.30:5000/users/getByEmail/${email}`)
-    //         .then((response) => response.json())
-    //         .then((userData) => {
-    //             setTempUser(userData);
-    //         })
-    //         .catch((error) => {
-    //             console.error("Error:", error);
-    //         });
-    //         setUserDataToStorage(usertest);
-    //         setUser(usertest);
-    // };
-
     const signIn = async () => {
         const body = await fetch(
             `http://192.168.0.30:5000/users/getByEmail/${email}`
