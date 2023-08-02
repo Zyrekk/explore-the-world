@@ -1,6 +1,8 @@
-import {Pressable, Text, View, StyleSheet,Platform,} from "react-native";
+import {Platform, Pressable, StyleSheet, Text, View,} from "react-native";
 import {AntDesign} from "@expo/vector-icons";
-import React from "react";
+import React, {useEffect, useState} from "react";
+import {UserData} from "../../commons/interfaces/interfaces";
+import {getUserDataFromStorage} from "../../commons/utils/AuthContext";
 
 interface EditProfileProps {
     handleBack: () => void;
@@ -9,20 +11,34 @@ interface EditProfileProps {
 
 export const EditProfile = ({handleBack}: EditProfileProps) => {
     const platform = Platform.OS === 'ios' ? styles.backButtonIos : styles.backButtonAndroid
+    const [fetchedUser, setFetchedUser] = useState<UserData | null>(null);
+
+    useEffect(() => {
+        const getUserData = async () => {
+            try {
+                // Check if user data is available in local storage
+                const userData = await getUserDataFromStorage();
+                setFetchedUser(userData);
+            } catch (error) {
+                console.error("Error:", error);
+            }
+        };
+        getUserData();
+    }, []);
 
     return (
-            <>
-                <Pressable style={platform} onPress={handleBack}>
-                    <AntDesign name="left" style={[styles.innerFont, {fontSize: 20}]}/>
-                    <Text style={[styles.innerFont, {fontSize: 20}]}>Back</Text>
-                </Pressable>
-                <View style={styles.titleContainer}>
-                    <Text style={styles.title}>Edit profile</Text>
-                </View>
-                <View style={styles.editSection}>
+        <>
+            <Pressable style={platform} onPress={handleBack}>
+                <AntDesign name="left" style={[styles.innerFont, {fontSize: 20}]}/>
+                <Text style={[styles.innerFont, {fontSize: 20}]}>Back</Text>
+            </Pressable>
+            <View style={styles.titleContainer}>
+                <Text style={styles.title}>Edit profile</Text>
+            </View>
+            <View style={styles.editSection}>
 
-                </View>
-            </>
+            </View>
+        </>
     )
 }
 
