@@ -9,53 +9,45 @@ import {
     TouchableOpacity,
     View,
 } from "react-native";
-import { SocialIcon } from "react-native-elements";
-import React, { useContext, useState } from "react";
-import { AntDesign, Ionicons } from "@expo/vector-icons";
-import { AuthTypes } from "../../commons/types/AuthTypes";
-import {
-    AuthContext,
-    getUserDataFromStorage,
-    setUserDataToStorage,
-} from "../../commons/utils/AuthContext";
-import axios from "axios";
+import {SocialIcon} from "react-native-elements";
+import React, {useContext, useState} from "react";
+import {AntDesign, Ionicons} from "@expo/vector-icons";
+import {AuthTypes} from "../../commons/types/AuthTypes";
+import {AuthContext, setUserDataToStorage,} from "../../commons/utils/AuthContext";
+import {showAlert} from "../../commons/utils/Alert";
 
 type WelcomeProps = {
     handleButtonPress: (type: string) => void;
 };
 
-export const LoginForm = ({ handleButtonPress }: WelcomeProps) => {
+export const LoginForm = ({handleButtonPress}: WelcomeProps) => {
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const platform =
         Platform.OS === "ios" ? styles.backButtonIos : styles.backButtonAndroid;
     const offset = Platform.OS === "ios" ? -100 : -300;
-    const { user, setUser } = useContext(AuthContext);
+    const {user, setUser} = useContext(AuthContext);
     const [tempUser, setTempUser] = useState<any>(null);
 
     const signIn = async () => {
-        const body = await fetch(
+        const response = await fetch(
             `http://192.168.0.30:5000/users/getByEmail/${email}`
-        )
-            .then((response) => response.json())
-            .then((userData) => {
-                setUserDataToStorage(userData);
-                setUser(userData);
-            })
-            .catch((error) => {
-                console.error("Error:", error);
-            });
-        // console.log(body);
-        // const usertest = {
-        //     id: "1",
-        //     username: "kapibara",
-        //     email: "kapibara@wp.pl",
-        //     password: "kapibara",
-        //     avatar: "sss",
-        // };
+        );
+        console.log(response.status)
 
-        // setUserDataToStorage(usertest);
-        // setUser(usertest);
+        if (response.status === 404) {
+            // Handle the case when the user is not found (status 404)
+
+            showAlert("Wrong email or password", "Please try again");
+        } else if (response.ok) {
+            // If the response is successful, proceed to set user data
+            const userData = await response.json();
+            setUserDataToStorage(userData);
+            setUser(userData);
+        } else {
+            // Handle other errors
+            console.error("Error:", response.statusText);
+        }
     };
 
     return (
@@ -73,9 +65,9 @@ export const LoginForm = ({ handleButtonPress }: WelcomeProps) => {
                 >
                     <AntDesign
                         name="left"
-                        style={[styles.innerFont, { fontSize: 20 }]}
+                        style={[styles.innerFont, {fontSize: 20}]}
                     />
-                    <Text style={[styles.innerFont, { fontSize: 20 }]}>
+                    <Text style={[styles.innerFont, {fontSize: 20}]}>
                         Back
                     </Text>
                 </Pressable>
@@ -98,13 +90,13 @@ export const LoginForm = ({ handleButtonPress }: WelcomeProps) => {
                         />
                     </View>
                     <View style={styles.divider}>
-                        <View style={styles.dividerLine} />
+                        <View style={styles.dividerLine}/>
                         <Text style={styles.dividerText}>OR</Text>
-                        <View style={styles.dividerLine} />
+                        <View style={styles.dividerLine}/>
                     </View>
                     <View style={styles.inputListContainer}>
                         <View style={styles.inputContainer}>
-                            <AntDesign name="mail" style={styles.innerFont} />
+                            <AntDesign name="mail" style={styles.innerFont}/>
                             <TextInput
                                 style={[styles.input, styles.innerFont]}
                                 onChangeText={setEmail}
