@@ -1,7 +1,6 @@
 import {
     KeyboardAvoidingView,
     Platform,
-    Pressable,
     ScrollView,
     StyleSheet,
     Text,
@@ -57,7 +56,7 @@ export const LoginForm = ({handleButtonPress}: WelcomeProps) => {
             keyboardVerticalOffset={offset}
         >
             <ScrollView contentContainerStyle={styles.scrollContainer}>
-                <Pressable
+                <TouchableOpacity
                     style={platform}
                     onPress={() => {
                         handleButtonPress(AuthTypes.WELCOME);
@@ -70,7 +69,7 @@ export const LoginForm = ({handleButtonPress}: WelcomeProps) => {
                     <Text style={[styles.innerFont, {fontSize: 20}]}>
                         Back
                     </Text>
-                </Pressable>
+                </TouchableOpacity>
                 <View style={styles.container}>
                     <Text style={styles.text}>Sign in</Text>
                     <View style={styles.loginOptions}>
@@ -124,9 +123,9 @@ export const LoginForm = ({handleButtonPress}: WelcomeProps) => {
                             />
                         </View>
                     </View>
-                    <Pressable style={styles.loginButton} onPress={signIn}>
+                    <TouchableOpacity style={styles.loginButton} onPress={signIn}>
                         <Text style={styles.buttonText}>Log in</Text>
-                    </Pressable>
+                    </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.signUpButton}
                         onPress={() => {

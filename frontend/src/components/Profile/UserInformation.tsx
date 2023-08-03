@@ -1,25 +1,13 @@
-import React, { useContext, useEffect, useState } from "react";
-import {
-    Image,
-    Platform,
-    Pressable,
-    SafeAreaView,
-    ScrollView,
-    StyleSheet,
-    Text,
-    View,
-} from "react-native";
-import { AntDesign } from "@expo/vector-icons";
-import { UserData } from "../../commons/interfaces/interfaces";
-import {
-    AuthContext,
-    getUserDataFromStorage,
-} from "../../commons/utils/AuthContext";
+import React, {useContext, useEffect, useState} from "react";
+import {Image, Platform, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View,} from "react-native";
+import {AntDesign} from "@expo/vector-icons";
+import {UserData} from "../../commons/interfaces/interfaces";
+import {AuthContext, getUserDataFromStorage,} from "../../commons/utils/AuthContext";
 
 const UserInformation = () => {
     const platform =
         Platform.OS === "ios" ? styles.userInfoIos : styles.userInfoAndroid;
-    const { user } = useContext(AuthContext);
+    const {user} = useContext(AuthContext);
     const [fetchedUser, setFetchedUser] = useState<UserData | null>(null);
 
     useEffect(() => {
@@ -29,14 +17,15 @@ const UserInformation = () => {
                 const userData = await getUserDataFromStorage();
                 if (userData) {
                     setFetchedUser(userData);
-                } else {
-                    // If user data is not in local storage, fetch it from the database
-                    const response = await fetch(
-                        `http://192.168.0.30:5000/users/getByEmail/${user?.email}`
-                    );
-                    const userDataFromAPI = await response.json();
-                    setFetchedUser(userDataFromAPI);
                 }
+                // else {
+                // If user data is not in local storage, fetch it from the database
+                //     const response = await fetch(
+                //         `http://192.168.0.30:5000/users/getByEmail/${user?.email}`
+                //     );
+                //     const userDataFromAPI = await response.json();
+                //     setFetchedUser(userDataFromAPI);
+                // }
             } catch (error) {
                 console.error("Error:", error);
             }
@@ -82,7 +71,7 @@ const UserInformation = () => {
                                 🌏 Your trips
                             </Text>
                         </View>
-                        <AntDesign name="right" size={18} color="white" />
+                        <AntDesign name="right" size={18} color="white"/>
                     </Pressable>
                     <Pressable style={styles.eventButton}>
                         <View style={styles.eventButtonFlex}>
@@ -90,7 +79,7 @@ const UserInformation = () => {
                                 🏆 Achievements
                             </Text>
                         </View>
-                        <AntDesign name="right" size={18} color="white" />
+                        <AntDesign name="right" size={18} color="white"/>
                     </Pressable>
                     <Pressable style={styles.eventButton}>
                         <View style={styles.eventButtonFlex}>
@@ -98,7 +87,7 @@ const UserInformation = () => {
                                 ️️✈️ Flight tickets
                             </Text>
                         </View>
-                        <AntDesign name="right" size={18} color="white" />
+                        <AntDesign name="right" size={18} color="white"/>
                     </Pressable>
                     <Pressable style={styles.eventButton}>
                         <View style={styles.eventButtonFlex}>
@@ -106,7 +95,7 @@ const UserInformation = () => {
                                 ️🧑 Friends
                             </Text>
                         </View>
-                        <AntDesign name="right" size={18} color="white" />
+                        <AntDesign name="right" size={18} color="white"/>
                     </Pressable>
                     <Pressable style={styles.latestJourneyEvent}>
                         <View style={styles.latestJourneyEventContent}>
@@ -194,7 +183,7 @@ const styles = StyleSheet.create({
         borderTopColor: "white",
 
         borderRadius: 10000,
-        transform: [{ scaleX: 1.9 }, { scaleY: 1.6 }],
+        transform: [{scaleX: 1.9}, {scaleY: 1.6}],
     },
     mainInfo: {
         display: "flex",
@@ -325,4 +314,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export { UserInformation };
+export {UserInformation};

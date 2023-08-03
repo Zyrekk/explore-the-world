@@ -1,4 +1,4 @@
-import {Platform, SafeAreaView, ScrollView, StyleSheet, Text, View} from "react-native";
+import {Animated, Platform, SafeAreaView, StyleSheet, Text, View} from "react-native";
 import {Options} from "../components/Options/Options";
 import {EditProfile} from "../components/Options/EditProfile";
 import {OptionTypes} from "../commons/types/OptionTypes";
@@ -6,17 +6,32 @@ import React, {useState} from "react";
 
 
 export const OptionsScreen = () => {
+    const [opacity, setOpacity] = useState(new Animated.Value(1));
     const platform = Platform.OS === 'ios' ? styles.settingsIos : styles.settingsAndroid
     const [screenType, setScreenType] = useState<string>(OptionTypes.OPTIONS)
     const handleBack = () => {
         setScreenType(OptionTypes.OPTIONS)
     }
+    const handleButtonPress = (type: string) => {
+        Animated.timing(opacity, {
+            toValue: 0,
+            duration: 200,
+            useNativeDriver: true,
+        }).start(() => {
+            setScreenType(type);
+            Animated.timing(opacity, {
+                toValue: 1,
+                duration: 200,
+                useNativeDriver: true,
+            }).start();
+        });
+    };
     const showScreenType = () => {
         switch (screenType) {
             case OptionTypes.OPTIONS:
-                return <Options setScreenType={setScreenType}/>
+                return <Options handleButtonPress={handleButtonPress}/>
             case OptionTypes.EDIT:
-                return <EditProfile handleBack={handleBack}/>
+                return <EditProfile handleButtonPress={handleButtonPress}/>
             case OptionTypes.PASSWORD:
                 return <Text>EDIT</Text>
             case OptionTypes.NOTICES:
@@ -24,16 +39,15 @@ export const OptionsScreen = () => {
             case OptionTypes.LANGUAGE:
                 return <Text>EDIT</Text>
             default:
-                return <Options setScreenType={setScreenType}/>
+                return <Options handleButtonPress={handleButtonPress}/>
         }
-
     }
     return (
         <View style={styles.container}>
             <SafeAreaView style={platform}>
-                <ScrollView style={styles.scroll} contentContainerStyle={{flexGrow: 1}}>
+                <Animated.ScrollView style={[styles.scroll, {opacity: opacity}]} contentContainerStyle={{flexGrow: 1}}>
                     {showScreenType()}
-                </ScrollView>
+                </Animated.ScrollView>
             </SafeAreaView>
         </View>
     )

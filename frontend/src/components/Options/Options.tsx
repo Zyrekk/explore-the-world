@@ -1,15 +1,15 @@
-import {Pressable, StyleSheet, Switch, Text, View} from "react-native";
+import {StyleSheet, Switch, Text, TouchableOpacity, View} from "react-native";
 import React, {useContext, useState} from "react";
 import {AntDesign, FontAwesome, Foundation, Ionicons} from '@expo/vector-icons';
 import {OptionTypes} from "../../commons/types/OptionTypes";
 import {AuthContext, removeUserDataFromStorage} from "../../commons/utils/AuthContext";
 
 interface OptionsProps {
-    setScreenType: (value: string) => void;
+    handleButtonPress: (value: string) => void;
 }
 
 
-export const Options = ({setScreenType}: OptionsProps) => {
+export const Options = ({handleButtonPress}: OptionsProps) => {
     const [isEnabled, setIsEnabled] = useState(false);
     const {user, setUser} = useContext(AuthContext)
 
@@ -29,22 +29,22 @@ export const Options = ({setScreenType}: OptionsProps) => {
                         <Text style={styles.actionText}>Account</Text>
                     </View>
                     <View style={styles.options}>
-                        <Pressable style={styles.eventButton} onPress={() => {
-                            setScreenType(OptionTypes.EDIT)
+                        <TouchableOpacity style={styles.eventButton} onPress={() => {
+                            handleButtonPress(OptionTypes.EDIT)
                         }}>
                             <View style={styles.eventButtonFlex}>
                                 <AntDesign name="user" size={22} color="#C0C0C0FF"/>
                                 <Text style={styles.eventButtonText}>Edit profile</Text>
                             </View>
                             <AntDesign name="right" size={18} color="white"/>
-                        </Pressable>
-                        <Pressable style={styles.eventButton}>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.eventButton}>
                             <View style={styles.eventButtonFlex}>
                                 <Foundation name="key" size={22} color="#C0C0C0FF"/>
                                 <Text style={styles.eventButtonText}>Change password</Text>
                             </View>
                             <AntDesign name="right" size={18} color="white"/>
-                        </Pressable>
+                        </TouchableOpacity>
                     </View>
                 </View>
                 <View style={styles.actions}>
@@ -52,21 +52,21 @@ export const Options = ({setScreenType}: OptionsProps) => {
                         <Text style={styles.actionText}>Settings</Text>
                     </View>
                     <View style={styles.options}>
-                        <Pressable style={styles.eventButton}>
+                        <TouchableOpacity style={styles.eventButton}>
                             <View style={styles.eventButtonFlex}>
                                 <FontAwesome name="paper-plane-o" size={18} color="#C0C0C0FF"
                                              style={{paddingRight: 2}}/>
                                 <Text style={styles.eventButtonText}>Notices</Text>
                             </View>
                             <AntDesign name="right" size={18} color="white"/>
-                        </Pressable>
-                        <Pressable style={styles.eventButton}>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.eventButton}>
                             <View style={styles.eventButtonFlex}>
                                 <Ionicons name="language" size={22} color="#C0C0C0FF"/>
                                 <Text style={styles.eventButtonText}>Language</Text>
                             </View>
                             <AntDesign name="right" size={18} color="white"/>
-                        </Pressable>
+                        </TouchableOpacity>
                     </View>
                 </View>
                 <View style={styles.actions}>
@@ -94,13 +94,13 @@ export const Options = ({setScreenType}: OptionsProps) => {
                     <View style={styles.actionTextContainer}>
                         <Text style={styles.actionText}>Log out</Text>
                     </View>
-                    <Pressable style={styles.eventButton} onPress={logout}>
+                    <TouchableOpacity style={styles.eventButton} onPress={logout}>
                         <View style={styles.eventButtonFlex}>
                             <Ionicons name="log-out-outline" size={22} color="#C0C0C0FF"/>
                             <Text style={styles.eventButtonText}>Log out</Text>
                         </View>
                         <AntDesign name="right" size={18} color="white"/>
-                    </Pressable>
+                    </TouchableOpacity>
                 </View>
             </View>
         </>

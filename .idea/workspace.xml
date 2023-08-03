@@ -8,6 +8,9 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/LoginRegister/LoginForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/LoginRegister/LoginForm.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/Options/EditProfile.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Options/EditProfile.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Options/Options.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Options/Options.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Profile/UserInformation.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Profile/UserInformation.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/screens/OptionsScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/screens/OptionsScreen.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,7 +51,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;auth-local-storage&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -115,6 +118,7 @@
       <workItem from="1690573052364" duration="9450000" />
       <workItem from="1690628692167" duration="3508000" />
       <workItem from="1691005279154" duration="2640000" />
+      <workItem from="1691089825913" duration="6477000" />
     </task>
     <servers />
   </component>
