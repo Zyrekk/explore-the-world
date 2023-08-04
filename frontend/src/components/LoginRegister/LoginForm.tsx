@@ -29,23 +29,23 @@ export const LoginForm = ({handleButtonPress}: WelcomeProps) => {
     const [tempUser, setTempUser] = useState<any>(null);
 
     const signIn = async () => {
-        const response = await fetch(
-            `http://192.168.0.30:5000/users/getByEmail/${email}`
-        );
-        console.log(response.status)
+        try {
+            const response = await fetch(
+                `http://192.168.0.30:5000/users/getByEmail/${email}`
+            );
 
-        if (response.status === 404) {
-            // Handle the case when the user is not found (status 404)
-
-            showAlert("Wrong email or password", "Please try again");
-        } else if (response.ok) {
-            // If the response is successful, proceed to set user data
-            const userData = await response.json();
-            setUserDataToStorage(userData);
-            setUser(userData);
-        } else {
-            // Handle other errors
-            console.error("Error:", response.statusText);
+            if (response.status === 404) {
+                showAlert("Wrong email or password", "Please try again");
+            } else if (response.ok) {
+                const userData = await response.json();
+                setUserDataToStorage(userData);
+                setUser(userData);
+            } else {
+                showAlert("Server connection error", "Please try again later");
+            }
+        } catch (error) {
+            // Handle network error
+            showAlert("Server connection error", "Please try again later");
         }
     };
 

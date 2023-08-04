@@ -1,4 +1,15 @@
-import {Image, Platform, Pressable, StyleSheet, Text, TextInput, TouchableOpacity, View,} from "react-native";
+import {
+    Image,
+    KeyboardAvoidingView,
+    Platform,
+    Pressable,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View
+} from "react-native";
 import {AntDesign, Ionicons} from "@expo/vector-icons";
 import React, {useEffect, useState} from "react";
 import {UserData} from "../../commons/interfaces/interfaces";
@@ -15,6 +26,11 @@ export const EditProfile = ({handleButtonPress}: EditProfileProps) => {
     const [fetchedUser, setFetchedUser] = useState<UserData | null>(null);
     const [email, setEmail] = useState<string>("");
     const [emailEdit, setEmailEdit] = useState<boolean>(false);
+    const [name, setName] = useState<string>("")
+    const [nameEdit, setNameEdit] = useState<boolean>(false)
+    const [lastName, setLastName] = useState<string>("")
+    const [lastNameEdit, setLastNameEdit] = useState<boolean>(false)
+    const offset = Platform.OS === "ios" ? -100 : -300;
     useEffect(() => {
         const getUserData = async () => {
             try {
@@ -23,6 +39,8 @@ export const EditProfile = ({handleButtonPress}: EditProfileProps) => {
                 if (userData) {
                     setFetchedUser(userData);
                     setEmail(userData?.email)
+                    setName(userData?.name)
+                    setLastName(userData?.lastName)
                 }
             } catch (error) {
                 console.error("Error:", error);
@@ -32,62 +50,122 @@ export const EditProfile = ({handleButtonPress}: EditProfileProps) => {
     }, []);
 
     return (
-        <>
-            <Pressable style={platform} onPress={() => {
-                handleButtonPress(OptionTypes.OPTIONS)
-            }}>
-                <AntDesign name="left" style={[styles.innerFont, {fontSize: 20}]}/>
-                <Text style={[styles.innerFont, {fontSize: 20}]}>Back</Text>
-            </Pressable>
-            <View style={styles.titleContainer}>
-                <Text style={styles.title}>Edit profile</Text>
-            </View>
-            <View style={styles.editSection}>
-                <View style={styles.avatarContainer}>
-                    {fetchedUser?.avatar && (
-                        <Image
-                            style={styles.avatarImage}
-                            source={{
-                                uri: `data:image/jpeg;base64,${fetchedUser.avatar}`,
-                            }}
-                        />
-                    )}
-                    <TouchableOpacity style={styles.avatarEditLayout}>
-                        <Ionicons name="pencil" size={28} color={"white"}/>
-                        <Text style={styles.avatarEditText}>Edit avatar</Text>
-                    </TouchableOpacity>
+        <KeyboardAvoidingView
+            style={styles.keyboardContainer}
+            behavior="position"
+            keyboardVerticalOffset={offset}
+        >
+            <ScrollView contentContainerStyle={styles.scrollContainer}>
+                <Pressable style={platform} onPress={() => {
+                    handleButtonPress(OptionTypes.OPTIONS)
+                }}>
+                    <AntDesign name="left" style={[styles.innerFont, {fontSize: 20}]}/>
+                    <Text style={[styles.innerFont, {fontSize: 20}]}>Back</Text>
+                </Pressable>
+                <View style={styles.titleContainer}>
+                    <Text style={styles.title}>Edit profile</Text>
                 </View>
-                <View style={styles.dataEditionContent}>
-                    <View style={styles.singleValueEdit}>
-                        <Text style={styles.singleValueEditText}>E-mail</Text>
-                        <View style={[styles.inputContainer, !emailEdit ? styles.inputContainerDisabled : null]}>
-                            <AntDesign name="user" style={styles.innerFont}/>
-                            <TextInput
-                                style={[styles.input, styles.innerFont]}
-                                onChangeText={setEmail}
-                                value={email}
-                                placeholder="E-mail"
-                                autoCorrect={false}
-                                placeholderTextColor="#fff"
-                                underlineColorAndroid="transparent"
-                                editable={emailEdit}
+                <View style={styles.editSection}>
+                    <View style={styles.avatarContainer}>
+                        {fetchedUser?.avatar && (
+                            <Image
+                                style={styles.avatarImage}
+                                source={{
+                                    uri: `data:image/jpeg;base64,${fetchedUser.avatar}`,
+                                }}
                             />
-                            <TouchableOpacity onPress={() => setEmailEdit(!emailEdit)}>
-                                {email === fetchedUser?.email &&
-                                    <Ionicons name="pencil" size={24} color={"white"}/>
-                                }
-                            </TouchableOpacity>
+                        )}
+                        <TouchableOpacity style={styles.avatarEditLayout}>
+                            <Ionicons name="pencil" size={28} color={"white"}/>
+                            <Text style={styles.avatarEditText}>Edit avatar</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.dataEditionContent}>
+                        <View style={styles.singleValueEdit}>
+                            <Text style={styles.singleValueEditText}>E-mail</Text>
+                            <View style={[styles.inputContainer, !emailEdit ? styles.inputContainerDisabled : null]}>
+                                <AntDesign name="mail" style={styles.innerFont}/>
+                                <TextInput
+                                    style={[styles.input, styles.innerFont]}
+                                    onChangeText={setEmail}
+                                    value={email}
+                                    placeholder="E-mail"
+                                    autoCorrect={false}
+                                    placeholderTextColor="#fff"
+                                    underlineColorAndroid="transparent"
+                                    editable={emailEdit}
+                                />
+                                <TouchableOpacity onPress={() => setEmailEdit(!emailEdit)}>
+                                    {email === fetchedUser?.email &&
+                                        <Ionicons name="pencil" size={24} color={"white"}/>
+                                    }
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </View>
+                    <View style={styles.dataEditionContent}>
+                        <View style={styles.singleValueEdit}>
+                            <Text style={styles.singleValueEditText}>Name</Text>
+                            <View style={[styles.inputContainer, !nameEdit ? styles.inputContainerDisabled : null]}>
+                                <AntDesign name="user" style={styles.innerFont}/>
+                                <TextInput
+                                    style={[styles.input, styles.innerFont]}
+                                    onChangeText={setName}
+                                    value={name}
+                                    placeholder="Name"
+                                    autoCorrect={false}
+                                    placeholderTextColor="#fff"
+                                    underlineColorAndroid="transparent"
+                                    editable={nameEdit}
+                                />
+                                <TouchableOpacity onPress={() => setEmailEdit(!nameEdit)}>
+                                    {name === fetchedUser?.name &&
+                                        <Ionicons name="pencil" size={24} color={"white"}/>
+                                    }
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </View>
+                    <View style={styles.dataEditionContent}>
+                        <View style={styles.singleValueEdit}>
+                            <Text style={styles.singleValueEditText}>Last name</Text>
+                            <View style={[styles.inputContainer, !lastNameEdit ? styles.inputContainerDisabled : null]}>
+                                <AntDesign name="user" style={styles.innerFont}/>
+                                <TextInput
+                                    style={[styles.input, styles.innerFont]}
+                                    onChangeText={setLastName}
+                                    value={lastName}
+                                    placeholder="Last name"
+                                    autoCorrect={false}
+                                    placeholderTextColor="#fff"
+                                    underlineColorAndroid="transparent"
+                                    editable={lastNameEdit}
+                                />
+                                <TouchableOpacity onPress={() => setEmailEdit(!lastNameEdit)}>
+                                    {lastName === fetchedUser?.lastName &&
+                                        <Ionicons name="pencil" size={24} color={"white"}/>
+                                    }
+                                </TouchableOpacity>
+                            </View>
                         </View>
                     </View>
                 </View>
-
-
-            </View>
-        </>
+            </ScrollView>
+        </KeyboardAvoidingView>
     )
 }
 
 const styles = StyleSheet.create({
+    keyboardContainer: {
+        display: "flex",
+        justifyContent: "flex-end",
+        height: "100%",
+        paddingBottom: 40,
+    },
+    scrollContainer: {
+        flexGrow: 1,
+        height: "100%",
+    },
     backButtonIos: {
         position: "absolute",
         zIndex: 100,

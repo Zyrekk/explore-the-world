@@ -8,9 +8,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/LoginRegister/LoginForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/LoginRegister/LoginForm.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/Options/EditProfile.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Options/EditProfile.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Options/Options.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Options/Options.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Profile/UserInformation.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Profile/UserInformation.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/screens/OptionsScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/screens/OptionsScreen.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -118,7 +115,8 @@
       <workItem from="1690573052364" duration="9450000" />
       <workItem from="1690628692167" duration="3508000" />
       <workItem from="1691005279154" duration="2640000" />
-      <workItem from="1691089825913" duration="6477000" />
+      <workItem from="1691089825913" duration="6550000" />
+      <workItem from="1691178367689" duration="2550000" />
     </task>
     <servers />
   </component>
