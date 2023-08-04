@@ -15,9 +15,15 @@ import React, {useEffect, useState} from "react";
 import {UserData} from "../../commons/interfaces/interfaces";
 import {getUserDataFromStorage} from "../../commons/utils/AuthContext";
 import {OptionTypes} from "../../commons/types/OptionTypes";
+import CountryPicker, {Country, CountryCode, DARK_THEME} from 'react-native-country-picker-modal'
+import countryEmoji from 'country-emoji';
 
 interface EditProfileProps {
     handleButtonPress: (type: string) => void;
+}
+
+interface CountryFlagProps {
+    country: Country | null; // Pass the saved country object here
 }
 
 
@@ -28,9 +34,29 @@ export const EditProfile = ({handleButtonPress}: EditProfileProps) => {
     const [emailEdit, setEmailEdit] = useState<boolean>(false);
     const [name, setName] = useState<string>("")
     const [nameEdit, setNameEdit] = useState<boolean>(false)
+    const [countryEdit, setCountryEdit] = useState<boolean>(false)
     const [lastName, setLastName] = useState<string>("")
     const [lastNameEdit, setLastNameEdit] = useState<boolean>(false)
     const offset = Platform.OS === "ios" ? -100 : -300;
+
+    const [country, setCountry] = useState<Country | null>({
+        cca2: 'DE', // Country code for Germany
+        currency: ['EUR'], // Currency of Germany
+        flag: 'DEL', // Flag emoji for Germany
+        name: 'Germany',
+        region: 'Europe',
+        subregion: 'Western Europe',
+        callingCode: ['49'], // Calling code for Germany
+    });
+    const [countryCode, setCountryCode] = useState<CountryCode>(country ? country.cca2 : 'PL')
+    const [withCountryNameButton, setWithCountryNameButton] = useState<boolean>(
+        false,
+    )
+    const onSelect = (country: Country) => {
+        setCountryCode(country.cca2)
+        setCountry(country)
+    }
+
     useEffect(() => {
         const getUserData = async () => {
             try {
@@ -48,6 +74,17 @@ export const EditProfile = ({handleButtonPress}: EditProfileProps) => {
         };
         getUserData();
     }, []);
+
+    const [showCountryPicker, setShowCountryPicker] = useState(false);
+
+    const handleCountryPickerOpen = () => {
+        setShowCountryPicker(true);
+    };
+
+    const handleCountrySelect = (country: Country) => {
+        setCountry(country);
+        setShowCountryPicker(false);
+    };
 
     return (
         <KeyboardAvoidingView
@@ -149,6 +186,45 @@ export const EditProfile = ({handleButtonPress}: EditProfileProps) => {
                             </View>
                         </View>
                     </View>
+                    <View style={styles.dataEditionContent}>
+                        <View style={styles.singleValueEdit}>
+                            <Text style={styles.singleValueEditText}>Nationality </Text>
+                            <View style={[styles.inputContainer, !countryEdit ? styles.inputContainerDisabled : null]}>
+                                <View><Text>{countryEmoji.flag(countryCode) || '❓'}</Text></View>
+                                <Pressable style={[styles.countryInput]} onPress={() => {
+                                    if (countryEdit) {
+                                        setShowCountryPicker(true)
+                                    }
+                                }}>
+                                    <Text style={styles.innerFont}>{country?.name.toString()}</Text>
+                                </Pressable>
+                                <TouchableOpacity onPress={() => setCountryEdit(!countryEdit)}>
+                                    {lastName === fetchedUser?.lastName &&
+                                        <Ionicons name="pencil" size={24} color={"white"}/>
+                                    }
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </View>
+                    {showCountryPicker && (
+                        <CountryPicker
+                            theme={DARK_THEME}
+                            {...{
+                                countryCode,
+                                withFilter: true,
+                                withFlag: true,
+                                withCountryNameButton,
+                                withAlphaFilter: true,
+                                withCallingCode: false,
+                                withEmoji: true,
+                                onSelect: (country: Country) => {
+                                    handleCountrySelect(country)
+                                },
+                                visible: true
+                            }}
+                        />
+                    )}
+
                 </View>
             </ScrollView>
         </KeyboardAvoidingView>
@@ -165,6 +241,7 @@ const styles = StyleSheet.create({
     scrollContainer: {
         flexGrow: 1,
         height: "100%",
+        marginBottom: 30
     },
     backButtonIos: {
         position: "absolute",
@@ -282,4 +359,11 @@ const styles = StyleSheet.create({
         height: 40,
         flex: 1,
     },
+    countryInput: {
+        height: 40,
+        display: "flex",
+        justifyContent: "center",
+        flex: 1,
+
+    }
 })
