@@ -1,11 +1,14 @@
-import { createContext } from "react";
+import {createContext} from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {Country} from "react-native-country-picker-modal";
 
 export interface UserData {
     id: string;
     username: string;
     email: string;
-    password: string;
+    name: string;
+    lastName: string;
+    country: Country;
     avatar: string;
 }
 
@@ -43,6 +46,7 @@ export const setUserDataToStorage = async (userData: UserData) => {
 };
 
 export const AuthContext = createContext<UserContext>({
-    setUser(user: UserData | null): void {},
+    setUser(user: UserData | null): void {
+    },
     user: null,
 });

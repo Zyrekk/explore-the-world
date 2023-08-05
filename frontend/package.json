@@ -20,6 +20,7 @@
     "axios": "^1.4.0",
     "country-emoji": "^1.5.6",
     "expo": "~48.0.18",
+    "expo-image-picker": "~14.1.1",
     "expo-location": "~15.1.1",
     "expo-status-bar": "~1.4.4",
     "jest": "^29.2.1",
