@@ -2,18 +2,41 @@ import {KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text,
 import {AntDesign, Ionicons} from "@expo/vector-icons";
 import React, {useState} from "react";
 import {AuthTypes} from "../../commons/types/AuthTypes";
+import {showAlert} from "../../commons/utils/Alert";
 
 type WelcomeProps = {
     handleButtonPress: (type: string) => void;
+    setLoader: (value: boolean) => void;
 };
 
-export const RegisterForm = ({handleButtonPress}: WelcomeProps) => {
+export const RegisterForm = ({handleButtonPress, setLoader}: WelcomeProps) => {
     const [nickname, setNickname] = useState<string>('')
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
     const [repeatPassword, setRepeatPassword] = useState<string>('')
     const platform = Platform.OS === 'ios' ? styles.backButtonIos : styles.backButtonAndroid
     const offset = Platform.OS === 'ios' ? -100 : -300
+
+    const signUp = async () => {
+        try {
+            //     const response = await fetch(
+            //         `http://192.168.0.30:5000/users/getByEmail/${email}`
+            //     );
+            //
+            //     if (response.status === 404) {
+            //         showAlert("Wrong email or password", "Please try again");
+            //     } else if (response.ok) {
+            //         const userData = await response.json();
+            //         setUserDataToStorage(userData);
+            //         setUser(userData);
+            //     } else {
+            //         showAlert("Server connection error", "Please try again later");
+            //     }
+        } catch (error) {
+            // Handle network error
+            showAlert("Server connection error", "Please try again later");
+        }
+    };
     return (
         <KeyboardAvoidingView style={styles.keyboardContainer} behavior='position' keyboardVerticalOffset={offset}>
             <ScrollView contentContainerStyle={styles.scrollContainer}>
@@ -31,6 +54,8 @@ export const RegisterForm = ({handleButtonPress}: WelcomeProps) => {
                             <TextInput
                                 style={[styles.input, styles.innerFont]}
                                 placeholder="Nickname"
+                                value={nickname}
+                                onChangeText={setNickname}
                                 autoCorrect={false}
                                 placeholderTextColor="#fff"
                                 underlineColorAndroid="transparent"
@@ -41,6 +66,9 @@ export const RegisterForm = ({handleButtonPress}: WelcomeProps) => {
                             <TextInput
                                 style={[styles.input, styles.innerFont]}
                                 placeholder="E-mail"
+                                textContentType={"emailAddress"}
+                                value={email}
+                                onChangeText={setEmail}
                                 autoCorrect={false}
                                 placeholderTextColor="#fff"
                                 underlineColorAndroid="transparent"
@@ -51,6 +79,8 @@ export const RegisterForm = ({handleButtonPress}: WelcomeProps) => {
                             <TextInput
                                 style={[styles.input, styles.innerFont]}
                                 placeholder="Password"
+                                value={password}
+                                onChangeText={setPassword}
                                 autoCorrect={false}
                                 placeholderTextColor="#fff"
                                 underlineColorAndroid="transparent"
@@ -63,6 +93,8 @@ export const RegisterForm = ({handleButtonPress}: WelcomeProps) => {
                                 style={[styles.input, styles.innerFont]}
                                 placeholder="Repeat password"
                                 autoCorrect={false}
+                                value={repeatPassword}
+                                onChangeText={setRepeatPassword}
                                 placeholderTextColor="#fff"
                                 underlineColorAndroid="transparent"
                                 secureTextEntry={true}

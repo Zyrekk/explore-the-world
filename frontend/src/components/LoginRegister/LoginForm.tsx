@@ -14,38 +14,48 @@ import {AntDesign, Ionicons} from "@expo/vector-icons";
 import {AuthTypes} from "../../commons/types/AuthTypes";
 import {AuthContext, setUserDataToStorage,} from "../../commons/utils/AuthContext";
 import {showAlert} from "../../commons/utils/Alert";
+import axios from "axios";
 
 type WelcomeProps = {
     handleButtonPress: (type: string) => void;
+    setLoader: (value: boolean) => void;
 };
 
-export const LoginForm = ({handleButtonPress}: WelcomeProps) => {
+export const LoginForm = ({handleButtonPress, setLoader}: WelcomeProps) => {
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
     const platform =
         Platform.OS === "ios" ? styles.backButtonIos : styles.backButtonAndroid;
     const offset = Platform.OS === "ios" ? -100 : -300;
     const {user, setUser} = useContext(AuthContext);
-    const [tempUser, setTempUser] = useState<any>(null);
 
     const signIn = async () => {
+        setLoader(true)
         try {
-            const response = await fetch(
-                `http://192.168.0.30:5000/users/getByEmail/${email}`
-            );
+            // const response = await fetch(
+            //     `http://192.168.0.30:5000/users/getByEmail/${email}`
+            // );
+            const userToLogin = {
+                email: email,
+                password: password
+            };
+
+            const response = await axios.post("http://192.168.0.30:5000/users/login", userToLogin);
 
             if (response.status === 404) {
                 showAlert("Wrong email or password", "Please try again");
-            } else if (response.ok) {
-                const userData = await response.json();
-                setUserDataToStorage(userData);
+            } else if (response.status === 200) {
+                const userData = await response.data;
+                await setUserDataToStorage(userData);
                 setUser(userData);
             } else {
-                showAlert("Server connection error", "Please try again later");
+                showAlert("Wrong email or password", "Please try again");
             }
+            setLoader(false)
         } catch (error) {
             // Handle network error
             showAlert("Server connection error", "Please try again later");
+            setLoader(false)
         }
     };
 
@@ -148,6 +158,17 @@ const styles = StyleSheet.create({
         justifyContent: "flex-end",
         height: "100%",
         paddingBottom: 40,
+    },
+    loadingContainer: {
+        position: "absolute",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "rgba(0,0,0,0.75)",
+        width: "100%",
+        gap: 5,
+        height: "100%",
+        zIndex: 200
     },
     scrollContainer: {
         flexGrow: 1,

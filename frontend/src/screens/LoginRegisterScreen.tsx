@@ -3,6 +3,7 @@ import React, {useState} from "react";
 import {Welcome} from "../components/LoginRegister/Welcome"
 import {LoginForm} from "../components/LoginRegister/LoginForm";
 import {RegisterForm} from "../components/LoginRegister/RegisterForm";
+import {showLoader} from "../commons/utils/Loader";
 
 
 interface UserData {
@@ -24,6 +25,7 @@ export const LoginRegisterScreen = () => {
     };
     const [screenType, setScreenType] = useState<string>(types.WELCOME)
     const [opacity, setOpacity] = useState(new Animated.Value(1));
+    const [loader, setLoader] = useState(false)
     const handleButtonPress = (type: string) => {
         Animated.timing(opacity, {
             toValue: 0,
@@ -41,16 +43,17 @@ export const LoginRegisterScreen = () => {
     const showScreenType = () => {
         switch (screenType) {
             case types.LOGIN:
-                return <LoginForm handleButtonPress={handleButtonPress}/>
+                return <LoginForm handleButtonPress={handleButtonPress} setLoader={setLoader}/>
             case types.REGISTER:
-                return <RegisterForm handleButtonPress={handleButtonPress}/>
+                return <RegisterForm handleButtonPress={handleButtonPress} setLoader={setLoader}/>
             default:
-                return <Welcome handleButtonPress={handleButtonPress}/>
+                return <Welcome handleButtonPress={handleButtonPress} setLoader={setLoader}/>
         }
     }
     return (
         <ImageBackground source={require('../../assets/LoginRegisterBackground.jpg')} resizeMode={'cover'}
                          style={styles.image}>
+            {showLoader(loader, 'Logging in')}
             <View style={styles.overlay}/>
             <SafeAreaView style={styles.container}>
                 <Animated.View style={[{opacity}]}>
