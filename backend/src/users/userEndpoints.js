@@ -9,6 +9,7 @@ const deleteUserByUsername = require("./controllers/DELETE/deleteByUsername");
 const add = require("./controllers/POST/add");
 const login = require("./controllers/POST/login");
 const editUser = require("./controllers/PUT/edit");
+const bcrypt = require("bcrypt");
 
 
 router.get('/all', (req, res) => {
