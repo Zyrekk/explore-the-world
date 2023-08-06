@@ -7,6 +7,17 @@ const add = async (userData) => {
         const database = client.db(process.env.DATABASE_NAME);
         const collection = database.collection("Users");
 
+        const existingUser = await collection.findOne({
+            $or: [
+                {username: userData.username},
+                {email: userData.email}
+            ]
+        });
+
+        if (existingUser) {
+            return {status: 409, message: "Username or email already exists"};
+        }
+
         const newUser = {
             username: userData.username,
             password: await bcrypt.hash(userData.password, 10),

@@ -114,10 +114,13 @@ export const EditProfile = ({handleButtonPress}: EditProfileProps) => {
                         ...prevState,
                         value: userData.lastName,
                     }));
-                    setCountry((prevState) => ({
-                        ...prevState,
-                        country: userData.country.country,
-                    }));
+                    if (userData.country) {
+
+                        setCountry((prevState) => ({
+                            ...prevState,
+                            country: userData.country.country,
+                        }));
+                    }
                     setAvatar(userData?.avatar)
                 }
             } catch (error) {
@@ -128,12 +131,9 @@ export const EditProfile = ({handleButtonPress}: EditProfileProps) => {
     }, []);
 
     const handleCountrySelect = (country: Country) => {
-        setCountry((prevState) => ({...prevState, country: country, editable: false}));
+        setCountry((prevState) => ({country: country, editable: false}));
         setShowCountryPicker(false);
         setIsCountryChanged(true)
-        if (country.cca2 == fetchedUser?.country.country.cca2) {
-            setIsCountryChanged(false)
-        }
     };
 
 
@@ -187,6 +187,7 @@ export const EditProfile = ({handleButtonPress}: EditProfileProps) => {
                     showAlert("Changes saved", "Your changes have been saved");
                     setLoader(false);
                     setShowRequire(false)
+                    setIsCountryChanged(false)
                     setPassword('')
                 }
             } catch (error) {
@@ -451,7 +452,7 @@ export const EditProfile = ({handleButtonPress}: EditProfileProps) => {
                                     <Text style={styles.innerFont}>{country.country.name.toString()}</Text>
                                 </Pressable>
                                 {/*<TouchableOpacity onPress={() => setCountryEdit(!countryEdit)}>*/}
-                                {country.country.name === fetchedUser?.country.country.name &&
+                                {!isCountryChanged &&
                                     <Ionicons name="pencil" size={24} color={"white"}/>
                                 }
                                 {/*</TouchableOpacity>*/}
@@ -473,6 +474,9 @@ export const EditProfile = ({handleButtonPress}: EditProfileProps) => {
                                 withEmoji: true,
                                 onSelect: (country: Country) => {
                                     handleCountrySelect(country)
+                                },
+                                onClose: () => {
+                                    setShowCountryPicker(false)
                                 },
                                 visible: true
                             }}

@@ -1,8 +1,10 @@
 import {KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View} from "react-native";
 import {AntDesign, Ionicons} from "@expo/vector-icons";
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import {AuthTypes} from "../../commons/types/AuthTypes";
 import {showAlert} from "../../commons/utils/Alert";
+import axios from "axios/index";
+import {AuthContext, setUserDataToStorage} from "../../commons/utils/AuthContext";
 
 type WelcomeProps = {
     handleButtonPress: (type: string) => void;
@@ -15,23 +17,41 @@ export const RegisterForm = ({handleButtonPress, setLoader}: WelcomeProps) => {
     const [password, setPassword] = useState<string>('')
     const [repeatPassword, setRepeatPassword] = useState<string>('')
     const platform = Platform.OS === 'ios' ? styles.backButtonIos : styles.backButtonAndroid
+    const {user, setUser} = useContext(AuthContext);
     const offset = Platform.OS === 'ios' ? -100 : -300
 
     const signUp = async () => {
         try {
-            //     const response = await fetch(
-            //         `http://192.168.0.30:5000/users/getByEmail/${email}`
-            //     );
-            //
-            //     if (response.status === 404) {
-            //         showAlert("Wrong email or password", "Please try again");
-            //     } else if (response.ok) {
-            //         const userData = await response.json();
-            //         setUserDataToStorage(userData);
-            //         setUser(userData);
-            //     } else {
-            //         showAlert("Server connection error", "Please try again later");
-            //     }
+            const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+            if (!emailRegex.test(email)) {
+                showAlert("Invalid email format", "Please try again");
+                return;
+            }
+            if (password !== repeatPassword) {
+                showAlert("Passwords don't match", "Please try again");
+                return;
+            }
+            const userToAdd = {
+                username: nickname,
+                email: email,
+                password: password
+            }
+            const response = await axios.post("http://192.168.0.30:5000/users/add", userToAdd);
+
+            if (response.status === 409) {
+                showAlert("Email or username already taken", "Please try again");
+            } else if (response.status === 201) {
+                showAlert("Account created successfully", "You are logged in now");
+                const res = await axios.post("http://192.168.0.30:5000/users/login", {
+                    email: email,
+                    password: password
+                });
+                const userData = await res.data;
+                await setUserDataToStorage(userData);
+                setUser(userData);
+            } else {
+                showAlert("Server connection error", "Please try again later");
+            }
         } catch (error) {
             // Handle network error
             showAlert("Server connection error", "Please try again later");
@@ -101,8 +121,7 @@ export const RegisterForm = ({handleButtonPress, setLoader}: WelcomeProps) => {
                             />
                         </View>
                     </View>
-                    <Pressable style={styles.loginButton} onPress={() => {
-                    }}>
+                    <Pressable style={styles.loginButton} onPress={signUp}>
                         <Text style={styles.buttonText}>Sign up</Text>
                     </Pressable>
                     <Pressable style={styles.signUpButton} onPress={() => {

@@ -6,12 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="66e926f2-db0d-4144-b38e-eead7c62e692" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/commons/interfaces/interfaces.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/commons/interfaces/interfaces.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/LoginRegister/LoginForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/LoginRegister/LoginForm.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/users/controllers/POST/add.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/users/controllers/POST/add.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/LoginRegister/RegisterForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/LoginRegister/RegisterForm.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/LoginRegister/Welcome.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/LoginRegister/Welcome.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/Options/EditProfile.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Options/EditProfile.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/screens/LoginRegisterScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/screens/LoginRegisterScreen.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -130,7 +127,7 @@
       <workItem from="1691178367689" duration="8248000" />
       <workItem from="1691241819821" duration="9783000" />
       <workItem from="1691256908244" duration="19871000" />
-      <workItem from="1691326583819" duration="12622000" />
+      <workItem from="1691326583819" duration="16744000" />
     </task>
     <servers />
   </component>
