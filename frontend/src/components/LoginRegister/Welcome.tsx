@@ -3,13 +3,14 @@ import React from "react";
 
 type WelcomeProps = {
     handleButtonPress: (type: string) => void;
+    setLoader: (value: boolean) => void;
 };
 
-export const Welcome = ({ handleButtonPress }: WelcomeProps) => {
+export const Welcome = ({handleButtonPress, setLoader}: WelcomeProps) => {
     const types = {
         LOGIN: "Login",
         REGISTER: "Register",
-        WELCOME:"Welcome"
+        WELCOME: "Welcome"
     };
     return (
         <View style={styles.container}>
@@ -19,14 +20,14 @@ export const Welcome = ({ handleButtonPress }: WelcomeProps) => {
                 <Text style={styles.text}>World</Text>
             </View>
             <View style={styles.select}>
-                <Pressable style={[styles.button,styles.buttonMain]} onPress={()=>{
+                <Pressable style={[styles.button, styles.buttonMain]} onPress={() => {
                     handleButtonPress(types.LOGIN)
                 }}>
                     <Text style={styles.buttonText}>Log in</Text>
                 </Pressable>
-                <Pressable style={styles.button} onPress={()=>{
+                <Pressable style={styles.button} onPress={() => {
                     handleButtonPress(types.REGISTER)
-                }} >
+                }}>
                     <Text style={styles.buttonText}>Sign up</Text>
                 </Pressable>
             </View>
@@ -37,16 +38,16 @@ export const Welcome = ({ handleButtonPress }: WelcomeProps) => {
 const styles = StyleSheet.create({
     container: {
         display: "flex",
-        justifyContent:"space-between",
+        justifyContent: "space-between",
         width: "100%",
-        height:"100%",
+        height: "100%",
     },
-    select:{
-        display:"flex",
-        width:"100%",
+    select: {
+        display: "flex",
+        width: "100%",
         alignItems: "center",
         gap: 25,
-        paddingBottom:50,
+        paddingBottom: 50,
     },
     textContainer: {
         paddingLeft: 40,
@@ -59,23 +60,23 @@ const styles = StyleSheet.create({
         fontSize: 60,
         color: "white"
     },
-    button:{
-        borderRadius:30,
-        display:"flex",
-        justifyContent:"center",
-        alignItems:"center",
-        width:"80%",
-        height:50,
-        borderWidth:2,
-        borderColor:"white"
+    button: {
+        borderRadius: 30,
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        width: "80%",
+        height: 50,
+        borderWidth: 2,
+        borderColor: "white"
     },
-    buttonMain:{
-        borderColor:"transparent",
+    buttonMain: {
+        borderColor: "transparent",
         backgroundColor: "rgba(140,165,255,0.7)",
     },
-    buttonText:{
-        color:"white",
-        fontSize:18
+    buttonText: {
+        color: "white",
+        fontSize: 18
 
     }
 });
