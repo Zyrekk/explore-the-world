@@ -1,4 +1,6 @@
-# Explore The World - Engineering thesis
+# Explore The World
+
+My engineering thesis
 
 ## Tech Stack
 
@@ -14,3 +16,6 @@ TODO
   TODO
 ```
 
+## Authors
+
+- [@Zyrekk](https://github.com/Zyrekk)
