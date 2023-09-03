@@ -9,11 +9,8 @@ My engineering thesis
 **Backend:** Node, Express, MongoDB
 
 ## Installation
-
-TODO
-
 ```npm
-  TODO TODO
+  npm install
 ```
 
 ## Authors
