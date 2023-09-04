@@ -25,9 +25,6 @@ const login = async (email, password) => {
         delete userWithoutPassword.password;
 
         return userWithoutPassword;
-    } catch (error) {
-        console.error('Error:', error);
-        throw new Error('Login failed');
     } finally {
         await client.close();
     }

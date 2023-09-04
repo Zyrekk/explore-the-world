@@ -32,9 +32,6 @@ export const LoginForm = ({handleButtonPress, setLoader}: WelcomeProps) => {
     const signIn = async () => {
         setLoader(true)
         try {
-            // const response = await fetch(
-            //     `http://192.168.0.30:5000/users/getByEmail/${email}`
-            // );
             const userToLogin = {
                 email: email,
                 password: password
@@ -52,8 +49,12 @@ export const LoginForm = ({handleButtonPress, setLoader}: WelcomeProps) => {
                 showAlert("Wrong email or password", "Please try again");
             }
             setLoader(false)
-        } catch (error) {
-            // Handle network error
+        } catch (error: any) {
+            if (error.request.status === (401 || 404)) {
+                setLoader(false)
+                showAlert("Wrong email or password", "Please try again");
+                return
+            }
             showAlert("Server connection error", "Please try again later");
             setLoader(false)
         }

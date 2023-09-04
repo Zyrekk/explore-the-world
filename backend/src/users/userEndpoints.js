@@ -94,7 +94,7 @@ router.post('/login', async (req, res) => {
         } else if (error.message === 'Incorrect password') {
             res.status(401).json({error: 'Incorrect password'});
         } else {
-            res.status(500).json({error: 'Login failed'});
+            res.status(500).json({error: 'Server error'}); // Change the message to indicate a server error
         }
     }
 });

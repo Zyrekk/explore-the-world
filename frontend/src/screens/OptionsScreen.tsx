@@ -3,6 +3,7 @@ import {Options} from "../components/Options/Options";
 import {EditProfile} from "../components/Options/EditProfile";
 import {OptionTypes} from "../commons/types/OptionTypes";
 import React, {useState} from "react";
+import {ChangePassword} from "../components/Options/ChangePassword";
 
 
 export const OptionsScreen = () => {
@@ -33,7 +34,7 @@ export const OptionsScreen = () => {
             case OptionTypes.EDIT:
                 return <EditProfile handleButtonPress={handleButtonPress}/>
             case OptionTypes.PASSWORD:
-                return <Text>EDIT</Text>
+                return <ChangePassword handleButtonPress={handleButtonPress}/>
             case OptionTypes.NOTICES:
                 return <Text>EDIT</Text>
             case OptionTypes.LANGUAGE:

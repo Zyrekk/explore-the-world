@@ -377,7 +377,6 @@ export const EditProfile = ({handleButtonPress}: EditProfileProps) => {
                             </View>
                         </View>
                     </View>
-                    {/*{image && <Image source={{uri: image}} style={{width: 200, height: 200}}/>}*/}
                     <View style={styles.dataEditionContent}>
                         <View style={styles.singleValueEdit}>
                             <Text style={styles.singleValueEditText}>Name</Text>

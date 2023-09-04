@@ -4,7 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="66e926f2-db0d-4144-b38e-eead7c62e692" name="Changes" comment="" />
+    <list default="true" id="66e926f2-db0d-4144-b38e-eead7c62e692" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/users/controllers/POST/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/users/controllers/POST/login.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/users/userEndpoints.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/users/userEndpoints.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/LoginRegister/LoginForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/LoginRegister/LoginForm.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Options/EditProfile.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Options/EditProfile.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Options/Options.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Options/Options.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/screens/OptionsScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/screens/OptionsScreen.tsx" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -74,7 +82,7 @@
       <recent name="C:\Users\Konrad\Desktop\explore-the-world\backend" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.start">
+  <component name="RunManager" selected="npm.dev">
     <configuration name="dev" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/backend/package.json" />
       <command value="run" />
@@ -97,8 +105,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="npm.start" />
         <item itemvalue="npm.dev" />
+        <item itemvalue="npm.start" />
       </list>
     </recent_temporary>
   </component>
@@ -124,6 +132,8 @@
       <workItem from="1691241819821" duration="9783000" />
       <workItem from="1691256908244" duration="19871000" />
       <workItem from="1691326583819" duration="16744000" />
+      <workItem from="1691871443727" duration="699000" />
+      <workItem from="1693850711346" duration="4364000" />
     </task>
     <servers />
   </component>

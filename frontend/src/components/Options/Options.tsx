@@ -38,7 +38,9 @@ export const Options = ({handleButtonPress}: OptionsProps) => {
                             </View>
                             <AntDesign name="right" size={18} color="white"/>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.eventButton}>
+                        <TouchableOpacity style={styles.eventButton} onPress={() => {
+                            handleButtonPress(OptionTypes.PASSWORD)
+                        }}>
                             <View style={styles.eventButtonFlex}>
                                 <Foundation name="key" size={22} color="#C0C0C0FF"/>
                                 <Text style={styles.eventButtonText}>Change password</Text>
