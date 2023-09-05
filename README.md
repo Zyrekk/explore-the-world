@@ -6,9 +6,12 @@ My engineering thesis
 
 **Frontend:** React native, Typescript, Expo
 
-**Backend:** Node, Express, MongoDB
+**Backend:** Node, Express
+
+**Database:** MongoDB
 
 ## Installation
+
 ```npm
   npm install
 ```
