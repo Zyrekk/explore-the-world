@@ -16,6 +16,8 @@ My engineering thesis
   npm install
 ```
 
+## Env variables
+
 ## Authors
 
 - [@Zyrekk](https://github.com/Zyrekk)
