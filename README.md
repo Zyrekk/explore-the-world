@@ -18,6 +18,11 @@ My engineering thesis
 
 ## Env variables
 
+```
+DATABASE_NAME
+DATABASE_URL
+```
+
 ## Authors
 
 - [@Zyrekk](https://github.com/Zyrekk)
