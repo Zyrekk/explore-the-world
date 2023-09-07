@@ -1,7 +1,5 @@
-import {StyleSheet, Pressable, SafeAreaView, View, Animated, Text, Platform} from "react-native";
-import {Feather} from '@expo/vector-icons';
-import {AntDesign} from '@expo/vector-icons';
-import {Ionicons} from '@expo/vector-icons';
+import {Animated, Platform, Pressable, SafeAreaView, StyleSheet, Text, View} from "react-native";
+import {AntDesign, Feather, Ionicons} from '@expo/vector-icons';
 import React, {useEffect, useState} from "react";
 import {useNavigation} from "@react-navigation/native";
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -149,8 +147,6 @@ const styles = StyleSheet.create({
     navIos: {
         zIndex: 100,
         width: "100%",
-        position: "absolute",
-        bottom: 0,
         // backgroundColor:"#ffffff",
         backgroundColor: "#030712",
     },

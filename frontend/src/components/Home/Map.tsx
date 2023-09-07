@@ -1,15 +1,28 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import MapView, {Callout, MapMarker, Marker} from 'react-native-maps';
-import {StyleSheet, Text, View} from 'react-native';
+import {Pressable, StyleSheet, Text, View} from 'react-native';
 import * as Location from "expo-location";
+import MapViewDirections from 'react-native-maps-directions';
+import {MaterialIcons} from "@expo/vector-icons";
+import {REACT_APP_KEY} from '@env';
 
 const Map = () => {
     const [markerSelected, setMarkerSelected] = useState(false);
+
+    const [begCords, setBegCords] = useState({
+        latitude: 54.338181,
+        longitude: 18.618960,
+    })
+    const [endCords, setEndCords] = useState({
+        latitude: 54.380200,
+        longitude: 18.609477,
+    })
+
     const [coords, setCoords] = useState({
         latitude: 54.352024,
         longitude: 18.646639,
-        longitudeDelta: 13,
-        latitudeDelta: 13,
+        longitudeDelta: 0.1,
+        latitudeDelta: 0.1,
     })
     const [markerPosition, setMarkerPosition] = useState({
         latitude: coords.latitude,
@@ -23,7 +36,6 @@ const Map = () => {
     const getPermissions = async () => {
         let {status} = await Location.requestForegroundPermissionsAsync();
         if (status !== 'granted') {
-            console.log("Please grant location permissions");
             return;
         }
 
@@ -31,8 +43,8 @@ const Map = () => {
         setCoords({
             latitude: currentLocation.coords.latitude,
             longitude: currentLocation.coords.longitude,
-            longitudeDelta: 13,
-            latitudeDelta: 13,
+            longitudeDelta: 0.01,
+            latitudeDelta: 0.01,
         })
         if (mapRef.current !== null) {
             mapRef.current.animateToRegion(coords, 1000); // Smoothly animate to the new region
@@ -50,7 +62,6 @@ const Map = () => {
 
     const handleLongPress = (event: any) => {
         const {coordinate} = event.nativeEvent;
-        const {position}=event.nativeEvent;
         setMarkerPosition({
             latitude: coordinate.latitude,
             longitude: coordinate.longitude,
@@ -61,23 +72,36 @@ const Map = () => {
         setMarkerSelected(true)
     };
 
+    const centerToCoords = () => {
+        if (mapRef.current !== null) {
+            mapRef.current.animateToRegion(coords, 1000); // Smoothly animate to the 'coords' region
+        }
+    };
     return (
         <View style={styles.container}>
             <MapView
                 ref={mapRef}
                 style={styles.map}
                 mapType={'terrain'}
+                initialRegion={coords}
                 showsUserLocation={true}
                 onLongPress={handleLongPress}
             >
+                <MapViewDirections
+                    origin={begCords}
+                    destination={endCords}
+                    apikey={REACT_APP_KEY}
+                    strokeWidth={3}
+                    strokeColor="#2572e0"
+                />
                 {markerPosition.selected ? (
                     <Marker
                         ref={markerRef}
                         coordinate={markerPosition}>
                         {markerSelected && (
                             <Callout
-                                onPress={()=>{
-                                        markerRef.current?.hideCallout()
+                                onPress={() => {
+                                    markerRef.current?.hideCallout()
                                 }}
                             >
                                 <Text>lat {markerPosition.latitude}</Text>
@@ -87,6 +111,9 @@ const Map = () => {
                     </Marker>
                 ) : null}
             </MapView>
+            <Pressable style={styles.center} onPress={centerToCoords}>
+                <MaterialIcons name="my-location" size={30} color="black"/>
+            </Pressable>
         </View>
     );
 };
@@ -97,9 +124,15 @@ const styles = StyleSheet.create({
         height: '100%',
     },
     map: {
+        paddingTop: 20,
         width: '100%',
         height: '100%',
     },
+    center: {
+        position: 'absolute',
+        right: 20,
+        bottom: 50
+    }
 });
 
 export {Map};
