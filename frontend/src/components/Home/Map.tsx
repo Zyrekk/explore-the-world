@@ -10,12 +10,12 @@ const Map = () => {
     const [markerSelected, setMarkerSelected] = useState(false);
 
     const [begCords, setBegCords] = useState({
-        latitude: 54.338181,
-        longitude: 18.618960,
+        latitude: 53.840328,
+        longitude: 19.292040,
     })
     const [endCords, setEndCords] = useState({
-        latitude: 54.380200,
-        longitude: 18.609477,
+        latitude: 53.013790,
+        longitude: 18.598444,
     })
 
     const [coords, setCoords] = useState({
@@ -72,6 +72,10 @@ const Map = () => {
         setMarkerSelected(true)
     };
 
+    const [waypoints, setWaypoints] = useState([
+        {latitude: 53.926010, longitude: 19.021490},
+    ]);
+
     const centerToCoords = () => {
         if (mapRef.current !== null) {
             mapRef.current.animateToRegion(coords, 1000); // Smoothly animate to the 'coords' region
@@ -89,6 +93,7 @@ const Map = () => {
             >
                 <MapViewDirections
                     origin={begCords}
+                    waypoints={waypoints}
                     destination={endCords}
                     apikey={REACT_APP_KEY}
                     strokeWidth={3}
