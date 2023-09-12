@@ -69,12 +69,13 @@ const Map = () => {
             latitudeDelta: 0.01,
             selected: true
         });
+        setEndCords({
+            latitude: coordinate.latitude,
+            longitude: coordinate.longitude
+        })
         setMarkerSelected(true)
     };
 
-    const [waypoints, setWaypoints] = useState([
-        {latitude: 53.926010, longitude: 19.021490},
-    ]);
 
     const centerToCoords = () => {
         if (mapRef.current !== null) {
@@ -93,7 +94,6 @@ const Map = () => {
             >
                 <MapViewDirections
                     origin={begCords}
-                    waypoints={waypoints}
                     destination={endCords}
                     apikey={REACT_APP_KEY}
                     strokeWidth={3}
