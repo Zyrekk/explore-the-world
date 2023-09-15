@@ -10,12 +10,12 @@ const Map = () => {
     const [markerSelected, setMarkerSelected] = useState(false);
 
     const [begCords, setBegCords] = useState({
-        latitude: 54.338181,
-        longitude: 18.618960,
+        latitude: 53.840328,
+        longitude: 19.292040,
     })
     const [endCords, setEndCords] = useState({
-        latitude: 54.380200,
-        longitude: 18.609477,
+        latitude: 53.013790,
+        longitude: 18.598444,
     })
 
     const [coords, setCoords] = useState({
@@ -69,8 +69,13 @@ const Map = () => {
             latitudeDelta: 0.01,
             selected: true
         });
+        setEndCords({
+            latitude: coordinate.latitude,
+            longitude: coordinate.longitude
+        })
         setMarkerSelected(true)
     };
+
 
     const centerToCoords = () => {
         if (mapRef.current !== null) {

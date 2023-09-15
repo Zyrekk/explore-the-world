@@ -12,6 +12,8 @@ web-build/
 
 backend/.env
 /.env
+frontend/.env
+.env
 
 # macOS
 .DS_Store
