@@ -19,8 +19,8 @@ My engineering thesis
 ## Env variables
 
 ```
-DATABASE_NAME
-DATABASE_URL
+DATABASE_NAME=
+DATABASE_URL=
 ```
 
 ## User flow
