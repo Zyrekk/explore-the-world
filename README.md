@@ -16,11 +16,17 @@ My engineering thesis
   npm install
 ```
 
-## Env variables
+## Backend .env variables
 
 ```
-DATABASE_NAME=
+DATABASE_NAME=ETW
 DATABASE_URL=
+```
+
+## Frontend .env variables
+
+```
+REACT_APP_KEY=
 ```
 
 ## User flow
