@@ -10,6 +10,11 @@ npm-debug.*
 *.orig.*
 web-build/
 
+.idea*
+.idea/*
+.idea/
+/.idea
+
 backend/.env
 /.env
 frontend/.env

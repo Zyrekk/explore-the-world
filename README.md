@@ -4,7 +4,7 @@ My engineering thesis
 
 ## Tech Stack
 
-**Frontend:** React native, Typescript, Expo
+**Frontend:** React native, Google maps, Typescript, Expo
 
 **Backend:** Node, Express
 
