@@ -82,6 +82,8 @@ const Map = () => {
             mapRef.current.animateToRegion(coords, 1000); // Smoothly animate to the 'coords' region
         }
     };
+
+    //waypoints todo
     return (
         <View style={styles.container}>
             <MapView
