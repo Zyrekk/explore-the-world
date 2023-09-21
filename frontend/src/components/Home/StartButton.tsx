@@ -1,56 +1,61 @@
-import React, {useState, useEffect} from "react";
-import {Text, StyleSheet, Pressable, Animated, SafeAreaView, Platform} from "react-native";
+import React from "react";
+import {Pressable, StyleSheet, Text, View} from "react-native";
 
-const StartButton = () => {
-    const [clicked, setClicked] = useState(false);
-    const opacityValue = useState(new Animated.Value(1))[0];
-    const platform = Platform.OS === 'ios' ? styles.headerIos: styles.headerAndroid
+interface StartButtonProps {
+    setCreatorMode: (bool: boolean) => void;
+    text: string | undefined;
+}
 
-    useEffect(() => {
-        Animated.timing(opacityValue, {
-            toValue: clicked ? 0 : 1,
-            duration: 400,
-            useNativeDriver: true,
-        }).start();
-    }, [clicked, opacityValue]);
+const StartButton = ({setCreatorMode, text}: StartButtonProps) => {
+
+    const renderText = () => {
+        if (text !== undefined) {
+            if (text === 'origin') {
+                return 'Choose your origin'
+            }
+            if (text === 'destination') {
+                return 'Choose your destination'
+            }
+            if (text === 'waypoints') {
+                return 'Choose your waypoint'
+            }
+        }
+    }
 
     return (
-        <SafeAreaView style={platform}>
-            <Animated.View style={[styles.animatedView, {opacity: opacityValue}]}>
-                <Pressable style={styles.startButton} onPress={() => {
-                    setClicked(!clicked)
-                }}>
-                    <Text style={styles.startButtonText}>Start the journey 🚀</Text>
-                </Pressable>
-            </Animated.View>
-        </SafeAreaView>
+        <View style={styles.animatedView}>
+            <Pressable style={styles.startButton} onPress={() => {
+                setCreatorMode(true)
+            }}>
+                <Text style={styles.startButtonText}>{text ? renderText() : 'Start the journey 🚀'}</Text>
+            </Pressable>
+        </View>
     );
 };
 
 const styles = StyleSheet.create({
     headerIos: {
-        zIndex:100,
-        position:"absolute",
-        top:0,
-        width:"100%"
+        zIndex: 100,
+        width: "100%"
     },
     headerAndroid: {
-        zIndex:100,
-        position:"absolute",
-        top:50,
-        width:"100%"
+        zIndex: 100,
+        position: "absolute",
+        top: 50,
+        width: "100%"
     },
     animatedView: {
+        width: "100%",
         display: "flex",
         alignItems: "center",
     },
-    startButton:{
+    startButton: {
         // backgroundColor:"#ffffff",
-        backgroundColor:"#383838",
+        backgroundColor: "#030712",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        width:"85%",
+        width: "85%",
         paddingVertical: 13,
         borderRadius: 50,
         shadowColor: '#171717',
@@ -61,7 +66,7 @@ const styles = StyleSheet.create({
     startButtonText: {
         fontSize: 16,
         // color: "black",
-        color:"white"
+        color: "white"
     },
 });
 

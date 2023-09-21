@@ -7,6 +7,8 @@
     <list default="true" id="66e926f2-db0d-4144-b38e-eead7c62e692" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/Home/Map.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Home/Map.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Home/StartButton.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Home/StartButton.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/screens/HomeScreen.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/screens/HomeScreen.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,8 +19,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="JavaScript File" />
-        <option value="TypeScript JSX File" />
         <option value="TypeScript File" />
+        <option value="TypeScript JSX File" />
       </list>
     </option>
   </component>
@@ -105,8 +107,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="npm.start" />
         <item itemvalue="npm.dev" />
+        <item itemvalue="npm.start" />
         <item itemvalue="npm.dev" />
         <item itemvalue="npm.start" />
       </list>
@@ -145,7 +147,8 @@
       <workItem from="1694538740415" duration="840000" />
       <workItem from="1694624955591" duration="37000" />
       <workItem from="1695074499651" duration="780000" />
-      <workItem from="1695150588576" duration="75000" />
+      <workItem from="1695150588576" duration="692000" />
+      <workItem from="1695314922363" duration="5921000" />
     </task>
     <servers />
   </component>
