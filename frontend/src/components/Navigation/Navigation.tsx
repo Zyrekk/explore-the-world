@@ -147,7 +147,6 @@ const styles = StyleSheet.create({
     navIos: {
         zIndex: 100,
         width: "100%",
-        // backgroundColor:"#ffffff",
         backgroundColor: "#030712",
     },
     navAndroid: {

@@ -102,28 +102,17 @@ const styles = StyleSheet.create({
     ,
     button: {
         display: 'flex',
-        flexDirection:
-            'row',
-        alignItems:
-            'center',
-        justifyContent:
-            'space-between',
-        fontSize:
-            16,
-        width:
-            '70%',
-        borderColor:
-            '#000',
-        borderWidth:
-            1,
-        paddingVertical:
-            10,
-        borderRadius:
-            12,
-        paddingHorizontal:
-            8
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        fontSize: 16,
+        width: '70%',
+        borderColor: '#000',
+        borderWidth: 1,
+        paddingVertical: 10,
+        borderRadius: 12,
+        paddingHorizontal: 8
     }
-
 });
 
 export default CreateNewJourney;
