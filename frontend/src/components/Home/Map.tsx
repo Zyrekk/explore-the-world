@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import MapView, {LatLng, MapMarker, Marker} from 'react-native-maps';
+import MapView, {LatLng, Marker} from 'react-native-maps';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import * as Location from "expo-location";
 import {REACT_APP_KEY} from "@env";
@@ -10,20 +10,11 @@ interface MapProps {
     origin: LatLng | undefined;
     destination: LatLng | undefined;
     waypoints: LatLng[];
+    clearMap: () => void;
+    handleType: string
 }
 
-const Map = ({addCoordinates, origin, destination, waypoints}: MapProps) => {
-    const [markerSelected, setMarkerSelected] = useState(false);
-
-    const [begCords, setBegCords] = useState({
-        latitude: 53.840328,
-        longitude: 19.292040,
-    })
-    const [endCords, setEndCords] = useState({
-        latitude: 53.013790,
-        longitude: 18.598444,
-    })
-
+const Map = ({addCoordinates, origin, destination, waypoints, clearMap, handleType}: MapProps) => {
     const [coords, setCoords] = useState({
         latitude: 54.352024,
         longitude: 18.646639,
@@ -37,7 +28,6 @@ const Map = ({addCoordinates, origin, destination, waypoints}: MapProps) => {
         latitudeDelta: 0.1,
         selected: false,
     });
-    const markerRef = React.useRef<MapMarker>(null);
     const mapRef = React.useRef<MapView>(null);
     const getPermissions = async () => {
         let {status} = await Location.requestForegroundPermissionsAsync();
@@ -66,82 +56,32 @@ const Map = ({addCoordinates, origin, destination, waypoints}: MapProps) => {
         }
     }, [markerPosition])
 
-    const handleLongPress = (event: any) => {
-        const {coordinate} = event.nativeEvent;
-        setMarkerPosition({
-            latitude: coordinate.latitude,
-            longitude: coordinate.longitude,
-            longitudeDelta: 0.01,
-            latitudeDelta: 0.01,
-            selected: true
-        });
-        setEndCords({
-            latitude: coordinate.latitude,
-            longitude: coordinate.longitude
-        })
-        setMarkerSelected(true)
-    };
+    // const handleLongPress = (event: any) => {
+    //     const {coordinate} = event.nativeEvent;
+    //     setMarkerPosition({
+    //         latitude: coordinate.latitude,
+    //         longitude: coordinate.longitude,
+    //         longitudeDelta: 0.01,
+    //         latitudeDelta: 0.01,
+    //         selected: true
+    //     });
+    //     setEndCords({
+    //         latitude: coordinate.latitude,
+    //         longitude: coordinate.longitude
+    //     })
+    //     setMarkerSelected(true)
+    // };
 
-
-    const centerToCoords = () => {
-        if (mapRef.current !== null) {
-            mapRef.current.animateToRegion(coords, 1000); // Smoothly animate to the 'coords' region
-        }
-    };
-
-    // const [waypoints, setWaypoints] = useState<LatLng[]>([]);
-    // const [destination, setDestination] = useState<LatLng | null>(null);
 
     const handleMapPress = (event: { nativeEvent: { coordinate: LatLng } }) => {
         addCoordinates(event.nativeEvent.coordinate)
     };
-
-    // const clearMap = () => {
-    //     setWaypoints([]);
-    //     setDestination(null);
-    // };
     return (
-        // <View style={styles.container}>
-        //     <MapView
-        //         ref={mapRef}
-        //         style={styles.map}
-        //         mapType={'terrain'}
-        //         initialRegion={coords}
-        //         showsUserLocation={true}
-        //         onLongPress={handleLongPress}
-        //     >
-        //         <MapViewDirections
-        //             origin={coords}
-        //             destination={endCords}
-        //             apikey={REACT_APP_KEY}
-        //             strokeWidth={3}
-        //             strokeColor="#2572e0"
-        //         />
-        //         {markerPosition.selected ? (
-        //             <Marker
-        //                 ref={markerRef}
-        //                 coordinate={markerPosition}>
-        //                 {markerSelected && (
-        //                     <Callout
-        //                         onPress={() => {
-        //                             markerRef.current?.hideCallout()
-        //                         }}
-        //                     >
-        //                         <Text>lat {markerPosition.latitude}</Text>
-        //                         <Text>lng {markerPosition.longitude}</Text>
-        //                     </Callout>
-        //                 )}
-        //             </Marker>
-        //         ) : null}
-        //     </MapView>
-        //     <Pressable style={styles.center} onPress={centerToCoords}>
-        //         <MaterialIcons name="my-location" size={30} color="black"/>
-        //     </Pressable>
-        // </View>
         <View style={styles.container}>
             <MapView
                 style={styles.map}
                 initialRegion={coords}
+                showsUserLocation={true}
                 onPress={handleMapPress}
             >
                 {destination && <MapViewDirections
@@ -152,6 +92,13 @@ const Map = ({addCoordinates, origin, destination, waypoints}: MapProps) => {
                     strokeWidth={3}
                     strokeColor="#2572e0"
                 />}
+                {origin && (
+                    <Marker
+                        coordinate={origin}
+                        title="Origin"
+                        pinColor="red"
+                    />
+                )}
                 {waypoints.map((waypoint, index) => (
                     <Marker
                         key={`waypoint-${index}`}
@@ -168,38 +115,19 @@ const Map = ({addCoordinates, origin, destination, waypoints}: MapProps) => {
                 )}
             </MapView>
 
-            <View style={styles.buttonContainer}>
-                <TouchableOpacity
-                    style={styles.clearButton}
-                    // onPress={clearMap}
-                >
-                    <Text>Wyczyść</Text>
-                </TouchableOpacity>
-            </View>
+            {(origin || destination || waypoints.length > 0) &&
+                <View style={styles.buttonContainer}>
+                    <TouchableOpacity
+                        style={styles.clearButton}
+                        onPress={clearMap}
+                    >
+                        <Text style={{color: "white"}}>Clear map</Text>
+                    </TouchableOpacity>
+                </View>}
         </View>
     );
 };
 
-// const styles = StyleSheet.create({
-//     container: {
-//         position: "absolute",
-//         left: 0,
-//         right: 0,
-//         top: 0,
-//         width: '100%',
-//         height: '100%',
-//     },
-//     map: {
-//         paddingTop: 20,
-//         width: '100%',
-//         height: '100%',
-//     },
-//     center: {
-//         position: 'absolute',
-//         right: 20,
-//         bottom: 50
-//     }
-// });
 const styles = StyleSheet.create({
     container: {
         position: "absolute",
@@ -216,15 +144,14 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
         position: 'absolute',
-        bottom: 20,
-        left: 20,
+        bottom: 5,
+        left: 5,
     },
     clearButton: {
-        backgroundColor: 'white',
+        backgroundColor: "#030712",
         padding: 10,
         borderRadius: 5,
-        borderWidth: 1,
-        borderColor: 'gray',
+        color: 'white',
     },
 });
 
