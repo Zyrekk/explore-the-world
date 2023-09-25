@@ -1,13 +1,25 @@
 import {Pressable, SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {AntDesign, Feather, Octicons} from "@expo/vector-icons";
 import React from "react";
+import {LatLng} from "react-native-maps";
+import * as Location from 'expo-location';
+
 
 interface CreateNewJourneyProps {
     setHandleType: (type: string) => void;
     setCreatorMode: (type: boolean) => void;
+    origin: LatLng | undefined;
+    waypoints: LatLng[];
+    destination: LatLng | undefined;
 }
 
-const CreateNewJourney = ({setHandleType, setCreatorMode}: CreateNewJourneyProps) => {
+const CreateNewJourney = ({setHandleType, setCreatorMode, origin, waypoints, destination}: CreateNewJourneyProps) => {
+
+    const geocode = async (address: string) => {
+        const geocodedLocation = await Location.geocodeAsync(address)
+        console.log(geocodedLocation)
+    };
+
     return (
         <View style={styles.container}>
             <SafeAreaView style={{gap: 10}}>
@@ -29,13 +41,27 @@ const CreateNewJourney = ({setHandleType, setCreatorMode}: CreateNewJourneyProps
                     </View>
                     <Pressable onPress={() => {
                         setHandleType('origin')
+                        setCreatorMode(false)
                     }} style={styles.button}>
-                        <Text style={{fontSize: 18}}>Origin</Text>
+                        <Text
+                            style={{fontSize: 18}}>{origin ? origin.latitude + ',' + origin.longitude : 'Origin'}</Text>
                         <Feather name="arrow-right" size={20} color="black"/>
                     </Pressable>
                 </View>
+                {waypoints.map((waypoint, index) => (
+                    <View key={index} style={styles.row}>
+                        <View style={styles.iconWrapper}>
+                            <AntDesign name="minuscircleo" size={24} color="black"/>
+                        </View>
+                        <Pressable onPress={() => {
+                        }} style={styles.button}>
+                            <Text style={{fontSize: 18}}>{index}</Text>
+                        </Pressable>
+                    </View>
+                ))}
                 <Pressable onPress={() => {
                     setHandleType('waypoint')
+                    setCreatorMode(false)
                 }} style={styles.row}>
                     <View style={styles.iconWrapper}>
                         <Feather name="plus-circle" size={24} color="black"/>
@@ -48,11 +74,21 @@ const CreateNewJourney = ({setHandleType, setCreatorMode}: CreateNewJourneyProps
                     </View>
                     <Pressable onPress={() => {
                         setHandleType('destination')
+                        setCreatorMode(false)
                     }} style={styles.button}>
                         <Text style={{fontSize: 18}}>Destination</Text>
                         <Feather name="arrow-right" size={20} color="black"/>
                     </Pressable>
                 </View>
+            </SafeAreaView>
+            <SafeAreaView style={{width: '100%', display: 'flex', justifyContent: "center", alignItems: 'center'}}>
+                <Pressable onPress={() => {
+                    // setCreatorMode(false)
+                    // setHandleType('')
+                    geocode('Cieszymowo')
+                }} style={[{marginTop: 50}, styles.finishButton]}>
+                    <Text style={{fontSize: 18, color: 'white'}}>Finish</Text>
+                </Pressable>
             </SafeAreaView>
         </View>
     );
@@ -65,6 +101,15 @@ const styles = StyleSheet.create({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center'
+    },
+    finishButton: {
+        backgroundColor: "#030712",
+        width: '80%',
+        paddingVertical: 15,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 10
     },
     back: {
         display: "flex",
@@ -102,28 +147,17 @@ const styles = StyleSheet.create({
     ,
     button: {
         display: 'flex',
-        flexDirection:
-            'row',
-        alignItems:
-            'center',
-        justifyContent:
-            'space-between',
-        fontSize:
-            16,
-        width:
-            '70%',
-        borderColor:
-            '#000',
-        borderWidth:
-            1,
-        paddingVertical:
-            10,
-        borderRadius:
-            12,
-        paddingHorizontal:
-            8
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        fontSize: 16,
+        width: '70%',
+        borderColor: '#000',
+        borderWidth: 1,
+        paddingVertical: 10,
+        borderRadius: 12,
+        paddingHorizontal: 8
     }
-
 });
 
 export default CreateNewJourney;

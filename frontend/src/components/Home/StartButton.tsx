@@ -50,7 +50,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     startButton: {
-        // backgroundColor:"#ffffff",
         backgroundColor: "#030712",
         display: "flex",
         justifyContent: "center",
