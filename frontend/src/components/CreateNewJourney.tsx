@@ -15,6 +15,7 @@ interface CreateNewJourneyProps {
 
 const CreateNewJourney = ({setHandleType, setCreatorMode, origin, waypoints, destination}: CreateNewJourneyProps) => {
 
+    //free geocoding library expo
     const geocode = async (address: string) => {
         const geocodedLocation = await Location.geocodeAsync(address)
         console.log(geocodedLocation)
