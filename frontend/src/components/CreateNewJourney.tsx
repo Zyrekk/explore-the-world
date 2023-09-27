@@ -1,8 +1,8 @@
 import {Pressable, SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {AntDesign, Feather, Octicons} from "@expo/vector-icons";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {LatLng} from "react-native-maps";
-import * as Location from 'expo-location';
+import {geocode, reverseGeocode} from "../commons/utils/geocode";
 
 
 interface CreateNewJourneyProps {
@@ -15,11 +15,38 @@ interface CreateNewJourneyProps {
 
 const CreateNewJourney = ({setHandleType, setCreatorMode, origin, waypoints, destination}: CreateNewJourneyProps) => {
 
-    //free geocoding library expo
-    const geocode = async (address: string) => {
-        const geocodedLocation = await Location.geocodeAsync(address)
-        console.log(geocodedLocation)
-    };
+
+    const [destinationString, setDestinationString] = useState<string>('Destination')
+
+    useEffect(() => {
+        const fetchLocation = async () => {
+            if (destination) {
+                const locationData = await reverseGeocode(
+                    destination?.latitude,
+                    destination?.longitude
+                );
+                setDestinationString(locationData[0].city)
+                //     Array [
+                //         Object {
+                //         "city": "Kiełpino",
+                //             "country": "Polska",
+                //             "district": null,
+                //             "isoCountryCode": "PL",
+                //             "name": "Długa 65B",
+                //             "postalCode": "83-307",
+                //             "region": "Pomorskie",
+                //             "street": "Długa",
+                //             "streetNumber": "65B",
+                //             "subregion": "Powiat kartuski",
+                //             "timezone": "Europe/Warsaw",
+                //     },
+                // ]
+
+            }
+        };
+        fetchLocation();
+    }, [destination]);
+
 
     return (
         <View style={styles.container}>
@@ -77,7 +104,8 @@ const CreateNewJourney = ({setHandleType, setCreatorMode, origin, waypoints, des
                         setHandleType('destination')
                         setCreatorMode(false)
                     }} style={styles.button}>
-                        <Text style={{fontSize: 18}}>Destination</Text>
+                        <Text
+                            style={{fontSize: 18}}>{destinationString}</Text>
                         <Feather name="arrow-right" size={20} color="black"/>
                     </Pressable>
                 </View>
