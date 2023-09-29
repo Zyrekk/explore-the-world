@@ -13,6 +13,20 @@ interface CreateNewJourneyProps {
     destination: LatLng | undefined;
 }
 
+interface locationProps {
+    city: string | null;
+    country: string | null;
+    district: string | null;
+    isoCountryCode: string | null;
+    name: string | null;
+    postalCode: string | null;
+    region: string | null;
+    street: string | null;
+    streetNumber: string | null;
+    subregion: string | null;
+    timezone: string | null;
+}
+
 const CreateNewJourney = ({setHandleType, setCreatorMode, origin, waypoints, destination}: CreateNewJourneyProps) => {
 
 
@@ -25,7 +39,10 @@ const CreateNewJourney = ({setHandleType, setCreatorMode, origin, waypoints, des
                     destination?.latitude,
                     destination?.longitude
                 );
-                setDestinationString(locationData[0].city)
+                if (locationData.length > 0 && locationData[0].city !== null) {
+
+                    setDestinationString(locationData[0].city)
+                }
                 //     Array [
                 //         Object {
                 //         "city": "Kiełpino",
@@ -40,7 +57,7 @@ const CreateNewJourney = ({setHandleType, setCreatorMode, origin, waypoints, des
                 //             "subregion": "Powiat kartuski",
                 //             "timezone": "Europe/Warsaw",
                 //     },
-                // ]
+                // ] make interface
 
             }
         };
