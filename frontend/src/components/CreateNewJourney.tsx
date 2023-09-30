@@ -32,35 +32,36 @@ const CreateNewJourney = ({setHandleType, setCreatorMode, origin, waypoints, des
 
     const [destinationString, setDestinationString] = useState<string>('Destination')
 
-    useEffect(() => {
-        const fetchLocation = async () => {
-            if (destination) {
-                const locationData = await reverseGeocode(
-                    destination?.latitude,
-                    destination?.longitude
-                );
-                if (locationData.length > 0 && locationData[0].city !== null) {
+    const fetchLocation = async () => {
+        if (destination) {
+            const locationData = await reverseGeocode(
+                destination?.latitude,
+                destination?.longitude
+            );
+            if (locationData.length > 0 && locationData[0].city !== null) {
 
-                    setDestinationString(locationData[0].city)
-                }
-                //     Array [
-                //         Object {
-                //         "city": "Kiełpino",
-                //             "country": "Polska",
-                //             "district": null,
-                //             "isoCountryCode": "PL",
-                //             "name": "Długa 65B",
-                //             "postalCode": "83-307",
-                //             "region": "Pomorskie",
-                //             "street": "Długa",
-                //             "streetNumber": "65B",
-                //             "subregion": "Powiat kartuski",
-                //             "timezone": "Europe/Warsaw",
-                //     },
-                // ] make interface
-
+                setDestinationString(locationData[0].city)
             }
-        };
+            //     Array [
+            //         Object {
+            //         "city": "Kiełpino",
+            //             "country": "Polska",
+            //             "district": null,
+            //             "isoCountryCode": "PL",
+            //             "name": "Długa 65B",
+            //             "postalCode": "83-307",
+            //             "region": "Pomorskie",
+            //             "street": "Długa",
+            //             "streetNumber": "65B",
+            //             "subregion": "Powiat kartuski",
+            //             "timezone": "Europe/Warsaw",
+            //     },
+            // ] make interface
+
+        }
+    };
+
+    useEffect(() => {
         fetchLocation();
     }, [destination]);
 
