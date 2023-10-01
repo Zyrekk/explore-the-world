@@ -13,37 +13,55 @@ interface CreateNewJourneyProps {
     destination: LatLng | undefined;
 }
 
+interface locationProps {
+    city: string | null;
+    country: string | null;
+    district: string | null;
+    isoCountryCode: string | null;
+    name: string | null;
+    postalCode: string | null;
+    region: string | null;
+    street: string | null;
+    streetNumber: string | null;
+    subregion: string | null;
+    timezone: string | null;
+}
+
 const CreateNewJourney = ({setHandleType, setCreatorMode, origin, waypoints, destination}: CreateNewJourneyProps) => {
 
 
     const [destinationString, setDestinationString] = useState<string>('Destination')
 
-    useEffect(() => {
-        const fetchLocation = async () => {
-            if (destination) {
-                const locationData = await reverseGeocode(
-                    destination?.latitude,
-                    destination?.longitude
-                );
-                setDestinationString(locationData[0].city)
-                //     Array [
-                //         Object {
-                //         "city": "Kiełpino",
-                //             "country": "Polska",
-                //             "district": null,
-                //             "isoCountryCode": "PL",
-                //             "name": "Długa 65B",
-                //             "postalCode": "83-307",
-                //             "region": "Pomorskie",
-                //             "street": "Długa",
-                //             "streetNumber": "65B",
-                //             "subregion": "Powiat kartuski",
-                //             "timezone": "Europe/Warsaw",
-                //     },
-                // ]
+    const fetchLocation = async () => {
+        if (destination) {
+            const locationData = await reverseGeocode(
+                destination?.latitude,
+                destination?.longitude
+            );
+            if (locationData.length > 0 && locationData[0].city !== null) {
 
+                setDestinationString(locationData[0].city)
             }
-        };
+            //     Array [
+            //         Object {
+            //         "city": "Kiełpino",
+            //             "country": "Polska",
+            //             "district": null,
+            //             "isoCountryCode": "PL",
+            //             "name": "Długa 65B",
+            //             "postalCode": "83-307",
+            //             "region": "Pomorskie",
+            //             "street": "Długa",
+            //             "streetNumber": "65B",
+            //             "subregion": "Powiat kartuski",
+            //             "timezone": "Europe/Warsaw",
+            //     },
+            // ] make interface
+
+        }
+    };
+
+    useEffect(() => {
         fetchLocation();
     }, [destination]);
 
