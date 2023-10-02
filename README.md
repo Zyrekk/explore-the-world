@@ -1,6 +1,6 @@
 # Explore The World
 
-My engineering thesis
+My engineering thesis, a travel planning app
 
 ## Tech Stack
 
