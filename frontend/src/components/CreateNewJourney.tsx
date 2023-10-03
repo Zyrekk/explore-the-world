@@ -42,22 +42,6 @@ const CreateNewJourney = ({setHandleType, setCreatorMode, origin, waypoints, des
 
                 setDestinationString(locationData[0].city)
             }
-            //     Array [
-            //         Object {
-            //         "city": "Kiełpino",
-            //             "country": "Polska",
-            //             "district": null,
-            //             "isoCountryCode": "PL",
-            //             "name": "Długa 65B",
-            //             "postalCode": "83-307",
-            //             "region": "Pomorskie",
-            //             "street": "Długa",
-            //             "streetNumber": "65B",
-            //             "subregion": "Powiat kartuski",
-            //             "timezone": "Europe/Warsaw",
-            //     },
-            // ] make interface
-
         }
     };
 
@@ -206,5 +190,4 @@ const styles = StyleSheet.create({
         paddingHorizontal: 8
     }
 });
-
 export default CreateNewJourney;
