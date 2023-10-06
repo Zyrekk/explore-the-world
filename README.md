@@ -1,6 +1,6 @@
 # Explore The World
 
-My engineering thesis, a travel planning app
+My engineering thesis, a travel planning app.
 
 ## Tech Stack
 
@@ -31,7 +31,7 @@ REACT_APP_KEY=
 
 ## User flow
 
-Oto przykładowy user flow (ścieżka użytkownika) dla aplikacji mobilnej do planowania podróży:
+Oto przykładowy user flow dla aplikacji mobilnej do planowania podróży:
 
 1. **Strona główna aplikacji:**
 
