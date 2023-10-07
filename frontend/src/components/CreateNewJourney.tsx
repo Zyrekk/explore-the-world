@@ -2,7 +2,7 @@ import {Pressable, SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from 
 import {AntDesign, Feather, Octicons} from "@expo/vector-icons";
 import React, {useEffect, useState} from "react";
 import {LatLng} from "react-native-maps";
-import {geocode, reverseGeocode} from "../commons/utils/geocode";
+import {reverseGeocode} from "../commons/utils/geocode";
 
 
 interface CreateNewJourneyProps {
@@ -31,6 +31,7 @@ const CreateNewJourney = ({setHandleType, setCreatorMode, origin, waypoints, des
 
 
     const [destinationString, setDestinationString] = useState<string>('Destination')
+    const [originString, setOriginString] = useState<string>('Origin')
 
     const fetchLocation = async () => {
         if (destination) {
@@ -39,15 +40,36 @@ const CreateNewJourney = ({setHandleType, setCreatorMode, origin, waypoints, des
                 destination?.longitude
             );
             if (locationData.length > 0 && locationData[0].city !== null) {
-
                 setDestinationString(locationData[0].city)
             }
         }
     };
 
+    const fetchLocationByType = async (coords: LatLng | undefined, type: string) => {
+        if (coords) {
+            const locationData = await reverseGeocode(
+                coords?.latitude,
+                coords?.longitude
+            );
+            if (locationData.length > 0 && locationData[0].city !== null) {
+                if (type === 'origin') {
+                    setOriginString(locationData[0].city)
+                }
+                if (type === 'destination') {
+                    setDestinationString(locationData[0].city)
+                }
+            }
+        }
+        return;
+    }
+
     useEffect(() => {
-        fetchLocation();
+        fetchLocationByType(destination, 'destination')
     }, [destination]);
+
+    useEffect(() => {
+        fetchLocationByType(origin, 'origin')
+    }, [origin]);
 
 
     return (
@@ -74,7 +96,7 @@ const CreateNewJourney = ({setHandleType, setCreatorMode, origin, waypoints, des
                         setCreatorMode(false)
                     }} style={styles.button}>
                         <Text
-                            style={{fontSize: 18}}>{origin ? origin.latitude + ',' + origin.longitude : 'Origin'}</Text>
+                            style={{fontSize: 18}}>{originString}</Text>
                         <Feather name="arrow-right" size={20} color="black"/>
                     </Pressable>
                 </View>
@@ -116,7 +138,6 @@ const CreateNewJourney = ({setHandleType, setCreatorMode, origin, waypoints, des
                 <Pressable onPress={() => {
                     // setCreatorMode(false)
                     // setHandleType('')
-                    geocode('Cieszymowo')
                 }} style={[{marginTop: 50}, styles.finishButton]}>
                     <Text style={{fontSize: 18, color: 'white'}}>Finish</Text>
                 </Pressable>

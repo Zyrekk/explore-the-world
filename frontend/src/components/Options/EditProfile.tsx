@@ -21,6 +21,7 @@ import countryEmoji from 'country-emoji'
 import axios from "axios";
 import {showAlert} from "../../commons/utils/Alert";
 import {showLoader} from "../../commons/utils/Loader";
+import {REACT_APP_API_URL} from "@env";
 
 
 interface EditProfileProps {
@@ -159,7 +160,7 @@ export const EditProfile = ({handleButtonPress}: EditProfileProps) => {
                     formData.append("country", JSON.stringify(country))
 
 
-                    const response = await axios.put('http://192.168.0.30:5000/users/edit', formData, {
+                    const response = await axios.put(`${REACT_APP_API_URL}/users/edit`, formData, {
                         headers: {
                             'Content-Type': 'multipart/form-data', // Required for sending files
                         },

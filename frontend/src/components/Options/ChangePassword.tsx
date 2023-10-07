@@ -17,6 +17,7 @@ import {getUserDataFromStorage, setUserDataToStorage} from "../../commons/utils/
 import {showAlert} from "../../commons/utils/Alert";
 import {UserData} from "../../commons/interfaces/interfaces";
 import {showLoader} from "../../commons/utils/Loader";
+import {REACT_APP_API_URL} from "@env";
 
 export const ChangePassword = ({handleButtonPress}: { handleButtonPress: (type: string) => void }) => {
     const platform = Platform.OS === 'ios' ? styles.backButtonIos : styles.backButtonAndroid
@@ -45,7 +46,7 @@ export const ChangePassword = ({handleButtonPress}: { handleButtonPress: (type: 
                     formData.append('password', newPassword);
 
 
-                    const response = await axios.put('http://192.168.0.30:5000/users/edit', formData);
+                    const response = await axios.put(`${REACT_APP_API_URL}/users/edit`, formData);
 
                     await setUserDataToStorage(response.data);
                     setFetchedUser(response.data);
