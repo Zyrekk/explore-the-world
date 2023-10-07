@@ -4,7 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="66e926f2-db0d-4144-b38e-eead7c62e692" name="Changes" comment="" />
+    <list default="true" id="66e926f2-db0d-4144-b38e-eead7c62e692" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_17_09_2023_22_45__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_17_09_2023_22_45__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/server.js" beforeDir="false" afterPath="$PROJECT_DIR$/backend/server.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/@types/react-native-dotenv.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/@types/react-native-dotenv.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/CreateNewJourney.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/CreateNewJourney.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/LoginRegister/LoginForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/LoginRegister/LoginForm.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/LoginRegister/RegisterForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/LoginRegister/RegisterForm.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Options/ChangePassword.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Options/ChangePassword.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Options/EditProfile.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Options/EditProfile.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/yarn.lock" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -62,7 +75,7 @@
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;aws.codewhisperer&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\Konrad\\Desktop\\explore-the-world\\frontend\\node_modules\\typescript\\lib&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\zyrak\\Desktop\\explore-the-world\\frontend\\node_modules\\typescript\\lib&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
@@ -150,6 +163,8 @@
       <workItem from="1695836823851" duration="1191000" />
       <workItem from="1696007763762" duration="1183000" />
       <workItem from="1696077008033" duration="79000" />
+      <workItem from="1696674690566" duration="1333000" />
+      <workItem from="1696676063426" duration="2679000" />
     </task>
     <servers />
   </component>

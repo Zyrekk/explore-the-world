@@ -5,6 +5,7 @@ import {AuthTypes} from "../../commons/types/AuthTypes";
 import {showAlert} from "../../commons/utils/Alert";
 import axios from "axios/index";
 import {AuthContext, setUserDataToStorage} from "../../commons/utils/AuthContext";
+import {REACT_APP_API_URL} from "@env";
 
 type WelcomeProps = {
     handleButtonPress: (type: string) => void;
@@ -36,13 +37,13 @@ export const RegisterForm = ({handleButtonPress, setLoader}: WelcomeProps) => {
                 email: email,
                 password: password
             }
-            const response = await axios.post("http://192.168.0.30:5000/users/add", userToAdd);
+            const response = await axios.post(`${REACT_APP_API_URL}/users/add`, userToAdd);
 
             if (response.status === 409) {
                 showAlert("Email or username already taken", "Please try again");
             } else if (response.status === 201) {
                 showAlert("Account created successfully", "You are logged in now");
-                const res = await axios.post("http://192.168.0.30:5000/users/login", {
+                const res = await axios.post(`${REACT_APP_API_URL}/users/login`, {
                     email: email,
                     password: password
                 });

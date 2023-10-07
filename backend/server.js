@@ -18,6 +18,6 @@ const usersRoutes = require('./src/users/userEndpoints');
 // Pass the 'upload' middleware to the userEndpoints router
 app.use('/users', upload.single('avatar'), usersRoutes);
 
-app.listen(5000, '192.168.0.29', () => {
+app.listen(5000, '192.168.1.106', () => {
     console.log("server started on port 5000");
 });

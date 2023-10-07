@@ -15,6 +15,7 @@ import {AuthTypes} from "../../commons/types/AuthTypes";
 import {AuthContext, setUserDataToStorage,} from "../../commons/utils/AuthContext";
 import {showAlert} from "../../commons/utils/Alert";
 import axios from "axios";
+import {REACT_APP_API_URL} from "@env";
 
 type WelcomeProps = {
     handleButtonPress: (type: string) => void;
@@ -36,8 +37,7 @@ export const LoginForm = ({handleButtonPress, setLoader}: WelcomeProps) => {
                 email: email,
                 password: password
             };
-
-            const response = await axios.post("http://192.168.0.30:5000/users/login", userToLogin);
+            const response = await axios.post(`${REACT_APP_API_URL}/users/login`, userToLogin);
 
             if (response.status === 404) {
                 showAlert("Wrong email or password", "Please try again");
