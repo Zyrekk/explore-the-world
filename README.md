@@ -8,7 +8,7 @@ My engineering thesis, a travel planning app.
 
 **Backend:** Node, Express
 
-**Database:** MongoDB
+**Database:** MongoDB or Firebase
 
 ## Installation
 
