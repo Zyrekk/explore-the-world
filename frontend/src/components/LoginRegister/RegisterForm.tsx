@@ -1,77 +1,78 @@
-import {KeyboardAvoidingView, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View} from "react-native";
-import {AntDesign, Ionicons} from "@expo/vector-icons";
-import React, {useContext, useState} from "react";
-import {AuthTypes} from "../../commons/types/AuthTypes";
-import {showAlert} from "../../commons/utils/Alert";
-import axios from "axios/index";
-import {AuthContext, setUserDataToStorage} from "../../commons/utils/AuthContext";
-import {REACT_APP_API_URL} from "@env";
+import {
+    KeyboardAvoidingView,
+    Pressable,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
+} from "react-native";
+import { AntDesign, Ionicons } from "@expo/vector-icons";
+import React, { useState } from "react";
+import { AuthTypes } from "../../commons/types/AuthTypes";
+import { FIREBASE_AUTH } from "../../../FirebaseConfig";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
-type WelcomeProps = {
+interface WelcomeProps {
     handleButtonPress: (type: string) => void;
     setLoader: (value: boolean) => void;
-};
+}
 
-export const RegisterForm = ({handleButtonPress, setLoader}: WelcomeProps) => {
-    const [nickname, setNickname] = useState<string>('')
-    const [email, setEmail] = useState<string>('')
-    const [password, setPassword] = useState<string>('')
-    const [repeatPassword, setRepeatPassword] = useState<string>('')
-    const platform = Platform.OS === 'ios' ? styles.backButtonIos : styles.backButtonAndroid
-    const {user, setUser} = useContext(AuthContext);
-    const offset = Platform.OS === 'ios' ? -100 : -300
+export const RegisterForm = ({
+    handleButtonPress,
+    setLoader,
+}: WelcomeProps) => {
+    const [nickname, setNickname] = useState<string>("");
+    const [email, setEmail] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
+    const [repeatPassword, setRepeatPassword] = useState<string>("");
+    const [loading, setLoading] = useState<boolean>(false);
+    const auth = FIREBASE_AUTH;
 
     const signUp = async () => {
+        setLoading(true);
         try {
-            const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-            if (!emailRegex.test(email)) {
-                showAlert("Invalid email format", "Please try again");
-                return;
-            }
-            if (password !== repeatPassword) {
-                showAlert("Passwords don't match", "Please try again");
-                return;
-            }
-            const userToAdd = {
-                username: nickname,
-                email: email,
-                password: password
-            }
-            const response = await axios.post(`${REACT_APP_API_URL}/users/add`, userToAdd);
-
-            if (response.status === 409) {
-                showAlert("Email or username already taken", "Please try again");
-            } else if (response.status === 201) {
-                showAlert("Account created successfully", "You are logged in now");
-                const res = await axios.post(`${REACT_APP_API_URL}/users/login`, {
-                    email: email,
-                    password: password
-                });
-                const userData = await res.data;
-                await setUserDataToStorage(userData);
-                setUser(userData);
-            } else {
-                showAlert("Server connection error", "Please try again later");
-            }
+            const response = await createUserWithEmailAndPassword(
+                auth,
+                email,
+                password
+            );
+            console.log(response);
+            alert("Check your emails!");
         } catch (error) {
-            // Handle network error
-            showAlert("Server connection error", "Please try again later");
+            console.log(error);
+            alert("Sign up failed");
+        } finally {
+            setLoading(false);
         }
     };
+
     return (
-        <KeyboardAvoidingView style={styles.keyboardContainer} behavior='position' keyboardVerticalOffset={offset}>
+        <KeyboardAvoidingView
+            style={styles.keyboardContainer}
+            behavior="position"
+        >
             <ScrollView contentContainerStyle={styles.scrollContainer}>
-                <Pressable style={platform} onPress={() => {
-                    handleButtonPress(AuthTypes.WELCOME)
-                }}>
-                    <AntDesign name="left" style={[styles.innerFont, {fontSize: 20}]}/>
-                    <Text style={[styles.innerFont, {fontSize: 20}]}>Back</Text>
-                </Pressable>
+                <TouchableOpacity
+                    style={styles.backButtonIos}
+                    onPress={() => {
+                        handleButtonPress(AuthTypes.WELCOME);
+                    }}
+                >
+                    <AntDesign
+                        name="left"
+                        style={[styles.innerFont, { fontSize: 20 }]}
+                    />
+                    <Text style={[styles.innerFont, { fontSize: 20 }]}>
+                        Back
+                    </Text>
+                </TouchableOpacity>
                 <View style={styles.container}>
                     <Text style={styles.text}>Sign up</Text>
                     <View style={styles.inputListContainer}>
                         <View style={styles.inputContainer}>
-                            <AntDesign name="user" style={styles.innerFont}/>
+                            <AntDesign name="user" style={styles.innerFont} />
                             <TextInput
                                 style={[styles.input, styles.innerFont]}
                                 placeholder="Nickname"
@@ -83,7 +84,7 @@ export const RegisterForm = ({handleButtonPress, setLoader}: WelcomeProps) => {
                             />
                         </View>
                         <View style={styles.inputContainer}>
-                            <AntDesign name="mail" style={styles.innerFont}/>
+                            <AntDesign name="mail" style={styles.innerFont} />
                             <TextInput
                                 style={[styles.input, styles.innerFont]}
                                 placeholder="E-mail"
@@ -96,7 +97,10 @@ export const RegisterForm = ({handleButtonPress, setLoader}: WelcomeProps) => {
                             />
                         </View>
                         <View style={styles.inputContainer}>
-                            <Ionicons name="ios-lock-closed-outline" style={styles.innerFont}/>
+                            <Ionicons
+                                name="ios-lock-closed-outline"
+                                style={styles.innerFont}
+                            />
                             <TextInput
                                 style={[styles.input, styles.innerFont]}
                                 placeholder="Password"
@@ -109,7 +113,10 @@ export const RegisterForm = ({handleButtonPress, setLoader}: WelcomeProps) => {
                             />
                         </View>
                         <View style={styles.inputContainer}>
-                            <Ionicons name="ios-lock-closed-outline" style={styles.innerFont}/>
+                            <Ionicons
+                                name="ios-lock-closed-outline"
+                                style={styles.innerFont}
+                            />
                             <TextInput
                                 style={[styles.input, styles.innerFont]}
                                 placeholder="Repeat password"
@@ -125,17 +132,22 @@ export const RegisterForm = ({handleButtonPress, setLoader}: WelcomeProps) => {
                     <Pressable style={styles.loginButton} onPress={signUp}>
                         <Text style={styles.buttonText}>Sign up</Text>
                     </Pressable>
-                    <Pressable style={styles.signUpButton} onPress={() => {
-                        handleButtonPress(AuthTypes.LOGIN)
-                    }}>
-                        <Text style={styles.signUpButtonText}>Already have an account?</Text>
+                    <Pressable
+                        style={styles.signUpButton}
+                        onPress={() => {
+                            handleButtonPress(AuthTypes.LOGIN);
+                        }}
+                    >
+                        <Text style={styles.signUpButtonText}>
+                            Already have an account?
+                        </Text>
                         <Text style={styles.signUpButtonTextBold}>SIGN IN</Text>
                     </Pressable>
                 </View>
             </ScrollView>
         </KeyboardAvoidingView>
-    )
-}
+    );
+};
 const styles = StyleSheet.create({
     keyboardContainer: {
         display: "flex",
@@ -152,7 +164,7 @@ const styles = StyleSheet.create({
     },
     scrollContainer: {
         flexGrow: 1,
-        height: "100%"
+        height: "100%",
     },
     loginOptions: {
         display: "flex",
@@ -172,7 +184,7 @@ const styles = StyleSheet.create({
     buttonText: {
         fontSize: 16,
         fontWeight: "600",
-        color: "white"
+        color: "white",
     },
     text: {
         fontSize: 35,
@@ -190,7 +202,7 @@ const styles = StyleSheet.create({
     dividerLine: {
         flex: 3,
         backgroundColor: "#adadad",
-        height: 2
+        height: 2,
     },
     dividerText: {
         flex: 1,
@@ -199,7 +211,7 @@ const styles = StyleSheet.create({
     },
     innerFont: {
         fontSize: 16,
-        color: "white"
+        color: "white",
     },
     inputListContainer: {
         width: "100%",
@@ -219,10 +231,10 @@ const styles = StyleSheet.create({
         marginTop: 25,
         height: 50,
         gap: 10,
-        flexDirection: "row"
+        flexDirection: "row",
     },
     input: {
-        flex: 1
+        flex: 1,
     },
     loginButton: {
         marginTop: 25,
@@ -238,14 +250,14 @@ const styles = StyleSheet.create({
         marginTop: 25,
         display: "flex",
         flexDirection: "row",
-        gap: 10
+        gap: 10,
     },
     signUpButtonText: {
-        color: "white"
+        color: "white",
     },
     signUpButtonTextBold: {
         fontWeight: "600",
-        color: "white"
+        color: "white",
     },
     backButtonIos: {
         position: "absolute",
@@ -257,7 +269,7 @@ const styles = StyleSheet.create({
         top: 20,
         left: 20,
         fontSize: 26,
-        color: "white"
+        color: "white",
     },
     backButtonAndroid: {
         position: "absolute",
@@ -269,7 +281,6 @@ const styles = StyleSheet.create({
         top: 50,
         left: 20,
         fontSize: 26,
-        color: "white"
-    }
-
+        color: "white",
+    },
 });
