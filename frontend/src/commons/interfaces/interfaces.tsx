@@ -1,4 +1,4 @@
-import {Country} from "react-native-country-picker-modal";
+import { Country } from "react-native-country-picker-modal";
 
 export interface UserData {
     username?: string;
@@ -7,8 +7,24 @@ export interface UserData {
     password?: string;
     lastName?: string;
     country: {
-
         country: Country;
-    }
+    };
     avatar?: string;
+}
+
+export interface UserDataSchema {
+    uid: string;
+    email: string;
+    emailVerified: boolean;
+    isAnonymous: boolean;
+    lastLoginAt: string;
+    phoneNumber: undefined | string;
+    photoURL: undefined | string;
+    providerData: [[Object]];
+}
+
+export interface UserDataToPost {
+    uid: string;
+    nickname: string;
+    email: string | null;
 }

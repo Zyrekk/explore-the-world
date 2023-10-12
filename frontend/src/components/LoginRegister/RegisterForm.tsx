@@ -11,8 +11,10 @@ import {
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import { AuthTypes } from "../../commons/types/AuthTypes";
-import { FIREBASE_AUTH } from "../../../FirebaseConfig";
+import { FIREBASE_AUTH, FIREBASE_DB } from "../../../FirebaseConfig";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { UserDataToPost } from "../../commons/interfaces/interfaces";
+import { addDoc, collection } from "firebase/firestore";
 
 interface WelcomeProps {
     handleButtonPress: (type: string) => void;
@@ -38,7 +40,15 @@ export const RegisterForm = ({
                 email,
                 password
             );
-            console.log(response);
+
+            const userSchemaToPost: UserDataToPost = {
+                uid: response.user.uid,
+                email: response.user.email,
+                nickname: nickname,
+            };
+
+            addDoc(collection(FIREBASE_DB, "Users"), userSchemaToPost);
+
             alert("Check your emails!");
         } catch (error) {
             console.log(error);
