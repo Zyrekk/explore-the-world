@@ -14,6 +14,7 @@ import { AuthTypes } from "../../commons/types/AuthTypes";
 import { FIREBASE_AUTH } from "../../../FirebaseConfig";
 
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { setUserDataToStorage } from "../../commons/utils/AuthContext";
 
 interface WelcomeProps {
     handleButtonPress: (type: string) => void;
@@ -34,6 +35,11 @@ export const LoginForm = ({ handleButtonPress, setLoader }: WelcomeProps) => {
                 email,
                 password
             );
+            await setUserDataToStorage({
+                uid: response.user.uid,
+                email: response.user.email,
+                nickname: "konradek",
+            });
             alert("Sign in successful");
         } catch (error) {
             console.log(error);

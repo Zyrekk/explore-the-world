@@ -9,6 +9,7 @@ import { FIREBASE_AUTH } from "./FirebaseConfig";
 import { ProfileScreen } from "./src/screens/ProfileScreen";
 import { HomeScreen } from "./src/screens/HomeScreen";
 import { Navigation } from "./src/components/Navigation/Navigation";
+import { getUserDataFromStorage } from "./src/commons/utils/AuthContext";
 
 const Stack = createNativeStackNavigator();
 
@@ -19,6 +20,18 @@ export default function App() {
         onAuthStateChanged(FIREBASE_AUTH, (user) => {
             setUser(user);
         });
+    }, []);
+
+    useEffect(() => {
+        const initializeUser = async () => {
+            const userData = await getUserDataFromStorage();
+            if (userData) {
+                setUser(userData);
+            } else {
+                console.log("no user in local storage");
+            }
+        };
+        initializeUser();
     }, []);
     return (
         <NavigationContainer>
