@@ -1,31 +1,30 @@
-import React, {useContext, useEffect, useState} from "react";
-import {Image, Platform, Pressable, SafeAreaView, ScrollView, StyleSheet, Text, View,} from "react-native";
-import {AntDesign} from "@expo/vector-icons";
-import {UserData} from "../../commons/interfaces/interfaces";
-import {AuthContext, getUserDataFromStorage,} from "../../commons/utils/AuthContext";
+import React, { useContext, useEffect, useState } from "react";
+import {
+    Image,
+    Platform,
+    Pressable,
+    SafeAreaView,
+    ScrollView,
+    StyleSheet,
+    Text,
+    View,
+} from "react-native";
+import { AntDesign } from "@expo/vector-icons";
+import { UserData } from "../../commons/interfaces/interfaces";
+import { getUserDataFromStorage } from "../../commons/utils/AuthContext";
 
 const UserInformation = () => {
     const platform =
         Platform.OS === "ios" ? styles.userInfoIos : styles.userInfoAndroid;
-    const {user} = useContext(AuthContext);
-    const [fetchedUser, setFetchedUser] = useState<UserData | null>(null);
+    const [user, setUser] = useState<UserData | null>(null);
 
     useEffect(() => {
         const getUserData = async () => {
             try {
-                // Check if user data is available in local storage
                 const userData = await getUserDataFromStorage();
                 if (userData) {
-                    setFetchedUser(userData);
+                    setUser(userData);
                 }
-                // else {
-                // If user data is not in local storage, fetch it from the database
-                //     const response = await fetch(
-                //         `http://192.168.0.30:5000/users/getByEmail/${user?.email}`
-                //     );
-                //     const userDataFromAPI = await response.json();
-                //     setFetchedUser(userDataFromAPI);
-                // }
             } catch (error) {
                 console.error("Error:", error);
             }
@@ -42,18 +41,18 @@ const UserInformation = () => {
                 </View>
                 <View style={styles.mainInfo}>
                     <View style={styles.avatarContainer}>
-                        {fetchedUser?.avatar && (
+                        {user?.avatar && (
                             <Image
                                 style={styles.avatarImage}
                                 source={{
-                                    uri: `data:image/jpeg;base64,${fetchedUser.avatar}`,
+                                    uri: `data:image/jpeg;base64,${user.avatar}`,
                                 }}
                             />
                         )}
                     </View>
                     <View style={styles.mainInfoContent}>
                         <Text style={styles.mainInfoText}>
-                            {fetchedUser?.username}
+                            {user?.nickname}
                         </Text>
                         <View style={styles.countryInfo}>
                             <Image
@@ -71,7 +70,7 @@ const UserInformation = () => {
                                 🌏 Your trips
                             </Text>
                         </View>
-                        <AntDesign name="right" size={18} color="white"/>
+                        <AntDesign name="right" size={18} color="white" />
                     </Pressable>
                     <Pressable style={styles.eventButton}>
                         <View style={styles.eventButtonFlex}>
@@ -79,7 +78,7 @@ const UserInformation = () => {
                                 🏆 Achievements
                             </Text>
                         </View>
-                        <AntDesign name="right" size={18} color="white"/>
+                        <AntDesign name="right" size={18} color="white" />
                     </Pressable>
                     <Pressable style={styles.eventButton}>
                         <View style={styles.eventButtonFlex}>
@@ -87,7 +86,7 @@ const UserInformation = () => {
                                 ️️✈️ Flight tickets
                             </Text>
                         </View>
-                        <AntDesign name="right" size={18} color="white"/>
+                        <AntDesign name="right" size={18} color="white" />
                     </Pressable>
                     <Pressable style={styles.eventButton}>
                         <View style={styles.eventButtonFlex}>
@@ -95,7 +94,7 @@ const UserInformation = () => {
                                 ️🧑 Friends
                             </Text>
                         </View>
-                        <AntDesign name="right" size={18} color="white"/>
+                        <AntDesign name="right" size={18} color="white" />
                     </Pressable>
                     <Pressable style={styles.latestJourneyEvent}>
                         <View style={styles.latestJourneyEventContent}>
@@ -183,7 +182,7 @@ const styles = StyleSheet.create({
         borderTopColor: "white",
 
         borderRadius: 10000,
-        transform: [{scaleX: 1.9}, {scaleY: 1.6}],
+        transform: [{ scaleX: 1.9 }, { scaleY: 1.6 }],
     },
     mainInfo: {
         display: "flex",
@@ -314,4 +313,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export {UserInformation};
+export { UserInformation };

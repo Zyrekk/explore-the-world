@@ -1,19 +1,31 @@
-import {StyleSheet, View} from "react-native";
-import {UserInformation} from "../components/Profile/UserInformation";
+import {
+    Button,
+    Pressable,
+    SafeAreaView,
+    StyleSheet,
+    Text,
+    View,
+} from "react-native";
+import { UserInformation } from "../components/Profile/UserInformation";
+import { NavigationProp } from "@react-navigation/native";
 
-const ProfileScreen = () => {
+interface RouterProps {
+    navigation: NavigationProp<any, any>;
+}
+
+const ProfileScreen = ({ navigation }: RouterProps) => {
     return (
         <View style={styles.container}>
-            <UserInformation/>
+            <UserInformation />
         </View>
-    )
-}
+    );
+};
 const styles = StyleSheet.create({
     container: {
         width: "100%",
         minHeight: "100%",
-        alignItems: "center"
+        alignItems: "center",
     },
 });
 
-export {ProfileScreen};
+export { ProfileScreen };

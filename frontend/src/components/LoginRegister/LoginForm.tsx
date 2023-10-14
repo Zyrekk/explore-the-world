@@ -1,6 +1,5 @@
 import {
     KeyboardAvoidingView,
-    Platform,
     ScrollView,
     StyleSheet,
     Text,
@@ -8,55 +7,45 @@ import {
     TouchableOpacity,
     View,
 } from "react-native";
-import {SocialIcon} from "react-native-elements";
-import React, {useContext, useState} from "react";
-import {AntDesign, Ionicons} from "@expo/vector-icons";
-import {AuthTypes} from "../../commons/types/AuthTypes";
-import {AuthContext, setUserDataToStorage,} from "../../commons/utils/AuthContext";
-import {showAlert} from "../../commons/utils/Alert";
-import axios from "axios";
-import {REACT_APP_API_URL} from "@env";
+import { SocialIcon } from "react-native-elements";
+import React, { useState } from "react";
+import { AntDesign, Ionicons } from "@expo/vector-icons";
+import { AuthTypes } from "../../commons/types/AuthTypes";
+import { FIREBASE_AUTH } from "../../../FirebaseConfig";
 
-type WelcomeProps = {
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { setUserDataToStorage } from "../../commons/utils/AuthContext";
+
+interface WelcomeProps {
     handleButtonPress: (type: string) => void;
     setLoader: (value: boolean) => void;
-};
+}
 
-export const LoginForm = ({handleButtonPress, setLoader}: WelcomeProps) => {
+export const LoginForm = ({ handleButtonPress, setLoader }: WelcomeProps) => {
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
-    const platform =
-        Platform.OS === "ios" ? styles.backButtonIos : styles.backButtonAndroid;
-    const offset = Platform.OS === "ios" ? -100 : -300;
-    const {user, setUser} = useContext(AuthContext);
+    const [loading, setLoading] = useState<boolean>(false);
+    const auth = FIREBASE_AUTH;
 
     const signIn = async () => {
-        setLoader(true)
+        setLoading(true);
         try {
-            const userToLogin = {
-                email: email,
-                password: password
-            };
-            const response = await axios.post(`${REACT_APP_API_URL}/users/login`, userToLogin);
-
-            if (response.status === 404) {
-                showAlert("Wrong email or password", "Please try again");
-            } else if (response.status === 200) {
-                const userData = await response.data;
-                await setUserDataToStorage(userData);
-                setUser(userData);
-            } else {
-                showAlert("Wrong email or password", "Please try again");
-            }
-            setLoader(false)
-        } catch (error: any) {
-            if (error.request.status === (401 || 404)) {
-                setLoader(false)
-                showAlert("Wrong email or password", "Please try again");
-                return
-            }
-            showAlert("Server connection error", "Please try again later");
-            setLoader(false)
+            const response = await signInWithEmailAndPassword(
+                auth,
+                email,
+                password
+            );
+            await setUserDataToStorage({
+                uid: response.user.uid,
+                email: response.user.email,
+                nickname: "konradek",
+            });
+            alert("Sign in successful");
+        } catch (error) {
+            console.log(error);
+            alert("Sign in failed");
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -64,20 +53,19 @@ export const LoginForm = ({handleButtonPress, setLoader}: WelcomeProps) => {
         <KeyboardAvoidingView
             style={styles.keyboardContainer}
             behavior="position"
-            keyboardVerticalOffset={offset}
         >
             <ScrollView contentContainerStyle={styles.scrollContainer}>
                 <TouchableOpacity
-                    style={platform}
+                    style={styles.backButtonIos}
                     onPress={() => {
                         handleButtonPress(AuthTypes.WELCOME);
                     }}
                 >
                     <AntDesign
                         name="left"
-                        style={[styles.innerFont, {fontSize: 20}]}
+                        style={[styles.innerFont, { fontSize: 20 }]}
                     />
-                    <Text style={[styles.innerFont, {fontSize: 20}]}>
+                    <Text style={[styles.innerFont, { fontSize: 20 }]}>
                         Back
                     </Text>
                 </TouchableOpacity>
@@ -100,13 +88,13 @@ export const LoginForm = ({handleButtonPress, setLoader}: WelcomeProps) => {
                         />
                     </View>
                     <View style={styles.divider}>
-                        <View style={styles.dividerLine}/>
+                        <View style={styles.dividerLine} />
                         <Text style={styles.dividerText}>OR</Text>
-                        <View style={styles.dividerLine}/>
+                        <View style={styles.dividerLine} />
                     </View>
                     <View style={styles.inputListContainer}>
                         <View style={styles.inputContainer}>
-                            <AntDesign name="mail" style={styles.innerFont}/>
+                            <AntDesign name="mail" style={styles.innerFont} />
                             <TextInput
                                 style={[styles.input, styles.innerFont]}
                                 onChangeText={setEmail}
@@ -134,7 +122,10 @@ export const LoginForm = ({handleButtonPress, setLoader}: WelcomeProps) => {
                             />
                         </View>
                     </View>
-                    <TouchableOpacity style={styles.loginButton} onPress={signIn}>
+                    <TouchableOpacity
+                        style={styles.loginButton}
+                        onPress={signIn}
+                    >
                         <Text style={styles.buttonText}>Log in</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
@@ -169,7 +160,7 @@ const styles = StyleSheet.create({
         width: "100%",
         gap: 5,
         height: "100%",
-        zIndex: 200
+        zIndex: 200,
     },
     scrollContainer: {
         flexGrow: 1,
@@ -284,18 +275,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
         gap: 10,
         top: 20,
-        left: 20,
-        fontSize: 26,
-        color: "white",
-    },
-    backButtonAndroid: {
-        position: "absolute",
-        zIndex: 100,
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        gap: 10,
-        top: 50,
         left: 20,
         fontSize: 26,
         color: "white",
