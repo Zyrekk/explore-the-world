@@ -14,7 +14,7 @@ import { AuthTypes } from "../../commons/types/AuthTypes";
 import { FIREBASE_AUTH, FIREBASE_DB } from "../../../FirebaseConfig";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { UserDataToPost } from "../../commons/interfaces/interfaces";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, setDoc, doc } from "firebase/firestore";
 
 interface WelcomeProps {
     handleButtonPress: (type: string) => void;
@@ -40,14 +40,14 @@ export const RegisterForm = ({
                 email,
                 password
             );
-
             const userSchemaToPost: UserDataToPost = {
-                uid: response.user.uid,
                 email: response.user.email,
                 nickname: nickname,
             };
-
-            addDoc(collection(FIREBASE_DB, "Users"), userSchemaToPost);
+            setDoc(
+                doc(FIREBASE_DB, "Users", response.user.uid),
+                userSchemaToPost
+            );
 
             alert("Check your emails!");
         } catch (error) {

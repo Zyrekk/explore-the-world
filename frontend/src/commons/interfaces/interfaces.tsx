@@ -25,7 +25,6 @@ export interface UserDataSchema {
 }
 
 export interface UserDataToPost {
-    uid: string;
     nickname: string;
     email: string | null;
 }

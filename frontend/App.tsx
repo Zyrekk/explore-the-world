@@ -9,7 +9,10 @@ import { FIREBASE_AUTH } from "./FirebaseConfig";
 import { ProfileScreen } from "./src/screens/ProfileScreen";
 import { HomeScreen } from "./src/screens/HomeScreen";
 import { Navigation } from "./src/components/Navigation/Navigation";
-import { getUserDataFromStorage } from "./src/commons/utils/AuthContext";
+import {
+    AuthContext,
+    getUserDataFromStorage,
+} from "./src/commons/utils/AuthContext";
 
 const Stack = createNativeStackNavigator();
 
@@ -34,36 +37,38 @@ export default function App() {
         initializeUser();
     }, []);
     return (
-        <NavigationContainer>
-            <Stack.Navigator initialRouteName="Login">
-                {user ? (
-                    <>
+        <AuthContext.Provider value={{ user, setUser }}>
+            <NavigationContainer>
+                <Stack.Navigator initialRouteName="Landing">
+                    {user ? (
+                        <>
+                            <Stack.Screen
+                                name="Home"
+                                component={HomeScreen}
+                                options={{ headerShown: false }}
+                            />
+                            <Stack.Screen
+                                name="Profile"
+                                component={ProfileScreen}
+                                options={{ headerShown: false }}
+                            />
+                            <Stack.Screen
+                                name="Options"
+                                component={OptionsScreen}
+                                options={{ headerShown: false }}
+                            />
+                        </>
+                    ) : (
                         <Stack.Screen
-                            name="Home"
-                            component={HomeScreen}
+                            name="Landing"
+                            component={LoginRegisterScreen}
                             options={{ headerShown: false }}
                         />
-                        <Stack.Screen
-                            name="Profile"
-                            component={ProfileScreen}
-                            options={{ headerShown: false }}
-                        />
-                        <Stack.Screen
-                            name="Options"
-                            component={OptionsScreen}
-                            options={{ headerShown: false }}
-                        />
-                    </>
-                ) : (
-                    <Stack.Screen
-                        name="Landing"
-                        component={LoginRegisterScreen}
-                        options={{ headerShown: false }}
-                    />
-                )}
-            </Stack.Navigator>
-            {user && <Navigation />}
-        </NavigationContainer>
+                    )}
+                </Stack.Navigator>
+                {user && <Navigation />}
+            </NavigationContainer>
+        </AuthContext.Provider>
     );
 }
 

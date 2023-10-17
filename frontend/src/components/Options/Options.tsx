@@ -1,5 +1,5 @@
 import { StyleSheet, Switch, Text, TouchableOpacity, View } from "react-native";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
     AntDesign,
     FontAwesome,
@@ -9,6 +9,10 @@ import {
 import { OptionTypes } from "../../commons/types/OptionTypes";
 import { FIREBASE_AUTH } from "../../../FirebaseConfig";
 import { NavigationProp } from "@react-navigation/native";
+import {
+    AuthContext,
+    removeUserDataFromStorage,
+} from "../../commons/utils/AuthContext";
 
 interface OptionsProps {
     handleButtonPress: (value: string) => void;
@@ -17,9 +21,13 @@ interface OptionsProps {
 
 export const Options = ({ handleButtonPress, navigation }: OptionsProps) => {
     const [isEnabled, setIsEnabled] = useState(false);
+    const { setUser } = useContext(AuthContext);
 
-    const logout = () => {
+    const logout = async () => {
+        console.log("logout");
         FIREBASE_AUTH.signOut();
+        removeUserDataFromStorage();
+        setUser(null);
     };
     const toggleSwitch = () => setIsEnabled(!isEnabled);
     return (
