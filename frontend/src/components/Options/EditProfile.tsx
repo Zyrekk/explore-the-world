@@ -12,7 +12,10 @@ import {
 } from "react-native";
 import { AntDesign, Ionicons, MaterialIcons } from "@expo/vector-icons";
 import React, { useEffect, useState } from "react";
-import { UserData } from "../../commons/interfaces/interfaces";
+import {
+    FirebaseUserSchema,
+    UserData,
+} from "../../commons/interfaces/interfaces";
 import {
     getUserDataFromStorage,
     setUserDataToStorage,
@@ -65,7 +68,9 @@ export const EditProfile = ({ handleButtonPress }: EditProfileProps) => {
 
     const [loader, setLoader] = useState<boolean>(false);
 
-    const [fetchedUser, setFetchedUser] = useState<UserData | null>(null);
+    const [fetchedUser, setFetchedUser] = useState<FirebaseUserSchema | null>(
+        null
+    );
 
     const [password, setPassword] = useState<string>("");
 
@@ -96,52 +101,52 @@ export const EditProfile = ({ handleButtonPress }: EditProfileProps) => {
 
     const [countryEdit, setCountryEdit] = useState<boolean>(false);
 
-    const [country, setCountry] = useState<CountryProps>({
-        country: {
-            cca2: "DE",
-            currency: ["EUR"],
-            flag: "DEL",
-            name: "Germany",
-            region: "Europe",
-            subregion: "Western Europe",
-            callingCode: ["49"],
-        },
-        editable: false,
-    });
-    const [countryCode, setCountryCode] = useState<CountryCode>("PL");
-    useEffect(() => {
-        const getUserData = async () => {
-            try {
-                // Check if user data is available in local storage
-                const userData = await getUserDataFromStorage();
-                setFetchedUser(userData);
-                if (userData) {
-                    setEmail((prevState) => ({
-                        ...prevState,
-                        value: userData.email,
-                    }));
-                    setName((prevState) => ({
-                        ...prevState,
-                        value: userData.name,
-                    }));
-                    setLastName((prevState) => ({
-                        ...prevState,
-                        value: userData.lastName,
-                    }));
-                    if (userData.country) {
-                        setCountry((prevState) => ({
-                            ...prevState,
-                            country: userData.country.country,
-                        }));
-                    }
-                    setAvatar(userData?.avatar);
-                }
-            } catch (error) {
-                console.error("Error:", error);
-            }
-        };
-        getUserData().then((r) => console.log(r));
-    }, []);
+    // const [country, setCountry] = useState<CountryProps>({
+    //     country: {
+    //         cca2: "DE",
+    //         currency: ["EUR"],
+    //         flag: "DEL",
+    //         name: "Germany",
+    //         region: "Europe",
+    //         subregion: "Western Europe",
+    //         callingCode: ["49"],
+    //     },
+    //     editable: false,
+    // });
+    // const [countryCode, setCountryCode] = useState<CountryCode>("PL");
+    // useEffect(() => {
+    //     const getUserData = async () => {
+    //         try {
+    //             // Check if user data is available in local storage
+    //             const userData = await getUserDataFromStorage();
+    //             setFetchedUser(userData);
+    //             if (userData) {
+    //                 setEmail((prevState) => ({
+    //                     ...prevState,
+    //                     value: userData.email,
+    //                 }));
+    //                 setName((prevState) => ({
+    //                     ...prevState,
+    //                     value: userData.name,
+    //                 }));
+    //                 setLastName((prevState) => ({
+    //                     ...prevState,
+    //                     value: userData.lastName,
+    //                 }));
+    //                 if (userData.country) {
+    //                     setCountry((prevState) => ({
+    //                         ...prevState,
+    //                         country: userData.country.country,
+    //                     }));
+    //                 }
+    //                 setAvatar(userData?.avatar);
+    //             }
+    //         } catch (error) {
+    //             console.error("Error:", error);
+    //         }
+    //     };
+    //     getUserData().then((r) => console.log(r));
+    // }, []);
 
     // const handleCountrySelect = (country: Country) => {
     //     setCountry((prevState) => ({ country: country, editable: false }));
@@ -351,17 +356,41 @@ export const EditProfile = ({ handleButtonPress }: EditProfileProps) => {
 
     const updateUser = async () => {
         if (fetchedUser) {
-            const q = query(
-                collection(FIREBASE_DB, "Users"),
-                where("uid", "==", fetchedUser.uid)
-            );
-            getDocs(q).then((snapshot) => {
-                console.log(snapshot.docs[0].id);
-                const ref = doc(FIREBASE_DB, `Users/${snapshot.docs[0].id}`);
-                updateDoc(ref, { nickname: "Konrado" });
-            });
+            try {
+                await updateDoc(doc(FIREBASE_DB, `Users/${fetchedUser.uid}`), {
+                    name: name.value,
+                    lastname: lastName.value,
+                });
+                alert("User data updated successfully");
+            } catch (error) {
+                console.error(error);
+                alert("User data update failed");
+            }
+        } else {
+            alert("No user data to update");
         }
     };
+
+    useEffect(() => {
+        const initializeUser = async () => {
+            const userData = await getUserDataFromStorage();
+            setFetchedUser(userData);
+
+            if (userData) {
+                setName((prevState) => ({
+                    ...prevState,
+                    value: userData.name,
+                }));
+                setLastName((prevState) => ({
+                    ...prevState,
+                    value: userData.lastname,
+                }));
+            } else {
+                console.log("no user in local storage");
+            }
+        };
+        initializeUser();
+    }, []);
 
     return (
         <KeyboardAvoidingView
@@ -405,61 +434,7 @@ export const EditProfile = ({ handleButtonPress }: EditProfileProps) => {
                                 </Text>
                             </TouchableOpacity>
                         </View> */}
-                        <View style={styles.dataEditionContent}>
-                            <View style={styles.singleValueEdit}>
-                                <Text style={styles.singleValueEditText}>
-                                    E-mail
-                                </Text>
-                                <View
-                                    style={[
-                                        styles.inputContainer,
-                                        !email.editable
-                                            ? styles.inputContainerDisabled
-                                            : null,
-                                    ]}
-                                >
-                                    <AntDesign
-                                        name="mail"
-                                        style={styles.innerFont}
-                                    />
-                                    <TextInput
-                                        style={[styles.input, styles.innerFont]}
-                                        onChangeText={(text) =>
-                                            setEmail((prevEmail) => ({
-                                                ...prevEmail,
-                                                value: text,
-                                            }))
-                                        }
-                                        value={email.value}
-                                        placeholder="E-mail"
-                                        autoCorrect={false}
-                                        placeholderTextColor="#fff"
-                                        underlineColorAndroid="transparent"
-                                        onFocus={() =>
-                                            setEmail((prevEmail) => ({
-                                                ...prevEmail,
-                                                editable: true,
-                                            }))
-                                        }
-                                        onBlur={() =>
-                                            email.value ===
-                                                fetchedUser?.email &&
-                                            setEmail((prevEmail) => ({
-                                                ...prevEmail,
-                                                editable: false,
-                                            }))
-                                        }
-                                    />
-                                    {email.value === fetchedUser?.email && (
-                                        <Ionicons
-                                            name="pencil"
-                                            size={24}
-                                            color={"white"}
-                                        />
-                                    )}
-                                </View>
-                            </View>
-                        </View>
+                        <View style={styles.dataEditionContent}></View>
                         <View style={styles.dataEditionContent}>
                             <View style={styles.singleValueEdit}>
                                 <Text style={styles.singleValueEditText}>
@@ -552,7 +527,7 @@ export const EditProfile = ({ handleButtonPress }: EditProfileProps) => {
                                         }
                                         onBlur={() =>
                                             lastName.value ===
-                                                fetchedUser?.lastName &&
+                                                fetchedUser?.lastname &&
                                             setLastName((prevLastName) => ({
                                                 ...prevLastName,
                                                 editable: false,
@@ -561,7 +536,7 @@ export const EditProfile = ({ handleButtonPress }: EditProfileProps) => {
                                     />
 
                                     {lastName.value ===
-                                        fetchedUser?.lastName && (
+                                        fetchedUser?.lastname && (
                                         <Ionicons
                                             name="pencil"
                                             size={24}
@@ -571,7 +546,7 @@ export const EditProfile = ({ handleButtonPress }: EditProfileProps) => {
                                 </View>
                             </View>
                         </View>
-                        <View style={styles.dataEditionContent}>
+                        {/* <View style={styles.dataEditionContent}>
                             <View style={styles.singleValueEdit}>
                                 <Text style={styles.singleValueEditText}>
                                     Nationality{" "}
@@ -601,7 +576,7 @@ export const EditProfile = ({ handleButtonPress }: EditProfileProps) => {
                                             {country.country.name.toString()}
                                         </Text>
                                     </Pressable>
-                                    {/*<TouchableOpacity onPress={() => setCountryEdit(!countryEdit)}>*/}
+                                    <TouchableOpacity onPress={() => setCountryEdit(!countryEdit)}>
                                     {!isCountryChanged && (
                                         <Ionicons
                                             name="pencil"
@@ -609,10 +584,10 @@ export const EditProfile = ({ handleButtonPress }: EditProfileProps) => {
                                             color={"white"}
                                         />
                                     )}
-                                    {/*</TouchableOpacity>*/}
+                                    </TouchableOpacity>
                                 </View>
                             </View>
-                        </View>
+                        </View> */}
                         {/* {showSaveButton()} */}
 
                         {/* {showCountryPicker && (

@@ -24,7 +24,12 @@ export interface UserDataSchema {
     providerData: [[Object]];
 }
 
-export interface UserDataToPost {
+export interface FirebaseUserSchema {
+    uid: string;
+    email: string;
     nickname: string;
-    email: string | null;
+    name?: string;
+    lastname?: string;
+    avatar?: string;
+    country?: Country;
 }

@@ -13,18 +13,16 @@ import React, { useState } from "react";
 import { AuthTypes } from "../../commons/types/AuthTypes";
 import { FIREBASE_AUTH, FIREBASE_DB } from "../../../FirebaseConfig";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { UserDataToPost } from "../../commons/interfaces/interfaces";
-import { addDoc, collection, setDoc, doc } from "firebase/firestore";
+import { FirebaseUserSchema } from "../../commons/interfaces/interfaces";
+import { setDoc, doc } from "firebase/firestore";
+import { setUserDataToStorage } from "../../commons/utils/AuthContext";
 
 interface WelcomeProps {
     handleButtonPress: (type: string) => void;
     setLoader: (value: boolean) => void;
 }
 
-export const RegisterForm = ({
-    handleButtonPress,
-    setLoader,
-}: WelcomeProps) => {
+export const RegisterForm = ({ handleButtonPress }: WelcomeProps) => {
     const [nickname, setNickname] = useState<string>("");
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
@@ -40,18 +38,27 @@ export const RegisterForm = ({
                 email,
                 password
             );
-            const userSchemaToPost: UserDataToPost = {
-                email: response.user.email,
-                nickname: nickname,
-            };
-            setDoc(
-                doc(FIREBASE_DB, "Users", response.user.uid),
-                userSchemaToPost
-            );
 
-            alert("Check your emails!");
+            if (response) {
+                const { email } = response.user;
+                const userSchemaToPost: FirebaseUserSchema = {
+                    uid: response.user.uid,
+                    email: email || "",
+                    nickname,
+                };
+
+                await Promise.all([
+                    setDoc(
+                        doc(FIREBASE_DB, "Users", response.user.uid),
+                        userSchemaToPost
+                    ),
+                    setUserDataToStorage(userSchemaToPost),
+                ]);
+
+                alert("Check your emails!");
+            }
         } catch (error) {
-            console.log(error);
+            console.error(error);
             alert("Sign up failed");
         } finally {
             setLoading(false);
