@@ -11,10 +11,11 @@ import { SocialIcon } from "react-native-elements";
 import React, { useState } from "react";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { AuthTypes } from "../../commons/types/AuthTypes";
-import { FIREBASE_AUTH } from "../../../FirebaseConfig";
-
+import { FIREBASE_AUTH, FIREBASE_DB } from "../../../FirebaseConfig";
+import { doc, getDoc } from "firebase/firestore";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { setUserDataToStorage } from "../../commons/utils/AuthContext";
+import { FirebaseUserSchema } from "../../commons/interfaces/interfaces";
 
 interface WelcomeProps {
     handleButtonPress: (type: string) => void;
@@ -29,20 +30,42 @@ export const LoginForm = ({ handleButtonPress, setLoader }: WelcomeProps) => {
 
     const signIn = async () => {
         setLoading(true);
+
         try {
             const response = await signInWithEmailAndPassword(
                 auth,
                 email,
                 password
             );
-            await setUserDataToStorage({
-                uid: response.user.uid,
-                email: response.user.email,
-                nickname: "konradek",
-            });
-            alert("Sign in successful");
+
+            const userDocRef = doc(FIREBASE_DB, "Users", response.user.uid);
+            const docSnapshot = await getDoc(userDocRef);
+
+            if (docSnapshot.exists()) {
+                const userData = docSnapshot.data();
+                if (userData) {
+                    console.log("login", response.user.uid);
+
+                    const userToStorage: FirebaseUserSchema = {
+                        uid: response.user.uid,
+                        email: userData?.email,
+                        nickname: userData?.nickname,
+                        name: userData?.name,
+                        lastname: userData?.lastname,
+                        avatar: userData?.avatar,
+                        country: userData?.country,
+                    };
+
+                    setUserDataToStorage(userToStorage);
+                    alert("Sign in successful");
+                } else {
+                    alert("User email not found");
+                }
+            } else {
+                alert("User data not found in Firestore");
+            }
         } catch (error) {
-            console.log(error);
+            console.error(error);
             alert("Sign in failed");
         } finally {
             setLoading(false);

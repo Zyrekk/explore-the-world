@@ -1,11 +1,10 @@
 import { createContext } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Country } from "react-native-country-picker-modal";
-import { UserDataToPost } from "../interfaces/interfaces";
+import { FirebaseUserSchema } from "../interfaces/interfaces";
 
 export interface UserContext {
-    user: UserDataToPost | null;
-    setUser: (user: UserDataToPost | null) => void;
+    user: FirebaseUserSchema | null;
+    setUser: (user: FirebaseUserSchema | null) => void;
 }
 
 export const getUserDataFromStorage = async () => {
@@ -27,7 +26,8 @@ export const removeUserDataFromStorage = async () => {
         console.error("Error removing user data from storage:", error);
     }
 };
-export const setUserDataToStorage = async (userData: UserDataToPost) => {
+
+export const setUserDataToStorage = async (userData: FirebaseUserSchema) => {
     try {
         await AsyncStorage.setItem("userData", JSON.stringify(userData));
         console.log("user saved");
@@ -37,6 +37,6 @@ export const setUserDataToStorage = async (userData: UserDataToPost) => {
 };
 
 export const AuthContext = createContext<UserContext>({
-    setUser(user: UserDataToPost | null): void {},
+    setUser(user: FirebaseUserSchema | null): void {},
     user: null,
 });
