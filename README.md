@@ -16,13 +16,6 @@ My engineering thesis, a travel planning app.
   npm install
 ```
 
-## Backend .env variables
-
-```
-DATABASE_NAME=ETW
-DATABASE_URL=
-```
-
 ## Frontend .env variables
 
 ```
