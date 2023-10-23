@@ -6,7 +6,7 @@ My engineering thesis, a travel planning app.
 
 **Frontend:** React native, Google maps, Typescript, Expo
 
-**Database:** Firebase
+**Database:** Firebase, Local storage
 
 ## Installation
 
