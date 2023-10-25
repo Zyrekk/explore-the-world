@@ -4,17 +4,18 @@ My engineering thesis, a travel planning app.
 
 ## Tech Stack
 
-**Frontend:** React native, Google maps, Typescript, Expo
+**Frontend:** React native, Google Maps, Typescript, Expo
 
-**Database:** Firebase, Local storage
+**Database:** Firebase
+
 
 ## Installation
 
-```npm
-  npm install
+```yarn
+  yarn install
 ```
 
-## Frontend .env variables
+## .env variables
 
 ```
 REACT_APP_KEY=

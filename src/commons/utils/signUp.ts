@@ -11,12 +11,10 @@ export const signUp = async (
     repeatPassword: string
 ) => {
     const auth = FIREBASE_AUTH;
-
     if (password !== repeatPassword) {
         alert("Passwords don't match");
         return;
     }
-
     try {
         const response = await createUserWithEmailAndPassword(
             auth,
@@ -25,9 +23,7 @@ export const signUp = async (
         );
 
         if (response) {
-            const { email } = response.user;
-            const userSchemaToPost: FirebaseUserSchema = {
-                uid: response.user.uid,
+            const registerData: FirebaseUserSchema = {
                 email: email || "",
                 nickname,
             };
@@ -35,12 +31,18 @@ export const signUp = async (
             await Promise.all([
                 setDoc(
                     doc(FIREBASE_DB, "Users", response.user.uid),
-                    userSchemaToPost
+                    registerData
                 ),
-                setUserDataToStorage(userSchemaToPost),
+                setUserDataToStorage({
+                    uid: response.user.uid,
+                    email,
+                    nickname,
+                    name: "",
+                    lastName: "",
+                    avatar: "",
+                }),
             ]);
-
-            alert("Check your emails!");
+            alert("Sign up successful");
         }
     } catch (error) {
         console.error(error);

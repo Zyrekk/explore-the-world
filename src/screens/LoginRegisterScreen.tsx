@@ -6,9 +6,9 @@ import {
     View,
 } from "react-native";
 import React, { useState } from "react";
-import { Welcome } from "../components/LoginRegister/Welcome";
-import { LoginForm } from "../components/LoginRegister/LoginForm";
-import { RegisterForm } from "../components/LoginRegister/RegisterForm";
+import { Welcome } from "../components/AuthComponents/Welcome";
+import { LoginForm } from "../components/AuthComponents/LoginForm";
+import { RegisterForm } from "../components/AuthComponents/RegisterForm";
 
 export const LoginRegisterScreen = () => {
     const types = {

@@ -8,7 +8,7 @@ import { User, onAuthStateChanged } from "firebase/auth";
 import { FIREBASE_AUTH } from "./FirebaseConfig";
 import { ProfileScreen } from "./src/screens/ProfileScreen";
 import { HomeScreen } from "./src/screens/HomeScreen";
-import { Navigation } from "./src/components/Navigation/Navigation";
+import { Navigation } from "./src/components/Navigation";
 import {
     AuthContext,
     getUserDataFromStorage,

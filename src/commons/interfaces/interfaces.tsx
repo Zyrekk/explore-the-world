@@ -1,5 +1,15 @@
 import { Country } from "react-native-country-picker-modal";
 
+export interface LocalStorageUserSchema{
+    uid: string;
+    email: string;
+    nickname: string;
+    name?: string;
+    lastName?: string;
+    avatar?: string;
+    country?: Country;
+}
+
 export interface UserData {
     uid: string;
     nickname?: string;
@@ -12,20 +22,7 @@ export interface UserData {
     };
     avatar?: string;
 }
-
-export interface UserDataSchema {
-    uid: string;
-    email: string;
-    emailVerified: boolean;
-    isAnonymous: boolean;
-    lastLoginAt: string;
-    phoneNumber: undefined | string;
-    photoURL: undefined | string;
-    providerData: [[Object]];
-}
-
 export interface FirebaseUserSchema {
-    uid: string;
     email: string;
     nickname: string;
     name?: string;

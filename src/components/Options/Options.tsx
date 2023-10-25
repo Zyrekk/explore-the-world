@@ -1,16 +1,16 @@
-import { StyleSheet, Switch, Text, TouchableOpacity, View } from "react-native";
-import React, { useContext, useState } from "react";
+import {StyleSheet, Switch, Text, TouchableOpacity, View} from "react-native";
+import React, {useContext, useEffect, useState} from "react";
 import {
     AntDesign,
     FontAwesome,
     Foundation,
     Ionicons,
 } from "@expo/vector-icons";
-import { OptionTypes } from "../../commons/types/OptionTypes";
-import { FIREBASE_AUTH } from "../../../FirebaseConfig";
-import { NavigationProp } from "@react-navigation/native";
+import {OptionTypes} from "../../commons/types/OptionTypes";
+import {FIREBASE_AUTH} from "../../../FirebaseConfig";
+import {NavigationProp} from "@react-navigation/native";
 import {
-    AuthContext,
+    AuthContext, getUserDataFromStorage,
     removeUserDataFromStorage,
 } from "../../commons/utils/AuthContext";
 
@@ -19,9 +19,20 @@ interface OptionsProps {
     navigation: NavigationProp<any, any>;
 }
 
-export const Options = ({ handleButtonPress, navigation }: OptionsProps) => {
+export const Options = ({handleButtonPress, navigation}: OptionsProps) => {
     const [isEnabled, setIsEnabled] = useState(false);
-    const { setUser } = useContext(AuthContext);
+    const {setUser} = useContext(AuthContext);
+
+    const getUserData = async () => {
+        try {
+            const userData = await getUserDataFromStorage();
+            if (userData) {
+                console.log("loaded FROM STORAGE:", userData)
+            }
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    };
 
     const logout = async () => {
         console.log("logout");
@@ -57,7 +68,7 @@ export const Options = ({ handleButtonPress, navigation }: OptionsProps) => {
                                     Edit profile
                                 </Text>
                             </View>
-                            <AntDesign name="right" size={18} color="white" />
+                            <AntDesign name="right" size={18} color="white"/>
                         </TouchableOpacity>
                         <TouchableOpacity
                             style={styles.eventButton}
@@ -75,7 +86,7 @@ export const Options = ({ handleButtonPress, navigation }: OptionsProps) => {
                                     Change password
                                 </Text>
                             </View>
-                            <AntDesign name="right" size={18} color="white" />
+                            <AntDesign name="right" size={18} color="white"/>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -90,13 +101,13 @@ export const Options = ({ handleButtonPress, navigation }: OptionsProps) => {
                                     name="paper-plane-o"
                                     size={18}
                                     color="#C0C0C0FF"
-                                    style={{ paddingRight: 2 }}
+                                    style={{paddingRight: 2}}
                                 />
                                 <Text style={styles.eventButtonText}>
                                     Notices
                                 </Text>
                             </View>
-                            <AntDesign name="right" size={18} color="white" />
+                            <AntDesign name="right" size={18} color="white"/>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -125,7 +136,7 @@ export const Options = ({ handleButtonPress, navigation }: OptionsProps) => {
                                 ios_backgroundColor="#3e3e3e"
                                 onValueChange={toggleSwitch}
                                 value={isEnabled}
-                                style={{ transform: [{ scale: 0.9 }] }}
+                                style={{transform: [{scale: 0.9}]}}
                             />
                         </View>
                     </View>
@@ -146,7 +157,21 @@ export const Options = ({ handleButtonPress, navigation }: OptionsProps) => {
                             />
                             <Text style={styles.eventButtonText}>Log out</Text>
                         </View>
-                        <AntDesign name="right" size={18} color="white" />
+                        <AntDesign name="right" size={18} color="white"/>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.eventButton}
+                        onPress={getUserData}
+                    >
+                        <View style={styles.eventButtonFlex}>
+                            <Ionicons
+                                name="log-out-outline"
+                                size={22}
+                                color="#C0C0C0FF"
+                            />
+                            <Text style={styles.eventButtonText}>DEBUG</Text>
+                        </View>
+                        <AntDesign name="right" size={18} color="white"/>
                     </TouchableOpacity>
                 </View>
             </View>

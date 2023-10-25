@@ -9,14 +9,14 @@ import {
     TouchableOpacity,
     View
 } from "react-native";
-import {OptionTypes} from "../../commons/types/OptionTypes";
+import {OptionTypes} from "../commons/types/OptionTypes";
 import {AntDesign, Ionicons, MaterialIcons} from "@expo/vector-icons";
 import React, {useEffect, useState} from "react";
 import axios from "axios/index";
-import {getUserDataFromStorage, setUserDataToStorage} from "../../commons/utils/AuthContext";
-import {showAlert} from "../../commons/utils/Alert";
-import {UserData} from "../../commons/interfaces/interfaces";
-import {showLoader} from "../../commons/utils/Loader";
+import {getUserDataFromStorage, setUserDataToStorage} from "../commons/utils/AuthContext";
+import {showAlert} from "../commons/utils/Alert";
+import {UserData} from "../commons/interfaces/interfaces";
+import {showLoader} from "../commons/utils/Loader";
 import {REACT_APP_API_URL} from "@env";
 
 export const ChangePassword = ({handleButtonPress}: { handleButtonPress: (type: string) => void }) => {
