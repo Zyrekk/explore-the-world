@@ -8,6 +8,7 @@ My engineering thesis, a travel planning app.
 
 **Database:** Firebase
 
+
 ## Installation
 
 ```yarn
