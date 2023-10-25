@@ -1,68 +1,58 @@
-import {Animated, ImageBackground, SafeAreaView, StyleSheet, View} from "react-native";
-import React, {useState} from "react";
-import {Welcome} from "../components/LoginRegister/Welcome"
-import {LoginForm} from "../components/LoginRegister/LoginForm";
-import {RegisterForm} from "../components/LoginRegister/RegisterForm";
-import {showLoader} from "../commons/utils/Loader";
-
-
-interface UserData {
-    username?: string;
-    name?: string;
-    email?: string;
-    password?: string;
-    lastName?: string;
-    nationality?: string;
-    avatar?: string;
-}
-
+import {
+    Animated,
+    ImageBackground,
+    SafeAreaView,
+    StyleSheet,
+    View,
+} from "react-native";
+import React, { useState } from "react";
+import { Welcome } from "../components/LoginRegister/Welcome";
+import { LoginForm } from "../components/LoginRegister/LoginForm";
+import { RegisterForm } from "../components/LoginRegister/RegisterForm";
 
 export const LoginRegisterScreen = () => {
     const types = {
         LOGIN: "Login",
         REGISTER: "Register",
-        WELCOME: "Welcome"
+        WELCOME: "Welcome",
     };
-    const [screenType, setScreenType] = useState<string>(types.WELCOME)
-    const [opacity, setOpacity] = useState(new Animated.Value(1));
-    const [loader, setLoader] = useState(false)
-    const handleButtonPress = (type: string) => {
-        Animated.timing(opacity, {
-            toValue: 0,
-            duration: 200,
-            useNativeDriver: true,
-        }).start(() => {
-            setScreenType(type);
-            Animated.timing(opacity, {
-                toValue: 1,
-                duration: 200,
-                useNativeDriver: true,
-            }).start();
-        });
+    const [screenType, setScreenType] = useState<string>(types.WELCOME);
+    const handleAuthScreenSwitch = (type: string) => {
+        setScreenType(type);
     };
     const showScreenType = () => {
         switch (screenType) {
             case types.LOGIN:
-                return <LoginForm handleButtonPress={handleButtonPress} setLoader={setLoader}/>
+                return (
+                    <LoginForm
+                        handleAuthScreenSwitch={handleAuthScreenSwitch}
+                    />
+                );
             case types.REGISTER:
-                return <RegisterForm handleButtonPress={handleButtonPress} setLoader={setLoader}/>
+                return (
+                    <RegisterForm
+                        handleAuthScreenSwitch={handleAuthScreenSwitch}
+                    />
+                );
             default:
-                return <Welcome handleButtonPress={handleButtonPress} setLoader={setLoader}/>
+                return (
+                    <Welcome handleAuthScreenSwitch={handleAuthScreenSwitch} />
+                );
         }
-    }
+    };
     return (
-        <ImageBackground source={require('../../assets/LoginRegisterBackground.jpg')} resizeMode={'cover'}
-                         style={styles.image}>
-            {showLoader(loader, 'Logging in')}
-            <View style={styles.overlay}/>
+        <ImageBackground
+            source={require("../../assets/LoginRegisterBackground.jpg")}
+            resizeMode={"cover"}
+            style={styles.image}
+        >
+            <View style={styles.overlay} />
             <SafeAreaView style={styles.container}>
-                <Animated.View style={[{opacity}]}>
-                    {showScreenType()}
-                </Animated.View>
+                {showScreenType()}
             </SafeAreaView>
         </ImageBackground>
-    )
-}
+    );
+};
 
 const styles = StyleSheet.create({
     container: {
@@ -73,10 +63,10 @@ const styles = StyleSheet.create({
     },
     image: {
         flex: 1,
-        justifyContent: 'center',
+        justifyContent: "center",
     },
     overlay: {
         ...StyleSheet.absoluteFillObject,
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        backgroundColor: "rgba(0, 0, 0, 0.5)",
     },
 });
