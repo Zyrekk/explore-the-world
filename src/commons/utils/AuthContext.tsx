@@ -1,10 +1,10 @@
 import { createContext } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { FirebaseUserSchema } from "../interfaces/interfaces";
+import {LocalStorageUserSchema} from "../interfaces/interfaces";
 
 export interface UserContext {
-    user: FirebaseUserSchema | null;
-    setUser: (user: FirebaseUserSchema | null) => void;
+    user: LocalStorageUserSchema | null;
+    setUser: (user: LocalStorageUserSchema | null) => void;
 }
 
 export const getUserDataFromStorage = async () => {
@@ -27,7 +27,7 @@ export const removeUserDataFromStorage = async () => {
     }
 };
 
-export const setUserDataToStorage = async (userData: FirebaseUserSchema) => {
+export const setUserDataToStorage = async (userData: LocalStorageUserSchema) => {
     try {
         await AsyncStorage.setItem("userData", JSON.stringify(userData));
         console.log("user saved");
@@ -37,6 +37,6 @@ export const setUserDataToStorage = async (userData: FirebaseUserSchema) => {
 };
 
 export const AuthContext = createContext<UserContext>({
-    setUser(user: FirebaseUserSchema | null): void {},
+    setUser(user: LocalStorageUserSchema | null): void {},
     user: null,
 });

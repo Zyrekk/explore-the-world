@@ -7,10 +7,10 @@ import {
     View,
 } from "react-native";
 import { Options } from "../components/Options/Options";
-import { EditProfile } from "../components/Options/EditProfile";
+import { EditProfile } from "../components/EditProfile";
 import { OptionTypes } from "../commons/types/OptionTypes";
 import React, { useState } from "react";
-import { ChangePassword } from "../components/Options/ChangePassword";
+import { ChangePassword } from "../components/ChangePassword";
 import { NavigationProp } from "@react-navigation/native";
 
 interface RouterProps {

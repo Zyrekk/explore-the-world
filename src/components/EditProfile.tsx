@@ -10,17 +10,14 @@ import {
     TouchableOpacity,
     View,
 } from "react-native";
-import { AntDesign, Ionicons, MaterialIcons } from "@expo/vector-icons";
-import React, { useEffect, useState } from "react";
-import {
-    FirebaseUserSchema,
-    UserData,
-} from "../../commons/interfaces/interfaces";
+import {AntDesign, Ionicons, MaterialIcons} from "@expo/vector-icons";
+import React, {useEffect, useState} from "react";
+import {LocalStorageUserSchema} from "../commons/interfaces/interfaces";
 import {
     getUserDataFromStorage,
     setUserDataToStorage,
-} from "../../commons/utils/AuthContext";
-import { OptionTypes } from "../../commons/types/OptionTypes";
+} from "../commons/utils/AuthContext";
+import {OptionTypes} from "../commons/types/OptionTypes";
 import CountryPicker, {
     Country,
     CountryCode,
@@ -29,9 +26,9 @@ import CountryPicker, {
 import * as ImagePicker from "expo-image-picker";
 import countryEmoji from "country-emoji";
 import axios from "axios";
-import { showAlert } from "../../commons/utils/Alert";
-import { showLoader } from "../../commons/utils/Loader";
-import { REACT_APP_API_URL } from "@env";
+import {showAlert} from "../commons/utils/Alert";
+import {showLoader} from "../commons/utils/Loader";
+import {REACT_APP_API_URL} from "@env";
 import {
     doc,
     updateDoc,
@@ -40,7 +37,8 @@ import {
     collection,
     getDocs,
 } from "firebase/firestore";
-import { FIREBASE_DB } from "../../../FirebaseConfig";
+import {FIREBASE_DB} from "../../FirebaseConfig";
+import {pickImage} from "../commons/utils/pickImage";
 
 interface EditProfileProps {
     handleButtonPress: (type: string) => void;
@@ -60,265 +58,35 @@ interface CountryProps {
     editable: boolean;
 }
 
-export const EditProfile = ({ handleButtonPress }: EditProfileProps) => {
-    const platform =
-        Platform.OS === "ios" ? styles.backButtonIos : styles.backButtonAndroid;
+export const EditProfile = ({handleButtonPress}: EditProfileProps) => {
 
-    const offset = Platform.OS === "ios" ? -100 : -300;
-
-    const [loader, setLoader] = useState<boolean>(false);
-
-    const [fetchedUser, setFetchedUser] = useState<FirebaseUserSchema | null>(
+    const [fetchedUser, setFetchedUser] = useState<LocalStorageUserSchema | null>(
         null
     );
-
-    const [password, setPassword] = useState<string>("");
-
-    const [showRequire, setShowRequire] = useState<boolean>(false);
-
-    const [isCountryChanged, setIsCountryChanged] = useState<boolean>(false);
-
-    const [email, setEmail] = useState<fieldProps>({
-        value: "",
-        editable: false,
-    });
-
     const [name, setName] = useState<fieldProps>({
         value: "",
         editable: false,
     });
-
     const [lastName, setLastName] = useState<fieldProps>({
         value: "",
         editable: false,
     });
-
     const [avatar, setAvatar] = useState<string>("");
-
     const [image, setImage] = useState<any>(null);
-
+    const [isCountryChanged, setIsCountryChanged] = useState<boolean>(false);
     const [showCountryPicker, setShowCountryPicker] = useState<boolean>(false);
-
     const [countryEdit, setCountryEdit] = useState<boolean>(false);
-
-    // const [country, setCountry] = useState<CountryProps>({
-    //     country: {
-    //         cca2: "DE",
-    //         currency: ["EUR"],
-    //         flag: "DEL",
-    //         name: "Germany",
-    //         region: "Europe",
-    //         subregion: "Western Europe",
-    //         callingCode: ["49"],
-    //     },
-    //     editable: false,
-    // });
-    // const [countryCode, setCountryCode] = useState<CountryCode>("PL");
-    // useEffect(() => {
-    //     const getUserData = async () => {
-    //         try {
-    //             // Check if user data is available in local storage
-    //             const userData = await getUserDataFromStorage();
-    //             setFetchedUser(userData);
-    //             if (userData) {
-    //                 setEmail((prevState) => ({
-    //                     ...prevState,
-    //                     value: userData.email,
-    //                 }));
-    //                 setName((prevState) => ({
-    //                     ...prevState,
-    //                     value: userData.name,
-    //                 }));
-    //                 setLastName((prevState) => ({
-    //                     ...prevState,
-    //                     value: userData.lastName,
-    //                 }));
-    //                 if (userData.country) {
-    //                     setCountry((prevState) => ({
-    //                         ...prevState,
-    //                         country: userData.country.country,
-    //                     }));
-    //                 }
-    //                 setAvatar(userData?.avatar);
-    //             }
-    //         } catch (error) {
-    //             console.error("Error:", error);
-    //         }
-    //     };
-    //     getUserData().then((r) => console.log(r));
-    // }, []);
-
-    // const handleCountrySelect = (country: Country) => {
-    //     setCountry((prevState) => ({ country: country, editable: false }));
-    //     setShowCountryPicker(false);
-    //     setIsCountryChanged(true);
-    // };
-
-    // const save = async () => {
-    //     setLoader(true);
-    //     const send = async () => {
-    //         try {
-    //             if (fetchedUser) {
-    //                 // const formData = new FormData();
-    //                 // if (image) {
-    //                 //     formData.append('avatar', {
-    //                 //         // @ts-ignore
-    //                 //         uri: image,
-    //                 //         type: 'image',
-    //                 //         name: "nazwa.jpg"
-    //                 //     });
-    //                 // }
-    //                 // formData.append("username", fetchedUser.nickname);
-    //                 // formData.append("currentPassword", password);
-    //                 // formData.append("email", email.value || "");
-    //                 // formData.append("name", name.value || "");
-    //                 // formData.append("lastName", lastName.value || "");
-    //                 // formData.append("country", JSON.stringify(country));
-
-    //                 // const response = await axios.put(
-    //                 //     `${REACT_APP_API_URL}/users/edit`,
-    //                 //     formData,
-    //                 //     {
-    //                 //         headers: {
-    //                 //             "Content-Type": "multipart/form-data", // Required for sending files
-    //                 //         },
-    //                 //     }
-    //                 // );
-
-    //                 // await setUserDataToStorage(response.data);
-    //                 // setFetchedUser(response.data);
-    //                 // setEmail((prevState) => ({
-    //                 //     ...prevState,
-    //                 //     editable: false,
-    //                 // }));
-    //                 // setName((prevState) => ({
-    //                 //     ...prevState,
-    //                 //     editable: false,
-    //                 // }));
-    //                 // setLastName((prevState) => ({
-    //                 //     ...prevState,
-    //                 //     editable: false,
-    //                 // }));
-    //                 // if (response.data !== undefined) {
-    //                 //     setAvatar(response.data.avatar);
-    //                 // }
-    //                 setCountryEdit(false);
-    //                 setImage(null);
-    //                 showAlert("Changes saved", "Your changes have been saved");
-    //                 setLoader(false);
-    //                 setShowRequire(false);
-    //                 setIsCountryChanged(false);
-    //                 setPassword("");
-    //             }
-    //         } catch (error) {
-    //             setLoader(false);
-    //             setShowRequire(false);
-    //             setPassword("");
-    //             setEmail((prevState) => ({
-    //                 ...prevState,
-    //                 editable: false,
-    //             }));
-    //             setName((prevState) => ({
-    //                 ...prevState,
-    //                 editable: false,
-    //             }));
-    //             setLastName((prevState) => ({
-    //                 ...prevState,
-    //                 editable: false,
-    //             }));
-    //             setCountryEdit(false);
-    //             showAlert("Server connection error", "Please try again later");
-    //             console.error("Error:", error);
-    //         }
-    //     };
-
-    //     await send()
-    //         .then((r) => setLoader(false))
-    //         .catch((e) => setLoader(false));
-    // };
-
-    // const renderPasswordRequire = () => {
-    //     return (
-    //         <View style={styles.passwordRequireContainer}>
-    //             {showLoader(loader, "Saving changes")}
-    //             <TouchableOpacity
-    //                 style={platform}
-    //                 onPress={() => {
-    //                     setShowRequire(false);
-    //                 }}
-    //             >
-    //                 <AntDesign
-    //                     name="left"
-    //                     style={[styles.innerFont, { fontSize: 20 }]}
-    //                 />
-    //                 <Text style={[styles.innerFont, { fontSize: 20 }]}>
-    //                     Back
-    //                 </Text>
-    //             </TouchableOpacity>
-    //             <Text style={styles.innerFont}>
-    //                 Type your password to save changes
-    //             </Text>
-    //             <View style={[styles.inputContainer, { marginTop: 20 }]}>
-    //                 <Ionicons
-    //                     name="ios-lock-closed-outline"
-    //                     style={styles.innerFont}
-    //                 />
-    //                 <TextInput
-    //                     style={[styles.input, styles.innerFont]}
-    //                     value={password}
-    //                     autoCorrect={false}
-    //                     placeholderTextColor="#fff"
-    //                     underlineColorAndroid="transparent"
-    //                     placeholder="Password"
-    //                     secureTextEntry={true}
-    //                     onChangeText={(text) => setPassword(text)}
-    //                 />
-    //             </View>
-    //             <TouchableOpacity style={styles.saveButton} onPress={save}>
-    //                 <Text style={styles.saveButtonText}>Save</Text>
-    //                 <MaterialIcons name="save-alt" size={24} color="white" />
-    //             </TouchableOpacity>
-    //         </View>
-    //     );
-    // };
-
-    // const handleEditUser = () => {
-    //     setShowRequire(true);
-    // };
-
-    // const pickImage = async () => {
-    //     // No permissions request is necessary for launching the image library
-    //     let result = await ImagePicker.launchImageLibraryAsync({
-    //         mediaTypes: ImagePicker.MediaTypeOptions.All,
-    //         allowsEditing: true,
-    //         aspect: [4, 3],
-    //         quality: 1,
-    //     });
-    //     if (!result.canceled) {
-    //         setImage(result.assets[0].uri);
-    //     }
-    // };
-
-    //render section
-    // const showSaveButton = () => {
-    //     if (
-    //         email.editable ||
-    //         name.editable ||
-    //         lastName.editable ||
-    //         isCountryChanged ||
-    //         image
-    //     ) {
-    //         return (
-    //             <TouchableOpacity
-    //                 style={styles.saveButton}
-    //                 onPress={handleEditUser}
-    //             >
-    //                 <Text style={styles.saveButtonText}>Confirm changes</Text>
-    //                 <AntDesign name="check" size={24} color="white" />
-    //             </TouchableOpacity>
-    //         );
-    //     }
-    // };
+    const renderSaveButton = () => {
+            return (
+                <TouchableOpacity
+                    style={styles.saveButton}
+                    onPress={updateUser}
+                >
+                    <Text style={styles.saveButtonText}>Save</Text>
+                    <AntDesign name="check" size={24} color="white" />
+                </TouchableOpacity>
+            );
+    };
 
     const renderAvatar = () => {
         if (avatar) {
@@ -392,25 +160,31 @@ export const EditProfile = ({ handleButtonPress }: EditProfileProps) => {
         initializeUser();
     }, []);
 
+    const updateStateProperty=(setState: (arg0: (prevState: any) => any) => void, property: any, value: any)=> {
+        setState((prevState) => ({
+            ...prevState,
+            [property]: value,
+        }));
+    }
+
     return (
         <KeyboardAvoidingView
             style={styles.keyboardContainer}
             behavior="position"
-            keyboardVerticalOffset={offset}
+            keyboardVerticalOffset={-100}
         >
-            {showRequire ? null : ( // renderPasswordRequire()
                 <ScrollView contentContainerStyle={styles.scrollContainer}>
                     <Pressable
-                        style={platform}
+                        style={styles.backButton}
                         onPress={() => {
                             handleButtonPress(OptionTypes.OPTIONS);
                         }}
                     >
                         <AntDesign
                             name="left"
-                            style={[styles.innerFont, { fontSize: 20 }]}
+                            style={[styles.innerFont, {fontSize: 20}]}
                         />
-                        <Text style={[styles.innerFont, { fontSize: 20 }]}>
+                        <Text style={[styles.innerFont, {fontSize: 20}]}>
                             Back
                         </Text>
                     </Pressable>
@@ -418,11 +192,11 @@ export const EditProfile = ({ handleButtonPress }: EditProfileProps) => {
                         <Text style={styles.title}>Edit profile</Text>
                     </View>
                     <View style={styles.editSection}>
-                        {/* <View style={styles.avatarContainer}>
+                        <View style={styles.avatarContainer}>
                             {renderAvatar()}
                             <TouchableOpacity
                                 style={styles.avatarEditLayout}
-                                onPress={pickImage}
+                                onPress={()=>pickImage(setImage)}
                             >
                                 <Ionicons
                                     name="pencil"
@@ -433,7 +207,7 @@ export const EditProfile = ({ handleButtonPress }: EditProfileProps) => {
                                     Edit avatar
                                 </Text>
                             </TouchableOpacity>
-                        </View> */}
+                        </View>
                         <View style={styles.dataEditionContent}></View>
                         <View style={styles.dataEditionContent}>
                             <View style={styles.singleValueEdit}>
@@ -454,30 +228,21 @@ export const EditProfile = ({ handleButtonPress }: EditProfileProps) => {
                                     />
                                     <TextInput
                                         style={[styles.input, styles.innerFont]}
+                                        onFocus={() =>
+                                            updateStateProperty(setName,"editable",true)
+                                        }
+                                        onBlur={() =>
+                                            name.value === fetchedUser?.name &&
+                                            updateStateProperty(setName,"editable",false)
+                                        }
                                         onChangeText={(text) =>
-                                            setName((prevName) => ({
-                                                ...prevName,
-                                                value: text,
-                                            }))
+                                            updateStateProperty(setName,"value",text)
                                         }
                                         value={name.value}
                                         placeholder="Name"
                                         autoCorrect={false}
                                         placeholderTextColor="#fff"
                                         underlineColorAndroid="transparent"
-                                        onFocus={() =>
-                                            setName((prevName) => ({
-                                                ...prevName,
-                                                editable: true,
-                                            }))
-                                        }
-                                        onBlur={() =>
-                                            name.value === fetchedUser?.name &&
-                                            setName((prevName) => ({
-                                                ...prevName,
-                                                editable: false,
-                                            }))
-                                        }
                                     />
                                     {name.value === fetchedUser?.name && (
                                         <Ionicons
@@ -527,7 +292,7 @@ export const EditProfile = ({ handleButtonPress }: EditProfileProps) => {
                                         }
                                         onBlur={() =>
                                             lastName.value ===
-                                                fetchedUser?.lastname &&
+                                            fetchedUser?.lastName &&
                                             setLastName((prevLastName) => ({
                                                 ...prevLastName,
                                                 editable: false,
@@ -536,13 +301,13 @@ export const EditProfile = ({ handleButtonPress }: EditProfileProps) => {
                                     />
 
                                     {lastName.value ===
-                                        fetchedUser?.lastname && (
-                                        <Ionicons
-                                            name="pencil"
-                                            size={24}
-                                            color={"white"}
-                                        />
-                                    )}
+                                        fetchedUser?.lastName && (
+                                            <Ionicons
+                                                name="pencil"
+                                                size={24}
+                                                color={"white"}
+                                            />
+                                        )}
                                 </View>
                             </View>
                         </View>
@@ -588,7 +353,7 @@ export const EditProfile = ({ handleButtonPress }: EditProfileProps) => {
                                 </View>
                             </View>
                         </View> */}
-                        {/* {showSaveButton()} */}
+                         {renderSaveButton()}
 
                         {/* {showCountryPicker && (
                             <CountryPicker
@@ -611,12 +376,8 @@ export const EditProfile = ({ handleButtonPress }: EditProfileProps) => {
                                 }}
                             />
                         )} */}
-                        <Pressable onPress={updateUser}>
-                            <Text style={styles.innerFont}>save</Text>
-                        </Pressable>
                     </View>
                 </ScrollView>
-            )}
         </KeyboardAvoidingView>
     );
 };
@@ -668,7 +429,7 @@ const styles = StyleSheet.create({
         height: "100%",
         marginBottom: 100,
     },
-    backButtonIos: {
+    backButton: {
         position: "absolute",
         zIndex: 100,
         display: "flex",
