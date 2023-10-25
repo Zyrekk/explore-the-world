@@ -1,9 +1,15 @@
-import {Pressable, SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {AntDesign, Feather, Octicons} from "@expo/vector-icons";
-import React, {useEffect, useState} from "react";
-import {LatLng} from "react-native-maps";
-import {reverseGeocode} from "../commons/utils/geocode";
-
+import {
+    Pressable,
+    SafeAreaView,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+    View,
+} from "react-native";
+import { AntDesign, Feather, Octicons } from "@expo/vector-icons";
+import React, { useEffect, useState } from "react";
+import { LatLng } from "react-native-maps";
+import { reverseGeocode } from "../commons/utils/geocode";
 
 interface CreateNewJourneyProps {
     setHandleType: (type: string) => void;
@@ -27,11 +33,16 @@ interface locationProps {
     timezone: string | null;
 }
 
-const CreateNewJourney = ({setHandleType, setCreatorMode, origin, waypoints, destination}: CreateNewJourneyProps) => {
-
-
-    const [destinationString, setDestinationString] = useState<string>('Destination')
-    const [originString, setOriginString] = useState<string>('Origin')
+const CreateNewJourney = ({
+    setHandleType,
+    setCreatorMode,
+    origin,
+    waypoints,
+    destination,
+}: CreateNewJourneyProps) => {
+    const [destinationString, setDestinationString] =
+        useState<string>("Destination");
+    const [originString, setOriginString] = useState<string>("Origin");
 
     const fetchLocation = async () => {
         if (destination) {
@@ -40,106 +51,127 @@ const CreateNewJourney = ({setHandleType, setCreatorMode, origin, waypoints, des
                 destination?.longitude
             );
             if (locationData.length > 0 && locationData[0].city !== null) {
-                setDestinationString(locationData[0].city)
+                setDestinationString(locationData[0].city);
             }
         }
     };
 
-    const fetchLocationByType = async (coords: LatLng | undefined, type: string) => {
+    const fetchLocationByType = async (
+        coords: LatLng | undefined,
+        type: string
+    ) => {
         if (coords) {
             const locationData = await reverseGeocode(
                 coords?.latitude,
                 coords?.longitude
             );
             if (locationData.length > 0 && locationData[0].city !== null) {
-                if (type === 'origin') {
-                    setOriginString(locationData[0].city)
+                if (type === "origin") {
+                    setOriginString(locationData[0].city);
                 }
-                if (type === 'destination') {
-                    setDestinationString(locationData[0].city)
+                if (type === "destination") {
+                    setDestinationString(locationData[0].city);
                 }
             }
         }
         return;
-    }
+    };
 
     useEffect(() => {
-        fetchLocationByType(destination, 'destination')
+        fetchLocationByType(destination, "destination");
     }, [destination]);
 
     useEffect(() => {
-        fetchLocationByType(origin, 'origin')
+        fetchLocationByType(origin, "origin");
     }, [origin]);
-
 
     return (
         <View style={styles.container}>
-            <SafeAreaView style={{gap: 10}}>
+            <SafeAreaView style={{ gap: 10 }}>
                 <TouchableOpacity
                     style={styles.back}
                     onPress={() => {
-                        setCreatorMode(false)
+                        setCreatorMode(false);
                     }}
                 >
-                    <AntDesign
-                        name="left"
-                        style={{fontSize: 24}}
-                    />
+                    <AntDesign name="left" style={{ fontSize: 24 }} />
                 </TouchableOpacity>
                 <Text style={styles.title}>Your journey starts here</Text>
                 <View style={styles.row}>
                     <View style={styles.iconWrapper}>
-                        <Feather name="circle" size={24} color="black"/>
+                        <Feather name="circle" size={24} color="black" />
                     </View>
-                    <Pressable onPress={() => {
-                        setHandleType('origin')
-                        setCreatorMode(false)
-                    }} style={styles.button}>
-                        <Text
-                            style={{fontSize: 18}}>{originString}</Text>
-                        <Feather name="arrow-right" size={20} color="black"/>
+                    <Pressable
+                        onPress={() => {
+                            setHandleType("origin");
+                            setCreatorMode(false);
+                        }}
+                        style={styles.button}
+                    >
+                        <Text style={{ fontSize: 18 }}>{originString}</Text>
+                        <Feather name="arrow-right" size={20} color="black" />
                     </Pressable>
                 </View>
                 {waypoints.map((waypoint, index) => (
                     <View key={index} style={styles.row}>
                         <View style={styles.iconWrapper}>
-                            <AntDesign name="minuscircleo" size={24} color="black"/>
+                            <AntDesign
+                                name="minuscircleo"
+                                size={24}
+                                color="black"
+                            />
                         </View>
-                        <Pressable onPress={() => {
-                        }} style={styles.button}>
-                            <Text style={{fontSize: 18}}>{index}</Text>
+                        <Pressable onPress={() => {}} style={styles.button}>
+                            <Text style={{ fontSize: 18 }}>{index}</Text>
                         </Pressable>
                     </View>
                 ))}
-                <Pressable onPress={() => {
-                    setHandleType('waypoint')
-                    setCreatorMode(false)
-                }} style={styles.row}>
+                <Pressable
+                    onPress={() => {
+                        setHandleType("waypoint");
+                        setCreatorMode(false);
+                    }}
+                    style={styles.row}
+                >
                     <View style={styles.iconWrapper}>
-                        <Feather name="plus-circle" size={24} color="black"/>
+                        <Feather name="plus-circle" size={24} color="black" />
                     </View>
-                    <Text style={{fontSize: 18}}>Add waypoint</Text>
+                    <Text style={{ fontSize: 18 }}>Add waypoint</Text>
                 </Pressable>
                 <View style={styles.row}>
                     <View style={styles.iconWrapper}>
-                        <Octicons name="location" size={24} color="#DD2C2C"/>
+                        <Octicons name="location" size={24} color="#DD2C2C" />
                     </View>
-                    <Pressable onPress={() => {
-                        setHandleType('destination')
-                        setCreatorMode(false)
-                    }} style={styles.button}>
-                        <Text
-                            style={{fontSize: 18}}>{destinationString}</Text>
-                        <Feather name="arrow-right" size={20} color="black"/>
+                    <Pressable
+                        onPress={() => {
+                            setHandleType("destination");
+                            setCreatorMode(false);
+                        }}
+                        style={styles.button}
+                    >
+                        <Text style={{ fontSize: 18 }}>
+                            {destinationString}
+                        </Text>
+                        <Feather name="arrow-right" size={20} color="black" />
                     </Pressable>
                 </View>
             </SafeAreaView>
-            <SafeAreaView style={{width: '100%', display: 'flex', justifyContent: "center", alignItems: 'center'}}>
-                <Pressable onPress={() => {
-                    // setCreatorMode(false)
-                    // setHandleType('')
-                }} style={[{marginTop: 50}, styles.finishButton]}>
-                    <Text style={{fontSize: 18, color: 'white'}}>Finish</Text>
+            <SafeAreaView
+                style={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                }}
+            >
+                <Pressable
+                    onPress={() => {
+                        // setCreatorMode(false)
+                        // setHandleType('')
+                    }}
+                    style={[{ marginTop: 50 }, styles.finishButton]}
+                >
+                    <Text style={{ fontSize: 18, color: "white" }}>Finish</Text>
                 </Pressable>
             </SafeAreaView>
         </View>
@@ -150,18 +182,18 @@ const styles = StyleSheet.create({
     iconWrapper: {
         width: 30,
         height: 30,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center'
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
     },
     finishButton: {
         backgroundColor: "#030712",
-        width: '80%',
+        width: "80%",
         paddingVertical: 15,
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 10
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: 10,
     },
     back: {
         display: "flex",
@@ -169,46 +201,42 @@ const styles = StyleSheet.create({
         alignItems: "center",
         gap: 10,
         fontSize: 26,
-        marginBottom: 15
-
+        marginBottom: 15,
     },
     title: {
         fontSize: 24,
-        fontWeight: '600',
-        color: '#000',
+        fontWeight: "600",
+        color: "#000",
         marginBottom: 16,
-
     },
     container: {
-        position: 'absolute',
+        position: "absolute",
         paddingTop: 70,
-        width: '100%',
-        display: 'flex',
-        alignItems: 'center',
+        width: "100%",
+        display: "flex",
+        alignItems: "center",
         backgroundColor: "#FFF",
-        height: '100%',
-    }
-    ,
+        height: "100%",
+    },
     row: {
-        width: '100%',
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
+        width: "100%",
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
         gap: 16,
-    }
-    ,
+    },
     button: {
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
         fontSize: 16,
-        width: '70%',
-        borderColor: '#000',
+        width: "70%",
+        borderColor: "#000",
         borderWidth: 1,
         paddingVertical: 10,
         borderRadius: 12,
-        paddingHorizontal: 8
-    }
+        paddingHorizontal: 8,
+    },
 });
 export default CreateNewJourney;

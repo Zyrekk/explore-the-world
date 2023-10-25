@@ -1,68 +1,30 @@
+import React, { useState } from "react";
 import {
     KeyboardAvoidingView,
-    Pressable,
     ScrollView,
     StyleSheet,
     Text,
-    TextInput,
     TouchableOpacity,
     View,
+    Pressable,
 } from "react-native";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
-import React, { useState } from "react";
 import { AuthTypes } from "../../commons/types/AuthTypes";
-import { FIREBASE_AUTH, FIREBASE_DB } from "../../../FirebaseConfig";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { FirebaseUserSchema } from "../../commons/interfaces/interfaces";
-import { setDoc, doc } from "firebase/firestore";
-import { setUserDataToStorage } from "../../commons/utils/AuthContext";
+import { signUp } from "../../commons/utils/signUp";
+import { renderInput } from "../Reusable/AuthInputs";
 
-interface WelcomeProps {
-    handleButtonPress: (type: string) => void;
-    setLoader: (value: boolean) => void;
+interface RegisterFormProps {
+    handleAuthScreenSwitch: (type: string) => void;
 }
 
-export const RegisterForm = ({ handleButtonPress }: WelcomeProps) => {
-    const [nickname, setNickname] = useState<string>("");
-    const [email, setEmail] = useState<string>("");
-    const [password, setPassword] = useState<string>("");
-    const [repeatPassword, setRepeatPassword] = useState<string>("");
-    const [loading, setLoading] = useState<boolean>(false);
-    const auth = FIREBASE_AUTH;
+export const RegisterForm = ({ handleAuthScreenSwitch }: RegisterFormProps) => {
+    const [nickname, setNickname] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [repeatPassword, setRepeatPassword] = useState("");
 
-    const signUp = async () => {
-        setLoading(true);
-        try {
-            const response = await createUserWithEmailAndPassword(
-                auth,
-                email,
-                password
-            );
-
-            if (response) {
-                const { email } = response.user;
-                const userSchemaToPost: FirebaseUserSchema = {
-                    uid: response.user.uid,
-                    email: email || "",
-                    nickname,
-                };
-
-                await Promise.all([
-                    setDoc(
-                        doc(FIREBASE_DB, "Users", response.user.uid),
-                        userSchemaToPost
-                    ),
-                    setUserDataToStorage(userSchemaToPost),
-                ]);
-
-                alert("Check your emails!");
-            }
-        } catch (error) {
-            console.error(error);
-            alert("Sign up failed");
-        } finally {
-            setLoading(false);
-        }
+    const handleSignUp = () => {
+        signUp(email, password, nickname, repeatPassword);
     };
 
     return (
@@ -72,9 +34,9 @@ export const RegisterForm = ({ handleButtonPress }: WelcomeProps) => {
         >
             <ScrollView contentContainerStyle={styles.scrollContainer}>
                 <TouchableOpacity
-                    style={styles.backButtonIos}
+                    style={styles.backButton}
                     onPress={() => {
-                        handleButtonPress(AuthTypes.WELCOME);
+                        handleAuthScreenSwitch(AuthTypes.WELCOME);
                     }}
                 >
                     <AntDesign
@@ -86,73 +48,54 @@ export const RegisterForm = ({ handleButtonPress }: WelcomeProps) => {
                     </Text>
                 </TouchableOpacity>
                 <View style={styles.container}>
-                    <Text style={styles.text}>Sign up</Text>
+                    <Text style={styles.title}>Sign up</Text>
                     <View style={styles.inputListContainer}>
-                        <View style={styles.inputContainer}>
-                            <AntDesign name="user" style={styles.innerFont} />
-                            <TextInput
-                                style={[styles.input, styles.innerFont]}
-                                placeholder="Nickname"
-                                value={nickname}
-                                onChangeText={setNickname}
-                                autoCorrect={false}
-                                placeholderTextColor="#fff"
-                                underlineColorAndroid="transparent"
-                            />
-                        </View>
-                        <View style={styles.inputContainer}>
-                            <AntDesign name="mail" style={styles.innerFont} />
-                            <TextInput
-                                style={[styles.input, styles.innerFont]}
-                                placeholder="E-mail"
-                                textContentType={"emailAddress"}
-                                value={email}
-                                onChangeText={setEmail}
-                                autoCorrect={false}
-                                placeholderTextColor="#fff"
-                                underlineColorAndroid="transparent"
-                            />
-                        </View>
-                        <View style={styles.inputContainer}>
+                        {renderInput(
+                            <AntDesign name="user" style={styles.innerFont} />,
+                            "Nickname",
+                            nickname,
+                            setNickname
+                        )}
+                        {renderInput(
+                            <AntDesign name="mail" style={styles.innerFont} />,
+                            "E-mail",
+                            email,
+                            setEmail,
+                            "emailAddress"
+                        )}
+                        {renderInput(
                             <Ionicons
                                 name="ios-lock-closed-outline"
                                 style={styles.innerFont}
-                            />
-                            <TextInput
-                                style={[styles.input, styles.innerFont]}
-                                placeholder="Password"
-                                value={password}
-                                onChangeText={setPassword}
-                                autoCorrect={false}
-                                placeholderTextColor="#fff"
-                                underlineColorAndroid="transparent"
-                                secureTextEntry={true}
-                            />
-                        </View>
-                        <View style={styles.inputContainer}>
+                            />,
+                            "Password",
+                            password,
+                            setPassword,
+                            "none",
+                            true
+                        )}
+                        {renderInput(
                             <Ionicons
                                 name="ios-lock-closed-outline"
                                 style={styles.innerFont}
-                            />
-                            <TextInput
-                                style={[styles.input, styles.innerFont]}
-                                placeholder="Repeat password"
-                                autoCorrect={false}
-                                value={repeatPassword}
-                                onChangeText={setRepeatPassword}
-                                placeholderTextColor="#fff"
-                                underlineColorAndroid="transparent"
-                                secureTextEntry={true}
-                            />
-                        </View>
+                            />,
+                            "Repeat password",
+                            repeatPassword,
+                            setRepeatPassword,
+                            "none",
+                            true
+                        )}
                     </View>
-                    <Pressable style={styles.loginButton} onPress={signUp}>
+                    <Pressable
+                        style={styles.loginButton}
+                        onPress={handleSignUp}
+                    >
                         <Text style={styles.buttonText}>Sign up</Text>
                     </Pressable>
                     <Pressable
                         style={styles.signUpButton}
                         onPress={() => {
-                            handleButtonPress(AuthTypes.LOGIN);
+                            handleAuthScreenSwitch(AuthTypes.LOGIN);
                         }}
                     >
                         <Text style={styles.signUpButtonText}>
@@ -166,6 +109,38 @@ export const RegisterForm = ({ handleButtonPress }: WelcomeProps) => {
     );
 };
 const styles = StyleSheet.create({
+    backButton: {
+        position: "absolute",
+        zIndex: 100,
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        gap: 10,
+        top: 20,
+        left: 20,
+        fontSize: 26,
+        color: "white",
+    },
+    signUpButton: {
+        marginTop: 25,
+        display: "flex",
+        flexDirection: "row",
+        gap: 10,
+    },
+    buttonText: {
+        fontSize: 16,
+        fontWeight: "600",
+        color: "white",
+    },
+    title: {
+        fontSize: 35,
+        color: "white",
+        paddingBottom: 40,
+    },
+    icon: {
+        fontSize: 16,
+        color: "white",
+    },
     keyboardContainer: {
         display: "flex",
         justifyContent: "flex-end",
@@ -182,49 +157,6 @@ const styles = StyleSheet.create({
     scrollContainer: {
         flexGrow: 1,
         height: "100%",
-    },
-    loginOptions: {
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "space-between",
-        gap: 10,
-        width: "70%",
-    },
-    button: {
-        width: "100%",
-        padding: 20,
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-    },
-    buttonText: {
-        fontSize: 16,
-        fontWeight: "600",
-        color: "white",
-    },
-    text: {
-        fontSize: 35,
-        color: "white",
-        paddingBottom: 40,
-    },
-    divider: {
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "center",
-        marginTop: 25,
-        width: "70%",
-    },
-    dividerLine: {
-        flex: 3,
-        backgroundColor: "#adadad",
-        height: 2,
-    },
-    dividerText: {
-        flex: 1,
-        textAlign: "center",
-        color: "#adadad",
     },
     innerFont: {
         fontSize: 16,
@@ -259,15 +191,9 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         height: 50,
-        backgroundColor: "rgba(140,165,255,0.7)",
+        backgroundColor: "rgba(140, 165, 255, 0.7)",
         borderRadius: 40,
         width: "70%",
-    },
-    signUpButton: {
-        marginTop: 25,
-        display: "flex",
-        flexDirection: "row",
-        gap: 10,
     },
     signUpButtonText: {
         color: "white",
@@ -284,18 +210,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
         gap: 10,
         top: 20,
-        left: 20,
-        fontSize: 26,
-        color: "white",
-    },
-    backButtonAndroid: {
-        position: "absolute",
-        zIndex: 100,
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        gap: 10,
-        top: 50,
         left: 20,
         fontSize: 26,
         color: "white",

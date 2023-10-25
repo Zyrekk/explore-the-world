@@ -1,16 +1,15 @@
-import {Pressable, StyleSheet, Text, View} from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import React from "react";
 
 type WelcomeProps = {
-    handleButtonPress: (type: string) => void;
-    setLoader: (value: boolean) => void;
+    handleAuthScreenSwitch: (type: string) => void;
 };
 
-export const Welcome = ({handleButtonPress, setLoader}: WelcomeProps) => {
+export const Welcome = ({ handleAuthScreenSwitch }: WelcomeProps) => {
     const types = {
         LOGIN: "Login",
         REGISTER: "Register",
-        WELCOME: "Welcome"
+        WELCOME: "Welcome",
     };
     return (
         <View style={styles.container}>
@@ -20,20 +19,26 @@ export const Welcome = ({handleButtonPress, setLoader}: WelcomeProps) => {
                 <Text style={styles.text}>World</Text>
             </View>
             <View style={styles.select}>
-                <Pressable style={[styles.button, styles.buttonMain]} onPress={() => {
-                    handleButtonPress(types.LOGIN)
-                }}>
+                <Pressable
+                    style={[styles.button, styles.buttonMain]}
+                    onPress={() => {
+                        handleAuthScreenSwitch(types.LOGIN);
+                    }}
+                >
                     <Text style={styles.buttonText}>Log in</Text>
                 </Pressable>
-                <Pressable style={styles.button} onPress={() => {
-                    handleButtonPress(types.REGISTER)
-                }}>
+                <Pressable
+                    style={styles.button}
+                    onPress={() => {
+                        handleAuthScreenSwitch(types.REGISTER);
+                    }}
+                >
                     <Text style={styles.buttonText}>Sign up</Text>
                 </Pressable>
             </View>
         </View>
-    )
-}
+    );
+};
 
 const styles = StyleSheet.create({
     container: {
@@ -58,7 +63,7 @@ const styles = StyleSheet.create({
     },
     text: {
         fontSize: 60,
-        color: "white"
+        color: "white",
     },
     button: {
         borderRadius: 30,
@@ -68,7 +73,7 @@ const styles = StyleSheet.create({
         width: "80%",
         height: 50,
         borderWidth: 2,
-        borderColor: "white"
+        borderColor: "white",
     },
     buttonMain: {
         borderColor: "transparent",
@@ -76,8 +81,6 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         color: "white",
-        fontSize: 18
-
-    }
+        fontSize: 18,
+    },
 });
-

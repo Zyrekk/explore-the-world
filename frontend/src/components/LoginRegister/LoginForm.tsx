@@ -3,7 +3,6 @@ import {
     ScrollView,
     StyleSheet,
     Text,
-    TextInput,
     TouchableOpacity,
     View,
 } from "react-native";
@@ -11,66 +10,16 @@ import { SocialIcon } from "react-native-elements";
 import React, { useState } from "react";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { AuthTypes } from "../../commons/types/AuthTypes";
-import { FIREBASE_AUTH, FIREBASE_DB } from "../../../FirebaseConfig";
-import { doc, getDoc } from "firebase/firestore";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { setUserDataToStorage } from "../../commons/utils/AuthContext";
-import { FirebaseUserSchema } from "../../commons/interfaces/interfaces";
+import { singIn } from "../../commons/utils/singIn";
+import { renderInput } from "../Reusable/AuthInputs";
 
-interface WelcomeProps {
-    handleButtonPress: (type: string) => void;
-    setLoader: (value: boolean) => void;
+interface LoginFormProps {
+    handleAuthScreenSwitch: (type: string) => void;
 }
 
-export const LoginForm = ({ handleButtonPress, setLoader }: WelcomeProps) => {
+export const LoginForm = ({ handleAuthScreenSwitch }: LoginFormProps) => {
     const [email, setEmail] = useState<string>("");
     const [password, setPassword] = useState<string>("");
-    const [loading, setLoading] = useState<boolean>(false);
-    const auth = FIREBASE_AUTH;
-
-    const signIn = async () => {
-        setLoading(true);
-
-        try {
-            const response = await signInWithEmailAndPassword(
-                auth,
-                email,
-                password
-            );
-
-            const userDocRef = doc(FIREBASE_DB, "Users", response.user.uid);
-            const docSnapshot = await getDoc(userDocRef);
-
-            if (docSnapshot.exists()) {
-                const userData = docSnapshot.data();
-                if (userData) {
-                    console.log("login", response.user.uid);
-
-                    const userToStorage: FirebaseUserSchema = {
-                        uid: response.user.uid,
-                        email: userData?.email,
-                        nickname: userData?.nickname,
-                        name: userData?.name,
-                        lastname: userData?.lastname,
-                        avatar: userData?.avatar,
-                        country: userData?.country,
-                    };
-
-                    setUserDataToStorage(userToStorage);
-                    alert("Sign in successful");
-                } else {
-                    alert("User email not found");
-                }
-            } else {
-                alert("User data not found in Firestore");
-            }
-        } catch (error) {
-            console.error(error);
-            alert("Sign in failed");
-        } finally {
-            setLoading(false);
-        }
-    };
 
     return (
         <KeyboardAvoidingView
@@ -81,7 +30,7 @@ export const LoginForm = ({ handleButtonPress, setLoader }: WelcomeProps) => {
                 <TouchableOpacity
                     style={styles.backButtonIos}
                     onPress={() => {
-                        handleButtonPress(AuthTypes.WELCOME);
+                        handleAuthScreenSwitch(AuthTypes.WELCOME);
                     }}
                 >
                     <AntDesign
@@ -116,45 +65,34 @@ export const LoginForm = ({ handleButtonPress, setLoader }: WelcomeProps) => {
                         <View style={styles.dividerLine} />
                     </View>
                     <View style={styles.inputListContainer}>
-                        <View style={styles.inputContainer}>
-                            <AntDesign name="mail" style={styles.innerFont} />
-                            <TextInput
-                                style={[styles.input, styles.innerFont]}
-                                onChangeText={setEmail}
-                                value={email}
-                                placeholder="E-mail"
-                                autoCorrect={false}
-                                placeholderTextColor="#fff"
-                                underlineColorAndroid="transparent"
-                            />
-                        </View>
-                        <View style={styles.inputContainer}>
+                        {renderInput(
+                            <AntDesign name="mail" style={styles.innerFont} />,
+                            "E-mail",
+                            email,
+                            setEmail
+                        )}
+                        {renderInput(
                             <Ionicons
                                 name="ios-lock-closed-outline"
                                 style={styles.innerFont}
-                            />
-                            <TextInput
-                                style={[styles.input, styles.innerFont]}
-                                placeholder="Password"
-                                onChangeText={setPassword}
-                                value={password}
-                                placeholderTextColor="#fff"
-                                autoCorrect={false}
-                                underlineColorAndroid="transparent"
-                                secureTextEntry={true}
-                            />
-                        </View>
+                            />,
+                            "Password",
+                            password,
+                            setPassword
+                        )}
                     </View>
                     <TouchableOpacity
                         style={styles.loginButton}
-                        onPress={signIn}
+                        onPress={() => {
+                            singIn(email, password);
+                        }}
                     >
                         <Text style={styles.buttonText}>Log in</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.signUpButton}
                         onPress={() => {
-                            handleButtonPress(AuthTypes.REGISTER);
+                            handleAuthScreenSwitch(AuthTypes.REGISTER);
                         }}
                     >
                         <Text style={styles.signUpButtonText}>
