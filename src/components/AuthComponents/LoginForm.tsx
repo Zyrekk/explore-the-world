@@ -79,7 +79,9 @@ export const LoginForm = ({handleAuthScreenSwitch}: LoginFormProps) => {
                             />,
                             "Password",
                             password,
-                            setPassword
+                            setPassword,
+                            "none",
+                            true
                         )}
                     </View>
                     <TouchableOpacity

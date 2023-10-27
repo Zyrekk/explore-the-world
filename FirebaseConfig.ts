@@ -4,17 +4,18 @@ import { initializeApp } from "firebase/app";
 // https://firebase.google.com/docs/web/setup#available-libraries
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
+import {REACT_APP_FIREBASE_KEY,REACT_APP_FIREBASE_ID,REACT_APP_FIREBASE_AUTH_DOMAIN,REACT_APP_FIREBASE_PROJECT_ID,REACT_APP_FIREBASE_STORAGE_BUCKET,REACT_APP_FIREBASE_MESSAGING_SENDER_ID,REACT_APP_FIREBASE_MEASUREMENT_ID} from "@env";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-    apiKey: "AIzaSyDknUQaRG8SUhUPL906O3gYFtTqu3lzugQ",
-    authDomain: "explore-the-world-23c1e.firebaseapp.com",
-    projectId: "explore-the-world-23c1e",
-    storageBucket: "explore-the-world-23c1e.appspot.com",
-    messagingSenderId: "820862504134",
-    appId: "1:820862504134:web:63e30dc46bd5531a431bc7",
-    measurementId: "G-SDTPF788YB",
+    apiKey: REACT_APP_FIREBASE_KEY,
+    authDomain: REACT_APP_FIREBASE_AUTH_DOMAIN,
+    projectId: REACT_APP_FIREBASE_PROJECT_ID,
+    storageBucket: REACT_APP_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+    appId: REACT_APP_FIREBASE_ID,
+    measurementId: REACT_APP_FIREBASE_MEASUREMENT_ID,
 };
 
 // Initialize Firebase
