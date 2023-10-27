@@ -36,6 +36,7 @@ export default function App() {
         };
         initializeUser();
     }, []);
+
     return (
         <AuthContext.Provider value={{ user, setUser }}>
             <NavigationContainer>

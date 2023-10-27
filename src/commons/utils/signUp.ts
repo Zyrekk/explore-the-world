@@ -1,7 +1,7 @@
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { FIREBASE_AUTH, FIREBASE_DB } from "../../../FirebaseConfig";
 import { FirebaseUserSchema } from "../interfaces/interfaces";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc,addDoc } from "firebase/firestore";
 import { setUserDataToStorage } from "./AuthContext";
 
 export const signUp = async (
@@ -38,7 +38,7 @@ export const signUp = async (
                     email,
                     nickname,
                     name: "",
-                    lastName: "",
+                    lastname: "",
                     avatar: "",
                 }),
             ]);

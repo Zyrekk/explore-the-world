@@ -8,6 +8,7 @@ export const pickImage = async (setImage:(arg1:string)=>void) => {
         quality: 1,
     });
     if (!result.canceled) {
+        // console.log(result)
         setImage(result.assets[0].uri);
     }
 };
