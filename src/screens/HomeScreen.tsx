@@ -5,6 +5,7 @@ import * as React from "react";
 import {useState} from "react";
 import CreateNewJourney from "../components/CreateNewJourney";
 import {LatLng} from "react-native-maps";
+import {CountryInfo} from "../components/CountryInfo";
 
 const HomeScreen = () => {
     const [creatorMode, setCreatorMode] = useState(false);
@@ -43,6 +44,7 @@ const HomeScreen = () => {
             </SafeAreaView>
             {creatorMode && <CreateNewJourney origin={origin} waypoints={waypoints} destination={destination}
                                               setCreatorMode={setCreatorMode} setHandleType={setHandleType}/>}
+            {/*<CountryInfo code={"DZ"}/>*/}
         </View>
     );
 };

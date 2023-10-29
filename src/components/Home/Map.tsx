@@ -1,9 +1,11 @@
-import React, {useEffect, useState} from 'react';
-import MapView, {LatLng, Marker} from 'react-native-maps';
+import React, {useEffect, useRef, useState} from 'react';
+import MapView, {LatLng, Marker, Region} from 'react-native-maps';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import * as Location from "expo-location";
 import {REACT_APP_KEY} from "@env";
 import MapViewDirections from 'react-native-maps-directions';
+import {reverseGeocode} from "../../commons/utils/geocode";
+import axios from "axios/index";
 
 interface MapProps {
     addCoordinates: (coordinates: LatLng) => void;
@@ -15,20 +17,15 @@ interface MapProps {
 }
 
 const Map = ({addCoordinates, origin, destination, waypoints, clearMap, handleType}: MapProps) => {
-    const [coords, setCoords] = useState({
-        latitude: 54.352024,
-        longitude: 18.646639,
-        longitudeDelta: 0.1,
-        latitudeDelta: 0.1,
+    const mapRef = useRef<MapView>(null);
+    const [pressMode,setPressMode]=useState("normal")
+    const [coords, setCoords] = useState<Region|null>({
+        latitude: 54.337508,
+        longitude: 18.636932,
+        longitudeDelta: 0.05,
+        latitudeDelta: 0.05,
     })
-    const [markerPosition, setMarkerPosition] = useState({
-        latitude: coords.latitude,
-        longitude: coords.longitude,
-        longitudeDelta: 0.1,
-        latitudeDelta: 0.1,
-        selected: false,
-    });
-    const mapRef = React.useRef<MapView>(null);
+    const [markerPosition, setMarkerPosition] = useState();
     const getPermissions = async () => {
         let {status} = await Location.requestForegroundPermissionsAsync();
         if (status !== 'granted') {
@@ -43,18 +40,23 @@ const Map = ({addCoordinates, origin, destination, waypoints, clearMap, handleTy
             latitudeDelta: 0.01,
         })
         if (mapRef.current !== null) {
-            mapRef.current.animateToRegion(coords, 1000); // Smoothly animate to the new region
+            mapRef.current.animateToRegion({
+                latitude: currentLocation.coords.latitude,
+                longitude: currentLocation.coords.longitude,
+                longitudeDelta: 0.025,
+                latitudeDelta: 0.025,
+            }, 1000); // Smoothly animate to the new region
         }
     };
     useEffect(() => {
         getPermissions().then();
     }, []);
 
-    useEffect(() => {
-        if (mapRef.current !== null) {
-            mapRef.current.animateToRegion(markerPosition, 1000); // Smoothly animate to the new region
-        }
-    }, [markerPosition])
+    // useEffect(() => {
+    //     if (mapRef.current !== null) {
+    //         mapRef.current.animateToRegion(markerPosition, 1000); // Smoothly animate to the new region
+    //     }
+    // }, [markerPosition])
 
     // const handleLongPress = (event: any) => {
     //     const {coordinate} = event.nativeEvent;
@@ -72,13 +74,17 @@ const Map = ({addCoordinates, origin, destination, waypoints, clearMap, handleTy
     //     setMarkerSelected(true)
     // };
 
-
-    const handleMapPress = (event: { nativeEvent: { coordinate: LatLng } }) => {
-        addCoordinates(event.nativeEvent.coordinate)
+    const handleMapPress = async(event: { nativeEvent: { coordinate: LatLng } }) => {
+         // addCoordinates(event.nativeEvent.coordinate)
+        const res=await reverseGeocode(event.nativeEvent.coordinate.latitude, event.nativeEvent.coordinate.longitude)
+        await axios.get(`https://restcountries.com/v3.1/alpha/${res[0].isoCountryCode}`).then(res=>{
+            console.log(res.data[0])
+        })
     };
     return (
         <View style={styles.container}>
-            <MapView
+            {coords && <MapView
+                ref={mapRef}
                 style={styles.map}
                 initialRegion={coords}
                 showsUserLocation={true}
@@ -113,7 +119,7 @@ const Map = ({addCoordinates, origin, destination, waypoints, clearMap, handleTy
                         pinColor="blue"
                     />
                 )}
-            </MapView>
+            </MapView>}
 
             {(origin || destination || waypoints.length > 0) &&
                 <View style={styles.buttonContainer}>
