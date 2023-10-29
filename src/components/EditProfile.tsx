@@ -1,5 +1,4 @@
 import {
-    Image,
     KeyboardAvoidingView,
     Pressable,
     ScrollView,
@@ -23,10 +22,6 @@ import countryEmoji from "country-emoji";
 import {pickImage} from "../commons/utils/pickImage";
 import {renderAvatar} from "../commons/utils/renderAvatar";
 import {updateUser} from "../commons/utils/updateUser";
-import {ref,uploadBytes,getDownloadURL } from "firebase/storage";
-import {v4} from "uuid";
-import { doc,addDoc,collection } from "firebase/firestore";
-import {FIREBASE_STORAGE,FIREBASE_DB} from "../../FirebaseConfig";
 
 interface EditProfileProps {
     handleButtonPress: (type: string) => void;
@@ -50,7 +45,7 @@ export const EditProfile = ({handleButtonPress}: EditProfileProps) => {
         value: "",
         editable: false,
     });
-    const [avatar, setAvatar] = useState<any>(null);
+    const [avatar, setAvatar] = useState<any>("");
     const [image, setImage] = useState<any>(null);
 
     const [countryCode, setCountryCode] = useState<CountryCode>('PL')
@@ -65,6 +60,7 @@ export const EditProfile = ({handleButtonPress}: EditProfileProps) => {
             [property]: value,
         }));
     }
+
     const handleCountrySelect = (country: Country) => {
         setCountry(country);
         setShowCountryPicker(false);
@@ -72,61 +68,53 @@ export const EditProfile = ({handleButtonPress}: EditProfileProps) => {
     };
 
     const sendChanges = () => {
-        // addDoc(collection(FIREBASE_DB,"Temp"),{xd:"DUPA"}).then((o)=>console.log(o.id))
-        // if (fetchedUser) {
-        //     updateUser(fetchedUser,
-        //         {
-        //             name: name.value,
-        //             lastname: lastname.value,
-        //             country:country,
-        //             avatar: avatar
-        //         }
-        //     )
-        // }
-        // uploadImage()
+        if (fetchedUser) {
+            if (image) {
+                updateUser(fetchedUser,
+                    {
+                        avatar: avatar,
+                        name: name.value,
+                        lastname: lastname.value,
+                        country: country,
+                    }
+                )
+            } else {
+                updateUser(fetchedUser,
+                    {
+                        name: name.value,
+                        lastname: lastname.value,
+                        country: country,
+                    }
+                )
+            }
+        }
     }
-
-    const uploadImage=async()=>{
-        const response=await fetch(image)
-        const blob=await response.blob()
-        const filename=image.substring(image.lastIndexOf('/')+1)
-        const imageRef=ref(FIREBASE_STORAGE,filename)
-        uploadBytes(imageRef,blob).then(()=>{
-            console.log("IMAGE UPLOADED")
-        })
-    }
-
 
     useEffect(() => {
-
-
         const initializeUser = async () => {
-            const userData:LocalStorageUserSchema = await getUserDataFromStorage();
+            const userData: LocalStorageUserSchema = await getUserDataFromStorage();
             setFetchedUser(userData);
 
             if (userData) {
                 setName((prevState) => ({
                     ...prevState,
-                    value: userData?.name?userData.name:"",
+                    value: userData?.name ? userData.name : "",
                 }));
                 setLastname((prevState) => ({
                     ...prevState,
-                    value: userData?.lastname?userData.lastname:"",
+                    value: userData?.lastname ? userData.lastname : "",
                 }));
-                setAvatar(userData?.avatar?userData.avatar:"");
-                setCountry(userData?.country?userData.country:null)
-                setCountryCode(userData?.country?userData.country.cca2:'PL')
+                if (userData.avatar) {
+                    setAvatar(userData.avatar);
+                }
+                setCountry(userData?.country ? userData.country : null)
+                setCountryCode(userData?.country ? userData.country.cca2 : 'PL')
             } else {
                 console.log("no user in local storage");
             }
         };
         initializeUser();
     }, []);
-
-    useEffect(() => {
-        const reference=ref(FIREBASE_STORAGE,"65C0104C-96D5-46D4-83DD-D59DA1580B27.jpg")
-        getDownloadURL(reference).then((url)=>setAvatar(url))
-    },[])
 
     return (
         <KeyboardAvoidingView
@@ -157,7 +145,7 @@ export const EditProfile = ({handleButtonPress}: EditProfileProps) => {
                         {renderAvatar(avatar, image)}
                         <TouchableOpacity
                             style={styles.avatarEditLayout}
-                            onPress={() => pickImage(setImage)}
+                            onPress={() => pickImage(setImage, setAvatar)}
                         >
                             <Ionicons
                                 name="pencil"
@@ -355,6 +343,11 @@ const styles = StyleSheet.create({
         justifyContent: "flex-end",
         height: "100%",
         paddingBottom: 40,
+    },
+    avatarImage: {
+        borderRadius: 100,
+        width: "101%",
+        height: "101%",
     },
     passwordRequireContainer: {
         width: "100%",

@@ -17,7 +17,7 @@ export const renderAvatar = (avatar:string,image:string) => {
             <Image
                 style={styles.avatarImage}
                 source={{
-                    uri: avatar,
+                    uri: `data:image/jpeg;base64,${avatar}`,
                 }}
             />
         );
