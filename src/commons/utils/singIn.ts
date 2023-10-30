@@ -23,14 +23,13 @@ export const singIn = async (email: string, password: string) => {
                     email: userData?.email,
                     nickname: userData?.nickname,
                     name: userData?.name,
-                    lastName: userData?.lastName,
+                    lastname: userData?.lastname,
                     avatar: userData?.avatar,
                     country: userData?.country,
                 };
                 await Promise.all([
                     setUserDataToStorage(userToStorage)
                 ]);
-
                 alert("Sign in successful");
             } else {
                 alert("User email not found");

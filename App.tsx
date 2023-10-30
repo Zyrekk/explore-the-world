@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { LoginRegisterScreen } from "./src/screens/LoginRegisterScreen";
 import { OptionsScreen } from "./src/screens/OptionsScreen";
 import { User, onAuthStateChanged } from "firebase/auth";
-import { FIREBASE_AUTH } from "./FirebaseConfig";
+import { FIREBASE_AUTH} from "./FirebaseConfig";
 import { ProfileScreen } from "./src/screens/ProfileScreen";
 import { HomeScreen } from "./src/screens/HomeScreen";
 import { Navigation } from "./src/components/Navigation";
@@ -36,6 +36,7 @@ export default function App() {
         };
         initializeUser();
     }, []);
+
     return (
         <AuthContext.Provider value={{ user, setUser }}>
             <NavigationContainer>

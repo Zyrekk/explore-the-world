@@ -1,7 +1,5 @@
 import {
-    Image,
     KeyboardAvoidingView,
-    Platform,
     Pressable,
     ScrollView,
     StyleSheet,
@@ -10,51 +8,27 @@ import {
     TouchableOpacity,
     View,
 } from "react-native";
-import {AntDesign, Ionicons, MaterialIcons} from "@expo/vector-icons";
+import {AntDesign, Ionicons} from "@expo/vector-icons";
 import React, {useEffect, useState} from "react";
 import {LocalStorageUserSchema} from "../commons/interfaces/interfaces";
-import {
-    getUserDataFromStorage,
-    setUserDataToStorage,
-} from "../commons/utils/AuthContext";
+import {getUserDataFromStorage} from "../commons/utils/AuthContext";
 import {OptionTypes} from "../commons/types/OptionTypes";
 import CountryPicker, {
     Country,
     CountryCode,
     DARK_THEME,
 } from "react-native-country-picker-modal";
-import * as ImagePicker from "expo-image-picker";
 import countryEmoji from "country-emoji";
-import axios from "axios";
-import {showAlert} from "../commons/utils/Alert";
-import {showLoader} from "../commons/utils/Loader";
-import {REACT_APP_API_URL} from "@env";
-import {
-    doc,
-    updateDoc,
-    query,
-    where,
-    collection,
-    getDocs,
-} from "firebase/firestore";
-import {FIREBASE_DB} from "../../FirebaseConfig";
 import {pickImage} from "../commons/utils/pickImage";
+import {renderAvatar} from "../commons/utils/renderAvatar";
+import {updateUser} from "../commons/utils/updateUser";
 
 interface EditProfileProps {
     handleButtonPress: (type: string) => void;
 }
 
-interface CountryFlagProps {
-    country: Country | null; // Pass the saved country object here
-}
-
 interface fieldProps {
     value: string;
-    editable: boolean;
-}
-
-interface CountryProps {
-    country: Country;
     editable: boolean;
 }
 
@@ -67,92 +41,74 @@ export const EditProfile = ({handleButtonPress}: EditProfileProps) => {
         value: "",
         editable: false,
     });
-    const [lastName, setLastName] = useState<fieldProps>({
+    const [lastname, setLastname] = useState<fieldProps>({
         value: "",
         editable: false,
     });
-    const [avatar, setAvatar] = useState<string>("");
+    const [avatar, setAvatar] = useState<any>("");
     const [image, setImage] = useState<any>(null);
+
+    const [countryCode, setCountryCode] = useState<CountryCode>('PL')
     const [isCountryChanged, setIsCountryChanged] = useState<boolean>(false);
     const [showCountryPicker, setShowCountryPicker] = useState<boolean>(false);
     const [countryEdit, setCountryEdit] = useState<boolean>(false);
-    const renderSaveButton = () => {
-            return (
-                <TouchableOpacity
-                    style={styles.saveButton}
-                    onPress={updateUser}
-                >
-                    <Text style={styles.saveButtonText}>Save</Text>
-                    <AntDesign name="check" size={24} color="white" />
-                </TouchableOpacity>
-            );
+    const [country, setCountry] = useState<Country | null>(null);
+
+    const updateStateProperty = (setState: (arg0: (prevState: any) => any) => void, property: any, value: any) => {
+        setState((prevState) => ({
+            ...prevState,
+            [property]: value,
+        }));
+    }
+
+    const handleCountrySelect = (country: Country) => {
+        setCountry(country);
+        setShowCountryPicker(false);
+        setIsCountryChanged(true)
     };
 
-    const renderAvatar = () => {
-        if (avatar) {
-            if (image) {
-                return (
-                    <Image
-                        style={styles.avatarImage}
-                        source={{
-                            uri: image,
-                        }}
-                    />
-                );
-            }
-            return (
-                <Image
-                    style={styles.avatarImage}
-                    source={{
-                        uri: `data:image/jpeg;base64,${avatar}`,
-                    }}
-                />
-            );
-        } else {
-            if (image) {
-                return (
-                    <Image
-                        style={styles.avatarImage}
-                        source={{
-                            uri: image,
-                        }}
-                    />
-                );
-            }
-        }
-    };
-
-    const updateUser = async () => {
+    const sendChanges = () => {
         if (fetchedUser) {
-            try {
-                await updateDoc(doc(FIREBASE_DB, `Users/${fetchedUser.uid}`), {
-                    name: name.value,
-                    lastname: lastName.value,
-                });
-                alert("User data updated successfully");
-            } catch (error) {
-                console.error(error);
-                alert("User data update failed");
+            if (image) {
+                updateUser(fetchedUser,
+                    {
+                        avatar: avatar,
+                        name: name.value,
+                        lastname: lastname.value,
+                        country: country,
+                    }
+                )
+            } else {
+                updateUser(fetchedUser,
+                    {
+                        name: name.value,
+                        lastname: lastname.value,
+                        country: country,
+                    }
+                )
             }
-        } else {
-            alert("No user data to update");
         }
-    };
+    }
 
     useEffect(() => {
         const initializeUser = async () => {
-            const userData = await getUserDataFromStorage();
+            const userData: LocalStorageUserSchema = await getUserDataFromStorage();
             setFetchedUser(userData);
 
             if (userData) {
                 setName((prevState) => ({
                     ...prevState,
-                    value: userData.name,
+                    value: userData?.name ? userData.name : "",
                 }));
-                setLastName((prevState) => ({
+                setLastname((prevState) => ({
                     ...prevState,
-                    value: userData.lastname,
+                    value: userData?.lastname ? userData.lastname : "",
                 }));
+                if (userData.avatar) {
+                    setAvatar(userData.avatar);
+                }
+                setCountry(userData?.country ? userData.country : null)
+                setCountryCode(userData?.country ? userData.country.cca2 : 'PL')
             } else {
                 console.log("no user in local storage");
             }
@@ -160,188 +116,181 @@ export const EditProfile = ({handleButtonPress}: EditProfileProps) => {
         initializeUser();
     }, []);
 
-    const updateStateProperty=(setState: (arg0: (prevState: any) => any) => void, property: any, value: any)=> {
-        setState((prevState) => ({
-            ...prevState,
-            [property]: value,
-        }));
-    }
-
     return (
         <KeyboardAvoidingView
             style={styles.keyboardContainer}
             behavior="position"
             keyboardVerticalOffset={-100}
         >
-                <ScrollView contentContainerStyle={styles.scrollContainer}>
-                    <Pressable
-                        style={styles.backButton}
-                        onPress={() => {
-                            handleButtonPress(OptionTypes.OPTIONS);
-                        }}
-                    >
-                        <AntDesign
-                            name="left"
-                            style={[styles.innerFont, {fontSize: 20}]}
-                        />
-                        <Text style={[styles.innerFont, {fontSize: 20}]}>
-                            Back
-                        </Text>
-                    </Pressable>
-                    <View style={styles.titleContainer}>
-                        <Text style={styles.title}>Edit profile</Text>
+            <ScrollView contentContainerStyle={styles.scrollContainer}>
+                <Pressable
+                    style={styles.backButton}
+                    onPress={() => {
+                        handleButtonPress(OptionTypes.OPTIONS);
+                    }}
+                >
+                    <AntDesign
+                        name="left"
+                        style={[styles.innerFont, {fontSize: 20}]}
+                    />
+                    <Text style={[styles.innerFont, {fontSize: 20}]}>
+                        Back
+                    </Text>
+                </Pressable>
+                <View style={styles.titleContainer}>
+                    <Text style={styles.title}>Edit profile</Text>
+                </View>
+                <View style={styles.editSection}>
+                    <View style={styles.avatarContainer}>
+                        {renderAvatar(avatar, image)}
+                        <TouchableOpacity
+                            style={styles.avatarEditLayout}
+                            onPress={() => pickImage(setImage, setAvatar)}
+                        >
+                            <Ionicons
+                                name="pencil"
+                                size={28}
+                                color={"white"}
+                            />
+                            <Text style={styles.avatarEditText}>
+                                Edit avatar
+                            </Text>
+                        </TouchableOpacity>
                     </View>
-                    <View style={styles.editSection}>
-                        <View style={styles.avatarContainer}>
-                            {renderAvatar()}
-                            <TouchableOpacity
-                                style={styles.avatarEditLayout}
-                                onPress={()=>pickImage(setImage)}
+                    <View style={styles.dataEditionContent}></View>
+                    <View style={styles.dataEditionContent}>
+                        <View style={styles.singleValueEdit}>
+                            <Text style={styles.singleValueEditText}>
+                                Name
+                            </Text>
+                            <View
+                                style={[
+                                    styles.inputContainer,
+                                    !name.editable
+                                        ? styles.inputContainerDisabled
+                                        : null,
+                                ]}
                             >
-                                <Ionicons
-                                    name="pencil"
-                                    size={28}
-                                    color={"white"}
+                                <AntDesign
+                                    name="user"
+                                    style={styles.innerFont}
                                 />
-                                <Text style={styles.avatarEditText}>
-                                    Edit avatar
-                                </Text>
-                            </TouchableOpacity>
+                                <TextInput
+                                    style={[styles.input, styles.innerFont]}
+                                    onFocus={() =>
+                                        updateStateProperty(setName, "editable", true)
+                                    }
+                                    onBlur={() =>
+                                        name.value === fetchedUser?.name &&
+                                        updateStateProperty(setName, "editable", false)
+                                    }
+                                    onChangeText={(text) =>
+                                        updateStateProperty(setName, "value", text)
+                                    }
+                                    value={name.value}
+                                    placeholder="Name"
+                                    autoCorrect={false}
+                                    placeholderTextColor="#fff"
+                                    underlineColorAndroid="transparent"
+                                />
+                                {name.value === fetchedUser?.name && (
+                                    <Ionicons
+                                        name="pencil"
+                                        size={24}
+                                        color={"white"}
+                                    />
+                                )}
+                            </View>
                         </View>
-                        <View style={styles.dataEditionContent}></View>
-                        <View style={styles.dataEditionContent}>
-                            <View style={styles.singleValueEdit}>
-                                <Text style={styles.singleValueEditText}>
-                                    Name
-                                </Text>
-                                <View
-                                    style={[
-                                        styles.inputContainer,
-                                        !name.editable
-                                            ? styles.inputContainerDisabled
-                                            : null,
-                                    ]}
-                                >
-                                    <AntDesign
-                                        name="user"
-                                        style={styles.innerFont}
-                                    />
-                                    <TextInput
-                                        style={[styles.input, styles.innerFont]}
-                                        onFocus={() =>
-                                            updateStateProperty(setName,"editable",true)
-                                        }
-                                        onBlur={() =>
-                                            name.value === fetchedUser?.name &&
-                                            updateStateProperty(setName,"editable",false)
-                                        }
-                                        onChangeText={(text) =>
-                                            updateStateProperty(setName,"value",text)
-                                        }
-                                        value={name.value}
-                                        placeholder="Name"
-                                        autoCorrect={false}
-                                        placeholderTextColor="#fff"
-                                        underlineColorAndroid="transparent"
-                                    />
-                                    {name.value === fetchedUser?.name && (
+                    </View>
+                    <View style={styles.dataEditionContent}>
+                        <View style={styles.singleValueEdit}>
+                            <Text style={styles.singleValueEditText}>
+                                Last name
+                            </Text>
+                            <View
+                                style={[
+                                    styles.inputContainer,
+                                    !lastname.editable
+                                        ? styles.inputContainerDisabled
+                                        : null,
+                                ]}
+                            >
+                                <AntDesign
+                                    name="user"
+                                    style={styles.innerFont}
+                                />
+                                <TextInput
+                                    style={[styles.input, styles.innerFont]}
+                                    onChangeText={(text) =>
+                                        setLastname((prevLastName) => ({
+                                            ...prevLastName,
+                                            value: text,
+                                        }))
+                                    }
+                                    value={lastname.value}
+                                    placeholder="Last name"
+                                    autoCorrect={false}
+                                    placeholderTextColor="#fff"
+                                    underlineColorAndroid="transparent"
+                                    onFocus={() =>
+                                        setLastname((prevLastName) => ({
+                                            ...prevLastName,
+                                            editable: true,
+                                        }))
+                                    }
+                                    onBlur={() =>
+                                        lastname.value ===
+                                        fetchedUser?.lastname &&
+                                        setLastname((prevLastName) => ({
+                                            ...prevLastName,
+                                            editable: false,
+                                        }))
+                                    }
+                                />
+
+                                {lastname.value ===
+                                    fetchedUser?.lastname && (
                                         <Ionicons
                                             name="pencil"
                                             size={24}
                                             color={"white"}
                                         />
                                     )}
-                                </View>
                             </View>
                         </View>
-                        <View style={styles.dataEditionContent}>
-                            <View style={styles.singleValueEdit}>
-                                <Text style={styles.singleValueEditText}>
-                                    Last name
-                                </Text>
-                                <View
-                                    style={[
-                                        styles.inputContainer,
-                                        !lastName.editable
-                                            ? styles.inputContainerDisabled
-                                            : null,
-                                    ]}
-                                >
-                                    <AntDesign
-                                        name="user"
-                                        style={styles.innerFont}
-                                    />
-                                    <TextInput
-                                        style={[styles.input, styles.innerFont]}
-                                        onChangeText={(text) =>
-                                            setLastName((prevLastName) => ({
-                                                ...prevLastName,
-                                                value: text,
-                                            }))
-                                        }
-                                        value={lastName.value}
-                                        placeholder="Last name"
-                                        autoCorrect={false}
-                                        placeholderTextColor="#fff"
-                                        underlineColorAndroid="transparent"
-                                        onFocus={() =>
-                                            setLastName((prevLastName) => ({
-                                                ...prevLastName,
-                                                editable: true,
-                                            }))
-                                        }
-                                        onBlur={() =>
-                                            lastName.value ===
-                                            fetchedUser?.lastName &&
-                                            setLastName((prevLastName) => ({
-                                                ...prevLastName,
-                                                editable: false,
-                                            }))
-                                        }
-                                    />
-
-                                    {lastName.value ===
-                                        fetchedUser?.lastName && (
-                                            <Ionicons
-                                                name="pencil"
-                                                size={24}
-                                                color={"white"}
-                                            />
-                                        )}
+                    </View>
+                    {<View style={styles.dataEditionContent}>
+                        <View style={styles.singleValueEdit}>
+                            <Text style={styles.singleValueEditText}>
+                                Nationality{" "}
+                            </Text>
+                            <View
+                                style={[
+                                    styles.inputContainer,
+                                    !isCountryChanged
+                                        ? styles.inputContainerDisabled
+                                        : null,
+                                ]}
+                            >
+                                <View>
+                                    <Text>
+                                        {country && countryEmoji.flag(
+                                            country?.cca2
+                                        ) || "❓"}
+                                    </Text>
                                 </View>
-                            </View>
-                        </View>
-                        {/* <View style={styles.dataEditionContent}>
-                            <View style={styles.singleValueEdit}>
-                                <Text style={styles.singleValueEditText}>
-                                    Nationality{" "}
-                                </Text>
-                                <View
-                                    style={[
-                                        styles.inputContainer,
-                                        !isCountryChanged
-                                            ? styles.inputContainerDisabled
-                                            : null,
-                                    ]}
+                                <Pressable
+                                    style={[styles.countryInput]}
+                                    onPress={() => {
+                                        setShowCountryPicker(true);
+                                    }}
                                 >
-                                    <View>
-                                        <Text>
-                                            {countryEmoji.flag(
-                                                country.country?.cca2
-                                            ) || "❓"}
-                                        </Text>
-                                    </View>
-                                    <Pressable
-                                        style={[styles.countryInput]}
-                                        onPress={() => {
-                                            setShowCountryPicker(true);
-                                        }}
-                                    >
-                                        <Text style={styles.innerFont}>
-                                            {country.country.name.toString()}
-                                        </Text>
-                                    </Pressable>
-                                    <TouchableOpacity onPress={() => setCountryEdit(!countryEdit)}>
+                                    <Text style={styles.innerFont}>
+                                        {country && country.name.toString()}
+                                    </Text>
+                                </Pressable>
+                                <TouchableOpacity onPress={() => setCountryEdit(!countryEdit)}>
                                     {!isCountryChanged && (
                                         <Ionicons
                                             name="pencil"
@@ -349,35 +298,41 @@ export const EditProfile = ({handleButtonPress}: EditProfileProps) => {
                                             color={"white"}
                                         />
                                     )}
-                                    </TouchableOpacity>
-                                </View>
+                                </TouchableOpacity>
                             </View>
-                        </View> */}
-                         {renderSaveButton()}
+                        </View>
+                    </View>}
+                    <TouchableOpacity
+                        style={styles.saveButton}
+                        onPress={sendChanges}
+                    >
+                        <Text style={styles.saveButtonText}>Save</Text>
+                        <AntDesign name="check" size={24} color="white"/>
+                    </TouchableOpacity>
 
-                        {/* {showCountryPicker && (
-                            <CountryPicker
-                                theme={DARK_THEME}
-                                {...{
-                                    countryCode,
-                                    withFilter: true,
-                                    withFlag: true,
-                                    withCountryNameButton: false,
-                                    withAlphaFilter: true,
-                                    withCallingCode: false,
-                                    withEmoji: true,
-                                    onSelect: (country: Country) => {
-                                        handleCountrySelect(country);
-                                    },
-                                    onClose: () => {
-                                        setShowCountryPicker(false);
-                                    },
-                                    visible: true,
-                                }}
-                            />
-                        )} */}
-                    </View>
-                </ScrollView>
+                    {showCountryPicker && (
+                        <CountryPicker
+                            theme={DARK_THEME}
+                            {...{
+                                countryCode,
+                                withFilter: true,
+                                withFlag: true,
+                                withCountryNameButton: false,
+                                withAlphaFilter: true,
+                                withCallingCode: false,
+                                withEmoji: true,
+                                onSelect: (country: Country) => {
+                                    handleCountrySelect(country);
+                                },
+                                onClose: () => {
+                                    setShowCountryPicker(false);
+                                },
+                                visible: true,
+                            }}
+                        />
+                    )}
+                </View>
+            </ScrollView>
         </KeyboardAvoidingView>
     );
 };
@@ -388,6 +343,11 @@ const styles = StyleSheet.create({
         justifyContent: "flex-end",
         height: "100%",
         paddingBottom: 40,
+    },
+    avatarImage: {
+        borderRadius: 100,
+        width: "101%",
+        height: "101%",
     },
     passwordRequireContainer: {
         width: "100%",
@@ -497,7 +457,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
         width: "100%",
         height: "100%",
-        // backgroundColor: "rgba(255,255,255,0.2)",
     },
     singleValueEditText: {
         fontSize: 16,
@@ -505,11 +464,6 @@ const styles = StyleSheet.create({
     },
     avatarEditText: {
         color: "white",
-    },
-    avatarImage: {
-        borderRadius: 100,
-        width: "101%",
-        height: "101%",
     },
     singleValueEdit: {
         display: "flex",

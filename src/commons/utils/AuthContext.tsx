@@ -1,10 +1,11 @@
 import { createContext } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {LocalStorageUserSchema} from "../interfaces/interfaces";
+import {User} from "firebase/auth";
 
 export interface UserContext {
-    user: LocalStorageUserSchema | null;
-    setUser: (user: LocalStorageUserSchema | null) => void;
+    user: User | null;
+    setUser: (user: User | null) => void;
 }
 
 export const getUserDataFromStorage = async () => {
@@ -37,6 +38,6 @@ export const setUserDataToStorage = async (userData: LocalStorageUserSchema) => 
 };
 
 export const AuthContext = createContext<UserContext>({
-    setUser(user: LocalStorageUserSchema | null): void {},
+    setUser(user: User | null): void {},
     user: null,
 });
