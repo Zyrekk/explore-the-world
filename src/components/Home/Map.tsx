@@ -13,10 +13,11 @@ interface MapProps {
     destination: LatLng | undefined;
     waypoints: LatLng[];
     clearMap: () => void;
-    handleType: string
+    handleType: string;
+    setClickedPosition:(coordinate:LatLng) => void;
 }
 
-const Map = ({addCoordinates, origin, destination, waypoints, clearMap, handleType}: MapProps) => {
+const Map = ({addCoordinates,setClickedPosition, origin, destination, waypoints, clearMap, handleType}: MapProps) => {
     const mapRef = useRef<MapView>(null);
     const [pressMode,setPressMode]=useState("normal")
     const [coords, setCoords] = useState<Region|null>({
@@ -76,10 +77,8 @@ const Map = ({addCoordinates, origin, destination, waypoints, clearMap, handleTy
 
     const handleMapPress = async(event: { nativeEvent: { coordinate: LatLng } }) => {
          // addCoordinates(event.nativeEvent.coordinate)
-        const res=await reverseGeocode(event.nativeEvent.coordinate.latitude, event.nativeEvent.coordinate.longitude)
-        await axios.get(`https://restcountries.com/v3.1/alpha/${res[0].isoCountryCode}`).then(res=>{
-            console.log(res.data[0])
-        })
+        // const res=await reverseGeocode(event.nativeEvent.coordinate.latitude, event.nativeEvent.coordinate.longitude)
+        setClickedPosition(event.nativeEvent.coordinate)
     };
     return (
         <View style={styles.container}>

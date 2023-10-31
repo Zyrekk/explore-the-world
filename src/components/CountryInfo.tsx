@@ -1,19 +1,47 @@
 import React, {useEffect, useState} from 'react';
-import {Image, SafeAreaView, ScrollView, StyleSheet, View, Text} from "react-native";
+import {Image, SafeAreaView, ScrollView, StyleSheet, View, Text, Pressable} from "react-native";
 import axios from "axios";
+import {LatLng} from "react-native-maps";
+import {OptionTypes} from "../commons/types/OptionTypes";
+import {AntDesign} from "@expo/vector-icons";
 
-export const CountryInfo = ({code}: { code: string }) => {
+interface CountryInfoProps {
+    code: string;
+    coordinate: LatLng;
+    setClickedPosition:(coordinate:LatLng|null) => void;
+}
+
+export const CountryInfo = ({code,coordinate,setClickedPosition}: CountryInfoProps) => {
     const [countryInfo, setCountryInfo] = useState<any>();
+    const [weather,setWeather]=useState<any>();
     useEffect(() => {
         axios.get(`https://restcountries.com/v3.1/alpha/${code}`).then(res => {
             setCountryInfo(res.data[0])
         })
+        axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${coordinate.latitude}&lon=${coordinate.longitude}&units=metric&appid=d4d1cd3c219bc143faa42c3af738a582`).then(res=>{
+            // setWeather(res.data[0])
+            console.log(res.data)
+        })
 
     }, [code])
     return (
-        <View style={styles.container}>
+        <View style={styles.mainContainer}>
             {countryInfo &&
                 <SafeAreaView style={styles.container}>
+                    <Pressable
+                        style={styles.backButton}
+                        onPress={() => {
+                            setClickedPosition(null)
+                        }}
+                    >
+                        <AntDesign
+                            name="left"
+                            style={[styles.innerFont, {fontSize: 20}]}
+                        />
+                        <Text style={[styles.innerFont, {fontSize: 20}]}>
+                            Back
+                        </Text>
+                    </Pressable>
                 <ScrollView
                     style={styles.scroll}
                     contentContainerStyle={{flexGrow: 1}}
@@ -79,10 +107,26 @@ const styles = StyleSheet.create({
         backgroundColor: "#030712",
     },
     flag: {
-        marginTop: 60,
+        marginTop: 100,
         borderRadius: 10,
         width: 141,
         height: 94,
+    },
+    backButton: {
+        position: "absolute",
+        zIndex: 100,
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        gap: 10,
+        top: 70,
+        left: 20,
+        fontSize: 26,
+        color: "white",
+    },
+    innerFont: {
+        fontSize: 16,
+        color: "white",
     },
     infoList:{
         width: "100%",
@@ -120,5 +164,15 @@ const styles = StyleSheet.create({
         alignItems: "center",
         backgroundColor: "#030712",
     },
+    mainContainer:{
+        position:"absolute",
+        top:0,
+        left:0,
+        width: "100%",
+        minHeight: "100%",
+        alignItems: "center",
+        backgroundColor: "#030712",
+
+    }
 });
 
