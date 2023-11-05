@@ -11,14 +11,22 @@ My engineering thesis, a travel planning app.
 
 ## Installation
 
-```yarn
-  yarn install
+```npm
+  npm install
 ```
 
 ## .env variables
 
 ```
 REACT_APP_KEY=
+REACT_APP_FIREBASE_KEY=
+REACT_APP_FIREBASE_ID=
+REACT_APP_FIREBASE_AUTH_DOMAIN=
+REACT_APP_FIREBASE_PROJECT_ID=
+REACT_APP_FIREBASE_STORAGE_BUCKET=
+REACT_APP_FIREBASE_MESSAGING_SENDER_ID=
+REACT_APP_FIREBASE_MEASUREMENT_ID=
+
 ```
 
 ## User flow
