@@ -4,10 +4,19 @@ My engineering thesis, a travel planning app.
 
 ## Tech Stack
 
-**Frontend:** React native, Google Maps, Typescript, Expo
+**Frontend:** React native, Typescript, Expo
 
-**Database:** Firebase
+**Database:** Firebase Cloud
 
+**Api:**
+
+| **Api**            | **Description**     |
+|:-------------------|:--------------------|
+| **REST Countries** | Country highlights  |
+| **Google maps**    | Route plan on a map |
+| **OpenWeatherMap** | Weather information |
+| **DeepL**          | Translator          |
+| **Skyscanner**     | Flight search       |
 
 ## Installation
 

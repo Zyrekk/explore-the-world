@@ -13,6 +13,7 @@ const HomeScreen = () => {
     const [origin, setOrigin] = useState<LatLng | undefined>();
     const [waypoints, setWaypoints] = useState<LatLng[]>([]);
     const [destination, setDestination] = useState<LatLng | undefined>();
+    const [countryCode,setCountryCode]=useState<null|string>(null)
 
     const [clickedPosition, setClickedPosition] = useState<LatLng | null>()
 
@@ -39,9 +40,8 @@ const HomeScreen = () => {
 
     return (
         <View style={styles.container}>
-
                 <>
-                    <Map addCoordinates={addCoordinates} setClickedPosition={setClickedPosition} origin={origin}
+                    <Map setCountryCode={setCountryCode} addCoordinates={addCoordinates} setClickedPosition={setClickedPosition} origin={origin}
                          waypoints={waypoints} destination={destination}
                          clearMap={clearMap} handleType={handleType}/>
                     <SafeAreaView style={styles.safeContainer}>
@@ -51,7 +51,7 @@ const HomeScreen = () => {
 
             {creatorMode && <CreateNewJourney origin={origin} waypoints={waypoints} destination={destination}
                                               setCreatorMode={setCreatorMode} setHandleType={setHandleType}/>}
-            {clickedPosition && <CountryInfo code={"DZ"} setClickedPosition={setClickedPosition} coordinate={clickedPosition}/>}
+            {clickedPosition && countryCode && <CountryInfo setCode={setCountryCode} code={countryCode} setClickedPosition={setClickedPosition} coordinate={clickedPosition}/>}
         </View>
     );
 };

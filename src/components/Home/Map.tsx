@@ -15,9 +15,10 @@ interface MapProps {
     clearMap: () => void;
     handleType: string;
     setClickedPosition:(coordinate:LatLng) => void;
+    setCountryCode:(code:string|null)=>void;
 }
 
-const Map = ({addCoordinates,setClickedPosition, origin, destination, waypoints, clearMap, handleType}: MapProps) => {
+const Map = ({addCoordinates,setCountryCode,setClickedPosition, origin, destination, waypoints, clearMap, handleType}: MapProps) => {
     const mapRef = useRef<MapView>(null);
     const [pressMode,setPressMode]=useState("normal")
     const [coords, setCoords] = useState<Region|null>({
@@ -77,7 +78,9 @@ const Map = ({addCoordinates,setClickedPosition, origin, destination, waypoints,
 
     const handleMapPress = async(event: { nativeEvent: { coordinate: LatLng } }) => {
          // addCoordinates(event.nativeEvent.coordinate)
-        // const res=await reverseGeocode(event.nativeEvent.coordinate.latitude, event.nativeEvent.coordinate.longitude)
+        reverseGeocode(event.nativeEvent.coordinate.latitude, event.nativeEvent.coordinate.longitude).then((res)=>{
+            setCountryCode(res[0].isoCountryCode)
+        })
         setClickedPosition(event.nativeEvent.coordinate)
     };
     return (

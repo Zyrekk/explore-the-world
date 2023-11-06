@@ -10,13 +10,13 @@ import {
     View,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
-import { UserData } from "../../commons/interfaces/interfaces";
 import { getUserDataFromStorage } from "../../commons/utils/AuthContext";
+import {LocalStorageUserSchema} from "../../commons/interfaces/interfaces";
 
 const UserInformation = () => {
     const platform =
         Platform.OS === "ios" ? styles.userInfoIos : styles.userInfoAndroid;
-    const [user, setUser] = useState<UserData | null>(null);
+    const [user, setUser] = useState<LocalStorageUserSchema | null>(null);
 
     useEffect(() => {
         const getUserData = async () => {
