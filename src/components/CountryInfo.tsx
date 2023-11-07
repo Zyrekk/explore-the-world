@@ -4,17 +4,20 @@ import axios from "axios";
 import {LatLng} from "react-native-maps";
 import {AntDesign} from "@expo/vector-icons";
 import {renderWeatherImage} from "../commons/utils/renderWeatherImage";
+import {MapTypes} from "../commons/types/MapTypes";
 
 // import sunny from '../../assets/weather/01d.jpg';
 
 interface CountryInfoProps {
     code: string;
-    coordinate: LatLng;
+    clickedPosition: LatLng;
     setClickedPosition: (coordinate: LatLng | null) => void;
     setCode: (code: null) => void;
+    setIsModalVisible:(modal:boolean)=>void;
+    setMode:(mode:string)=>void;
 }
 
-export const CountryInfo = ({setCode, code, coordinate, setClickedPosition}: CountryInfoProps) => {
+export const CountryInfo = ({setIsModalVisible,setMode,setCode, code, clickedPosition, setClickedPosition}: CountryInfoProps) => {
     const [countryInfo, setCountryInfo] = useState<any>();
     const [weather, setWeather] = useState<any>();
     const [imageSource, setImageSource] = useState<ImageProps | null>(null)
@@ -22,7 +25,7 @@ export const CountryInfo = ({setCode, code, coordinate, setClickedPosition}: Cou
         axios.get(`https://restcountries.com/v3.1/alpha/${code}`).then(res => {
             setCountryInfo(res.data[0])
         })
-        axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${coordinate.latitude}&lon=${coordinate.longitude}&units=metric&appid=d4d1cd3c219bc143faa42c3af738a582`).then(res => {
+        axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${clickedPosition.latitude}&lon=${clickedPosition.longitude}&units=metric&appid=d4d1cd3c219bc143faa42c3af738a582`).then(res => {
             setWeather(res.data)
             setImageSource(renderWeatherImage(res.data.weather[0].icon))
         })
@@ -38,6 +41,8 @@ export const CountryInfo = ({setCode, code, coordinate, setClickedPosition}: Cou
                             setClickedPosition(null)
                             setCode(null)
                             setCountryInfo(null)
+                            setIsModalVisible(false)
+                            setMode(MapTypes.NORMAL)
                         }}
                     >
                         <AntDesign

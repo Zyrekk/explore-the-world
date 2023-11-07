@@ -6,6 +6,7 @@ import {REACT_APP_KEY} from "@env";
 import MapViewDirections from 'react-native-maps-directions';
 import {reverseGeocode} from "../../commons/utils/geocode";
 import axios from "axios/index";
+import {MapTypes} from "../../commons/types/MapTypes";
 
 interface MapProps {
     addCoordinates: (coordinates: LatLng) => void;
@@ -16,9 +17,12 @@ interface MapProps {
     handleType: string;
     setClickedPosition:(coordinate:LatLng) => void;
     setCountryCode:(code:string|null)=>void;
+    mode:string;
+    setIsMapClicked:(click:boolean)=>void;
+    setIsModalVisible:(modal:boolean)=>void;
 }
 
-const Map = ({addCoordinates,setCountryCode,setClickedPosition, origin, destination, waypoints, clearMap, handleType}: MapProps) => {
+const Map = ({addCoordinates,mode,setIsModalVisible,setIsMapClicked,setCountryCode,setClickedPosition, origin, destination, waypoints, clearMap, handleType}: MapProps) => {
     const mapRef = useRef<MapView>(null);
     const [pressMode,setPressMode]=useState("normal")
     const [coords, setCoords] = useState<Region|null>({
@@ -76,13 +80,26 @@ const Map = ({addCoordinates,setCountryCode,setClickedPosition, origin, destinat
     //     setMarkerSelected(true)
     // };
 
-    const handleMapPress = async(event: { nativeEvent: { coordinate: LatLng } }) => {
-         // addCoordinates(event.nativeEvent.coordinate)
+    const handleMapClick=async(event: { nativeEvent: { coordinate: LatLng } })=>{
+        if(mode!==MapTypes.JOURNEY){
+            setIsModalVisible(true)
+        }
         reverseGeocode(event.nativeEvent.coordinate.latitude, event.nativeEvent.coordinate.longitude).then((res)=>{
             setCountryCode(res[0].isoCountryCode)
         })
+        setIsMapClicked(true)
         setClickedPosition(event.nativeEvent.coordinate)
-    };
+        setClickedPosition(event.nativeEvent.coordinate)
+    }
+
+    // const handleMapPress = async(event: { nativeEvent: { coordinate: LatLng } }) => {
+    //      // addCoordinates(event.nativeEvent.coordinate)
+    //     reverseGeocode(event.nativeEvent.coordinate.latitude, event.nativeEvent.coordinate.longitude).then((res)=>{
+    //         setCountryCode(res[0].isoCountryCode)
+    //     })
+    //     setClickedPosition(event.nativeEvent.coordinate)
+    // };
+
     return (
         <View style={styles.container}>
             {coords && <MapView
@@ -90,7 +107,7 @@ const Map = ({addCoordinates,setCountryCode,setClickedPosition, origin, destinat
                 style={styles.map}
                 initialRegion={coords}
                 showsUserLocation={true}
-                onPress={handleMapPress}
+                onPress={handleMapClick}
             >
                 {destination && <MapViewDirections
                     origin={origin}
