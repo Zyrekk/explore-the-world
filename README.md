@@ -4,21 +4,38 @@ My engineering thesis, a travel planning app.
 
 ## Tech Stack
 
-**Frontend:** React native, Google Maps, Typescript, Expo
+**Frontend:** React native, Typescript, Expo
 
-**Database:** Firebase
+**Database:** Firebase Cloud
 
+**Api:**
+
+| **Api**            | **Description**     |
+|:-------------------|:--------------------|
+| **REST Countries** | Country highlights  |
+| **Google maps**    | Route plan on a map |
+| **OpenWeatherMap** | Weather information |
+| **DeepL**          | Translator          |
+| **Skyscanner**     | Flight search       |
 
 ## Installation
 
-```yarn
-  yarn install
+```npm
+  npm install
 ```
 
 ## .env variables
 
 ```
 REACT_APP_KEY=
+REACT_APP_FIREBASE_KEY=
+REACT_APP_FIREBASE_ID=
+REACT_APP_FIREBASE_AUTH_DOMAIN=
+REACT_APP_FIREBASE_PROJECT_ID=
+REACT_APP_FIREBASE_STORAGE_BUCKET=
+REACT_APP_FIREBASE_MESSAGING_SENDER_ID=
+REACT_APP_FIREBASE_MEASUREMENT_ID=
+
 ```
 
 ## User flow

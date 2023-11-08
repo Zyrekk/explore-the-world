@@ -2,18 +2,24 @@ import {SafeAreaView, StyleSheet, View} from 'react-native';
 import {StartButton} from '../components/Home/StartButton';
 import {Map} from '../components/Home/Map';
 import * as React from "react";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import CreateNewJourney from "../components/CreateNewJourney";
 import {LatLng} from "react-native-maps";
 import {CountryInfo} from "../components/CountryInfo";
+import {MapTypes} from "../commons/types/MapTypes";
+import ModeModal from "../components/ModeModal";
 
 const HomeScreen = () => {
+    const [mode,setMode]=useState(MapTypes.NORMAL)
+    const [isModalVisible,setIsModalVisible]=useState(false)
+    const [travelPoints,setTravelPoints]=useState<LatLng[]|null>(null)
+    const [isMapClicked,setIsMapClicked]=useState(false)
     const [creatorMode, setCreatorMode] = useState(false);
     const [handleType, setHandleType] = useState<string>('');
     const [origin, setOrigin] = useState<LatLng | undefined>();
     const [waypoints, setWaypoints] = useState<LatLng[]>([]);
     const [destination, setDestination] = useState<LatLng | undefined>();
-
+    const [countryCode,setCountryCode]=useState<null|string>(null)
     const [clickedPosition, setClickedPosition] = useState<LatLng | null>()
 
     const clearMap = () => {
@@ -37,11 +43,14 @@ const HomeScreen = () => {
         }
     };
 
+    useEffect(() => {
+        console.log(countryCode)
+    }, [countryCode]);
+
     return (
         <View style={styles.container}>
-
                 <>
-                    <Map addCoordinates={addCoordinates} setClickedPosition={setClickedPosition} origin={origin}
+                    <Map mode={mode} setIsModalVisible={setIsModalVisible} setIsMapClicked={setIsMapClicked} setCountryCode={setCountryCode} addCoordinates={addCoordinates} setClickedPosition={setClickedPosition} origin={origin}
                          waypoints={waypoints} destination={destination}
                          clearMap={clearMap} handleType={handleType}/>
                     <SafeAreaView style={styles.safeContainer}>
@@ -49,9 +58,12 @@ const HomeScreen = () => {
                     </SafeAreaView>
                 </>
 
-            {creatorMode && <CreateNewJourney origin={origin} waypoints={waypoints} destination={destination}
-                                              setCreatorMode={setCreatorMode} setHandleType={setHandleType}/>}
-            {clickedPosition && <CountryInfo code={"DZ"} setClickedPosition={setClickedPosition} coordinate={clickedPosition}/>}
+            {isModalVisible && <ModeModal setIsModalVisible={setIsModalVisible}  setMode={setMode}/>}
+            {mode===MapTypes.INFO && clickedPosition && countryCode && <CountryInfo setCode={setCountryCode} setMode={setMode} setIsModalVisible={setIsModalVisible} code={countryCode} setClickedPosition={setClickedPosition} clickedPosition={clickedPosition}/>}
+
+            {/*{creatorMode && <CreateNewJourney origin={origin} waypoints={waypoints} destination={destination}*/}
+            {/*                                  setCreatorMode={setCreatorMode} setHandleType={setHandleType}/>}*/}
+            {/*{isMapClicked && countryCode && <CountryInfo setCode={setCountryCode} code={countryCode} setClickedPosition={setClickedPosition} coordinate={clickedPosition}/>}*/}
         </View>
     );
 };
