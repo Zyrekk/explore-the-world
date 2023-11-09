@@ -38,6 +38,29 @@ REACT_APP_FIREBASE_MEASUREMENT_ID=
 
 ```
 
+## TODO
+1. Dodać tryby klikania po mapie
+	*tryb tworzenia podrozy
+	*tryb informacji o kraju
+	*tryb dodawania miejsca do ulubionych
+
+2. Dodać ulubione
+
+3. Dodawanie trasay do bazy danych
+	*szukanie po nazwach
+	*mozliwosc przesuwania waypointow drag cos w tym stylu
+	*pokazywanie trasy na mapie
+
+4. Dodać tłumacz deepl
+
+5. Bilety lotnicze
+
+6. Podsumowanie wycieczki
+
+7. osobista mapa
+
+8. info krajowe https://visalist.io/integrate
+
 ## User flow
 
 Oto przykładowy user flow dla aplikacji mobilnej do planowania podróży:
