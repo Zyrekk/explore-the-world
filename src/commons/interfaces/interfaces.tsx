@@ -1,4 +1,5 @@
 import { Country } from "react-native-country-picker-modal";
+import {LatLng} from "react-native-maps";
 
 export interface LocalStorageUserSchema{
     uid: string;
@@ -8,6 +9,7 @@ export interface LocalStorageUserSchema{
     lastname?: string;
     avatar?: string;
     country?: Country;
+    favoritePlaces: LatLng[];
 }
 
 export interface FirebaseUserSchema {
@@ -17,4 +19,5 @@ export interface FirebaseUserSchema {
     lastname?: string;
     avatar?: string;
     country?: Country;
+    favoritePlaces: LatLng[];
 }

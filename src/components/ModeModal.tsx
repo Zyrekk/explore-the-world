@@ -1,12 +1,36 @@
 import {Pressable, StyleSheet, Text, View} from "react-native";
 import {Feather, Ionicons} from '@expo/vector-icons';
 import {MapTypes} from "../commons/types/MapTypes";
+import {AddFavPlace} from "../commons/utils/addFavPlace";
+import {LatLng} from "react-native-maps";
+import {useEffect, useState} from "react";
+import {getUserDataFromStorage} from "../commons/utils/AuthContext";
+import {LocalStorageUserSchema} from "../commons/interfaces/interfaces";
 
 interface ModeModalProps{
     setMode:(mode:string)=>void;
     setIsModalVisible:(modal:boolean)=>void;
+    clickedPosition:LatLng;
+    setFavPoints:(favPoints:LatLng[])=>void;
+    favPoints:LatLng[];
 }
-const ModeModal = ({setMode,setIsModalVisible}:ModeModalProps) => {
+const ModeModal = ({setFavPoints,favPoints,setMode,clickedPosition,setIsModalVisible}:ModeModalProps) => {
+    const [user, setUser] = useState<LocalStorageUserSchema | null>(null);
+
+    useEffect(() => {
+        const getUserData = async () => {
+            try {
+                const userData = await getUserDataFromStorage();
+                if (userData) {
+                    setUser(userData);
+                }
+            } catch (error) {
+                console.error("Error:", error);
+            }
+        };
+
+        getUserData();
+    }, []);
 
     return (
         <View style={styles.modalContainer}>
@@ -24,14 +48,14 @@ const ModeModal = ({setMode,setIsModalVisible}:ModeModalProps) => {
                 </Text>
                 <Ionicons name="information-circle-outline" size={24} color="white" />
             </Pressable>
-            <Pressable onPress={()=>{
-                setMode(MapTypes.FAVOURITE)
+            {user && <Pressable onPress={()=>{
+                AddFavPlace(clickedPosition,user,setFavPoints,favPoints)
             }} style={styles.button}>
                 <Text style={styles.buttonText}>
                     Add to favourite
                 </Text>
                 <Ionicons name="heart" size={24} color="#fc0377" />
-            </Pressable>
+            </Pressable>}
         </View>
     )
 

@@ -1,12 +1,13 @@
 import React, {useEffect, useRef, useState} from 'react';
 import MapView, {LatLng, Marker, Region} from 'react-native-maps';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View,Image} from 'react-native';
 import * as Location from "expo-location";
 import {REACT_APP_KEY} from "@env";
 import MapViewDirections from 'react-native-maps-directions';
 import {reverseGeocode} from "../../commons/utils/geocode";
 import axios from "axios/index";
 import {MapTypes} from "../../commons/types/MapTypes";
+import {Ionicons} from "@expo/vector-icons";
 
 interface MapProps {
     addCoordinates: (coordinates: LatLng) => void;
@@ -20,9 +21,10 @@ interface MapProps {
     mode:string;
     setIsMapClicked:(click:boolean)=>void;
     setIsModalVisible:(modal:boolean)=>void;
+    favPoints:LatLng[];
 }
 
-const Map = ({addCoordinates,mode,setIsModalVisible,setIsMapClicked,setCountryCode,setClickedPosition, origin, destination, waypoints, clearMap, handleType}: MapProps) => {
+const Map = ({addCoordinates,favPoints,mode,setIsModalVisible,setIsMapClicked,setCountryCode,setClickedPosition, origin, destination, waypoints, clearMap, handleType}: MapProps) => {
     const mapRef = useRef<MapView>(null);
     const [pressMode,setPressMode]=useState("normal")
     const [coords, setCoords] = useState<Region|null>({
@@ -31,6 +33,7 @@ const Map = ({addCoordinates,mode,setIsModalVisible,setIsMapClicked,setCountryCo
         longitudeDelta: 0.05,
         latitudeDelta: 0.05,
     })
+    const image=require("../../../assets/heart-icon.png")
     const [markerPosition, setMarkerPosition] = useState();
     const getPermissions = async () => {
         let {status} = await Location.requestForegroundPermissionsAsync();
@@ -117,27 +120,34 @@ const Map = ({addCoordinates,mode,setIsModalVisible,setIsMapClicked,setCountryCo
                     strokeWidth={3}
                     strokeColor="#2572e0"
                 />}
-                {origin && (
-                    <Marker
-                        coordinate={origin}
-                        title="Origin"
-                        pinColor="red"
-                    />
-                )}
-                {waypoints.map((waypoint, index) => (
-                    <Marker
-                        key={`waypoint-${index}`}
-                        coordinate={waypoint}
-                        title={`Waypoint ${index + 1}`}
-                    />
-                ))}
-                {destination && (
-                    <Marker
-                        coordinate={destination}
-                        title="Destination"
-                        pinColor="blue"
-                    />
-                )}
+                {
+                    favPoints.map((point,index)=>
+                        <Marker key={index}  icon={require("../../../assets/heart-icon.png")} coordinate={point} title={"Favourite point"}>
+                            <Image source={require("../../../assets/heart2.png")} style={{height: 55, width:55 }} />
+                        </Marker>
+                    )
+                }
+                {/*{origin && (*/}
+                {/*    <Marker*/}
+                {/*        coordinate={origin}*/}
+                {/*        title="Origin"*/}
+                {/*        pinColor="red"*/}
+                {/*    />*/}
+                {/*)}*/}
+                {/*{waypoints.map((waypoint, index) => (*/}
+                {/*    <Marker*/}
+                {/*        key={`waypoint-${index}`}*/}
+                {/*        coordinate={waypoint}*/}
+                {/*        title={`Waypoint ${index + 1}`}*/}
+                {/*    />*/}
+                {/*))}*/}
+                {/*{destination && (*/}
+                {/*    <Marker*/}
+                {/*        coordinate={destination}*/}
+                {/*        title="Destination"*/}
+                {/*        pinColor="blue"*/}
+                {/*    />*/}
+                {/*)}*/}
             </MapView>}
 
             {(origin || destination || waypoints.length > 0) &&

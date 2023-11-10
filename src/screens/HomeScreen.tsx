@@ -8,9 +8,12 @@ import {LatLng} from "react-native-maps";
 import {CountryInfo} from "../components/CountryInfo";
 import {MapTypes} from "../commons/types/MapTypes";
 import ModeModal from "../components/ModeModal";
+import {LocalStorageUserSchema} from "../commons/interfaces/interfaces";
+import {getUserDataFromStorage} from "../commons/utils/AuthContext";
 
 const HomeScreen = () => {
     const [mode,setMode]=useState(MapTypes.NORMAL)
+    const [user, setUser] = useState<LocalStorageUserSchema | null>(null);
     const [isModalVisible,setIsModalVisible]=useState(false)
     const [travelPoints,setTravelPoints]=useState<LatLng[]|null>(null)
     const [isMapClicked,setIsMapClicked]=useState(false)
@@ -21,6 +24,8 @@ const HomeScreen = () => {
     const [destination, setDestination] = useState<LatLng | undefined>();
     const [countryCode,setCountryCode]=useState<null|string>(null)
     const [clickedPosition, setClickedPosition] = useState<LatLng | null>()
+    const [favPoints, setFavPoints] = useState<LatLng[]>([]);
+
 
     const clearMap = () => {
         setOrigin(undefined);
@@ -43,14 +48,29 @@ const HomeScreen = () => {
         }
     };
 
+    const getUserData = async () => {
+        try {
+            const userData = await getUserDataFromStorage();
+            if (userData) {
+                setUser(userData)
+                setFavPoints(userData.favoritePlaces)
+            }
+        } catch (error) {
+            console.error("Error:", error);
+        }
+    };
+
     useEffect(() => {
-        console.log(countryCode)
-    }, [countryCode]);
+        setTimeout(()=>{
+            getUserData();
+        },500)
+    }, []);
+
 
     return (
         <View style={styles.container}>
                 <>
-                    <Map mode={mode} setIsModalVisible={setIsModalVisible} setIsMapClicked={setIsMapClicked} setCountryCode={setCountryCode} addCoordinates={addCoordinates} setClickedPosition={setClickedPosition} origin={origin}
+                    <Map mode={mode} favPoints={favPoints} setIsModalVisible={setIsModalVisible} setIsMapClicked={setIsMapClicked} setCountryCode={setCountryCode} addCoordinates={addCoordinates} setClickedPosition={setClickedPosition} origin={origin}
                          waypoints={waypoints} destination={destination}
                          clearMap={clearMap} handleType={handleType}/>
                     <SafeAreaView style={styles.safeContainer}>
@@ -58,7 +78,7 @@ const HomeScreen = () => {
                     </SafeAreaView>
                 </>
 
-            {isModalVisible && <ModeModal setIsModalVisible={setIsModalVisible}  setMode={setMode}/>}
+            {isModalVisible && clickedPosition && <ModeModal favPoints={favPoints} setFavPoints={setFavPoints} clickedPosition={clickedPosition} setIsModalVisible={setIsModalVisible}  setMode={setMode}/>}
             {mode===MapTypes.INFO && clickedPosition && countryCode && <CountryInfo setCode={setCountryCode} setMode={setMode} setIsModalVisible={setIsModalVisible} code={countryCode} setClickedPosition={setClickedPosition} clickedPosition={clickedPosition}/>}
 
             {/*{creatorMode && <CreateNewJourney origin={origin} waypoints={waypoints} destination={destination}*/}

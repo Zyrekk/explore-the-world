@@ -26,6 +26,7 @@ export const singIn = async (email: string, password: string) => {
                     lastname: userData?.lastname,
                     avatar: userData?.avatar,
                     country: userData?.country,
+                    favoritePlaces:userData?.favoritePlaces,
                 };
                 await Promise.all([
                     setUserDataToStorage(userToStorage)
