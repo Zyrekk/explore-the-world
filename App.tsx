@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { StyleSheet } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { LoginRegisterScreen } from "./src/screens/LoginRegisterScreen";
 import { OptionsScreen } from "./src/screens/OptionsScreen";
@@ -13,6 +12,7 @@ import {
     AuthContext,
     getUserDataFromStorage,
 } from "./src/commons/utils/AuthContext";
+import {FavouriteScreen} from "./src/screens/FavouriteScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -58,6 +58,11 @@ export default function App() {
                                 component={OptionsScreen}
                                 options={{ headerShown: false }}
                             />
+                            <Stack.Screen
+                                name="Favourite"
+                                component={FavouriteScreen}
+                                options={{ headerShown: false }}
+                            />
                         </>
                     ) : (
                         <Stack.Screen
@@ -72,12 +77,3 @@ export default function App() {
         </AuthContext.Provider>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-    animationContainer: {
-        flex: 1,
-    },
-});

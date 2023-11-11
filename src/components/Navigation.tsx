@@ -16,6 +16,7 @@ type RootStackParamList = {
     Home: undefined;
     Profile: undefined;
     Options: undefined;
+    Favourite: undefined;
 };
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
@@ -173,6 +174,8 @@ const Navigation = () => {
                 <Pressable
                     onPress={() => {
                         setSelected(NavValues.FAVOURITE);
+                        navigation.navigate("Favourite");
+
                     }}
                 >
                     <Animated.View
