@@ -4,22 +4,29 @@ import React, {useEffect, useState} from "react";
 import {LatLng} from "react-native-maps";
 import {reverseGeocode} from "../../commons/utils/geocode";
 
-export const FavTile = ({coords}:{coords:LatLng}) => {
-    const [placeName,setPlaceName]=useState<null|string>(null)
+interface FavTileProps {
+    id:number;
+    coords: LatLng;
+    removePlaceByCoords: (coords:LatLng) => void;
+}
+
+export const FavTile = ({id,coords, removePlaceByCoords}: FavTileProps) => {
+    const [placeName, setPlaceName] = useState<null | string>(null)
     useEffect(() => {
-        reverseGeocode(coords.latitude, coords.longitude).then((res)=>{
-            const city=res[0].city
-            const street=res[0].street
-            const streetNumber=res[0].streetNumber
-            const  address=`${city?city:""} ${street?street:""} ${streetNumber?streetNumber:""}`
+        reverseGeocode(coords.latitude, coords.longitude).then((res) => {
+            const city = res[0].city
+            const street = res[0].street
+            const streetNumber = res[0].streetNumber
+            const address = `${city ? city : ""} ${street ? street : ""} ${streetNumber ? streetNumber : ""}`
             setPlaceName(address)
             // console.log(res[0].street)
         })
     }, []);
     return (
-        <Pressable style={styles.container}>
+        <Pressable onPress={() => removePlaceByCoords(coords)}
+                   style={styles.container}>
             <View style={styles.wrapper}>
-                <AntDesign name="heart" size={24} color="red" />
+                <AntDesign name="heart" size={24} color="red"/>
                 <Text style={styles.text}>
                     {placeName}
                 </Text>
@@ -33,20 +40,20 @@ export const FavTile = ({coords}:{coords:LatLng}) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        display:"flex",
-        flexDirection:"row",
-        alignItems:"center",
-        justifyContent:"space-between",
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
     },
-    wrapper:{
-      display:"flex",
-      flexDirection:"row",
-        gap:10,
-      justifyContent:"center",
-      alignItems:"center",
+    wrapper: {
+        display: "flex",
+        flexDirection: "row",
+        gap: 10,
+        justifyContent: "center",
+        alignItems: "center",
     },
-    text:{
-        fontSize:18,
-        color:"#fff"
+    text: {
+        fontSize: 18,
+        color: "#fff"
     }
 })

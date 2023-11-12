@@ -3,17 +3,19 @@ import React, {useEffect, useState} from "react";
 import {LatLng} from "react-native-maps";
 import {FavList} from "../components/Favourites/FavList";
 import {LocalStorageUserSchema} from "../commons/interfaces/interfaces";
-import {getUserDataFromStorage} from "../commons/utils/AuthContext";
+import {getUserDataFromStorage,setUserDataToStorage} from "../commons/utils/AuthContext";
 
 
 export const FavouriteScreen = () => {
     const [selectedPlace, setSelectedPlace] = useState<null | LatLng>()
     const [places, setPlaces] = useState<LatLng[]>([])
+    const [user, setUser] = useState<LocalStorageUserSchema | null>(null)
 
     const getUserData = async () => {
         try {
             const userData = await getUserDataFromStorage();
             if (userData) {
+                setUser(userData)
                 setPlaces(userData.favoritePlaces)
             }
         } catch (error) {
@@ -21,11 +23,24 @@ export const FavouriteScreen = () => {
         }
     };
 
+    const updateUser = async (user: LocalStorageUserSchema) => {
+        const updatedUser = {...user, favoritePlaces: places};
+        await setUserDataToStorage(updatedUser);
+        setUser(updatedUser);
+    }
+
+
     useEffect(() => {
         setTimeout(()=>{
             getUserData();
         },500)
     }, []);
+
+    useEffect(() => {
+        if(user){
+            updateUser(user)
+        }
+    }, [places]);
 
     return (
         <View style={styles.container}>
@@ -39,7 +54,7 @@ export const FavouriteScreen = () => {
                     </View>
                     {places &&
                         <View>
-                            <FavList places={places}/>
+                            <FavList setPlaces={setPlaces} places={places}/>
                         </View>}
                 </ScrollView>
             </SafeAreaView>

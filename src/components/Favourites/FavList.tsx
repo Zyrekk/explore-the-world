@@ -5,15 +5,20 @@ import {FavTile} from "./FavTile";
 
 interface FavListProps {
     places:LatLng[];
-
+    setPlaces:(places:LatLng[]) => void;
 }
 
-export const FavList = ({places}:FavListProps) => {
+export const FavList = ({places,setPlaces}:FavListProps) => {
+
+    const removePlaceByCoords=(coords:LatLng) => {
+        setPlaces(places.filter(place => place.latitude !== coords.latitude || place.longitude !== coords.longitude))
+    }
+
     return (
         <View style={styles.container}>
             {places.map((place,index)=>
                 <View key={index}>
-                    <FavTile coords={place}/>
+                    <FavTile key={index} id={index} removePlaceByCoords={removePlaceByCoords} coords={place}/>
                 </View>
             )}
         </View>

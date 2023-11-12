@@ -11,9 +11,17 @@ import ModeModal from "../components/ModeModal";
 import {LocalStorageUserSchema} from "../commons/interfaces/interfaces";
 import {getUserDataFromStorage} from "../commons/utils/AuthContext";
 
-const HomeScreen = () => {
+interface HomeScreenProps {
+    route: {
+        params: {
+            user: LocalStorageUserSchema; // Assuming User is the type of your user object
+        };
+    };
+}
+
+const HomeScreen = ({route}:HomeScreenProps) => {
     const [mode,setMode]=useState(MapTypes.NORMAL)
-    const [user, setUser] = useState<LocalStorageUserSchema | null>(null);
+    const [user, setUser] = useState<LocalStorageUserSchema | null>(route.params.user);
     const [isModalVisible,setIsModalVisible]=useState(false)
     const [travelPoints,setTravelPoints]=useState<LatLng[]|null>(null)
     const [isMapClicked,setIsMapClicked]=useState(false)
@@ -24,8 +32,9 @@ const HomeScreen = () => {
     const [destination, setDestination] = useState<LatLng | undefined>();
     const [countryCode,setCountryCode]=useState<null|string>(null)
     const [clickedPosition, setClickedPosition] = useState<LatLng | null>()
-    const [favPoints, setFavPoints] = useState<LatLng[]>([]);
+    const [favPoints, setFavPoints] = useState<LatLng[]>(route.params.user.favoritePlaces);
 
+    console.log("DUPSKO",route.params.user.favoritePlaces)
 
     const clearMap = () => {
         setOrigin(undefined);
@@ -60,11 +69,11 @@ const HomeScreen = () => {
         }
     };
 
-    useEffect(() => {
-        setTimeout(()=>{
-            getUserData();
-        },500)
-    }, []);
+    // useEffect(() => {
+    //     setTimeout(()=>{
+    //         getUserData();
+    //     },500)
+    // }, []);
 
 
     return (

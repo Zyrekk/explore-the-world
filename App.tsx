@@ -13,11 +13,12 @@ import {
     getUserDataFromStorage,
 } from "./src/commons/utils/AuthContext";
 import {FavouriteScreen} from "./src/screens/FavouriteScreen";
-
+import {LocalStorageUserSchema} from "./src/commons/interfaces/interfaces";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
     const [user, setUser] = useState<User | null>(null);
+    const [initializedUser,setInitializedUser]=useState<LocalStorageUserSchema|null>(null)
 
     useEffect(() => {
         onAuthStateChanged(FIREBASE_AUTH, (user) => {
@@ -29,24 +30,26 @@ export default function App() {
         const initializeUser = async () => {
             const userData = await getUserDataFromStorage();
             if (userData) {
-                setUser(userData);
+                setInitializedUser(userData);
             } else {
                 console.log("no user in local storage");
             }
         };
         initializeUser();
-    }, []);
+    }, [user]);
 
     return (
         <AuthContext.Provider value={{ user, setUser }}>
             <NavigationContainer>
                 <Stack.Navigator initialRouteName="Landing">
-                    {user ? (
+                    {initializedUser ? (
                         <>
                             <Stack.Screen
                                 name="Home"
+                                // @ts-ignore
                                 component={HomeScreen}
                                 options={{ headerShown: false }}
+                                initialParams={{ user: initializedUser }}
                             />
                             <Stack.Screen
                                 name="Profile"
