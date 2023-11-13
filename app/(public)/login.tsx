@@ -1,7 +1,4 @@
-import { FIREBASE_AUTH } from "@/FirebaseConfig";
-import { useSignIn } from "@clerk/clerk-expo";
-import { Link } from "expo-router";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import {Link, useRouter} from "expo-router";
 import React, { useState } from "react";
 import {
   View,
@@ -9,34 +6,16 @@ import {
   TextInput,
   Button,
   Pressable,
-  Text,
-  Alert,
+  Text
 } from "react-native";
 import Spinner from "react-native-loading-spinner-overlay";
+import {signIn} from "@/utils/signIn";
 
 const Login = () => {
-  // const { signIn, setActive, isLoaded } = useSignIn();
-
+    const router=useRouter()
   const [emailAddress, setEmailAddress] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  
-  const onSignInPress = async () => {
-    setLoading(true);
-    try {
-      const response=await signInWithEmailAndPassword(
-        FIREBASE_AUTH,
-        "konrad@gmail.com",
-        "konrad1109"
-      )
-      console.log("RESPONSE",response.user);
-      
-    } catch (err: any) {
-      alert(err.errors[0].message);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   return (
     <View style={styles.container}>
@@ -57,7 +36,9 @@ const Login = () => {
         style={styles.inputField}
       />
 
-      <Button onPress={onSignInPress} title="Login" color={"#6c47ff"}></Button>
+      <Button onPress={()=>{
+        signIn(emailAddress,password,setLoading,router)
+      }} title="Login" color={"#6c47ff"}></Button>
 
       <Link href="/reset" asChild>
         <Pressable style={styles.button}>
