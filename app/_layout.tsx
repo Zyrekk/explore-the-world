@@ -1,50 +1,29 @@
 import { Slot, useRouter, useSegments } from "expo-router";
-import { useEffect } from "react";
-import * as SecureStore from "expo-secure-store";
+import { useEffect, useState } from "react";
+import { View } from "react-native";
+import {User, onAuthStateChanged} from 'firebase/auth'
+import { FIREBASE_AUTH } from "@/FirebaseConfig";
+// import * as SecureStore from "expo-secure-store";
 
 const InitialLayout = () => {
   const router = useRouter();
-  const segments = useSegments();
+  const [user,setUser]=useState<User | null>(null)
+  useEffect(()=>{
+    onAuthStateChanged(FIREBASE_AUTH,(user)=>{
+      setUser(user);
+    })
+  },[])
 
   useEffect(() => {
-    router.replace("/login");
-  }, []);
-  // const { isLoaded, isSignedIn } = useAuth();
-  // const segments = useSegments();
-  // const router = useRouter();
-
-  // useEffect(() => {
-  //   if (!isLoaded) return;
-
-  //   const inTabsGroup = segments[0] === "(auth)";
-
-  //   console.log("User changed: ", isSignedIn);
-
-  //   if (isSignedIn && !inTabsGroup) {
-  //     router.replace("/login");
-  //   } else if (!isSignedIn) {
-  //     router.replace("/home");
-  //   }
-  // }, [isSignedIn]);
+    if(user){
+      router.replace("/home");
+    }
+    else{
+      router.replace("/login"); 
+    }
+  }, [user]);
 
   return <Slot />;
-};
-
-const tokenCache = {
-  async getToken(key: string) {
-    try {
-      return SecureStore.getItemAsync(key);
-    } catch (err) {
-      return null;
-    }
-  },
-  async saveToken(key: string, value: string) {
-    try {
-      return SecureStore.setItemAsync(key, value);
-    } catch (err) {
-      return;
-    }
-  },
 };
 
 const RootLayout = () => {

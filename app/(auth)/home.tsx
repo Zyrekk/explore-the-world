@@ -11,7 +11,6 @@ const Home = () => {
       style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
     >
       <Text>HOME</Text>
-      {/* <Text>Welcome, {user?.emailAddresses[0].emailAddress} 🎉</Text> */}
     </SafeAreaView>
   );
 };

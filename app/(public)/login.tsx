@@ -1,5 +1,7 @@
+import { FIREBASE_AUTH } from "@/FirebaseConfig";
 import { useSignIn } from "@clerk/clerk-expo";
 import { Link } from "expo-router";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import {
   View,
@@ -18,26 +20,22 @@ const Login = () => {
   const [emailAddress, setEmailAddress] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  console.log(process.env.EXPO_APP_FIREBASE_MEASUREMENT_ID);
   
   const onSignInPress = async () => {
-  //   if (!isLoaded) {
-  //     return;
-  //   }
-  //   setLoading(true);
-  //   try {
-  //     const completeSignIn = await signIn.create({
-  //       identifier: emailAddress,
-  //       password,
-  //     });
-
-  //     // This indicates the user is signed in
-  //     await setActive({ session: completeSignIn.createdSessionId });
-  //   } catch (err: any) {
-  //     alert(err.errors[0].message);
-  //   } finally {
-  //     setLoading(false);
-  //   }
+    setLoading(true);
+    try {
+      const response=await signInWithEmailAndPassword(
+        FIREBASE_AUTH,
+        "konrad@gmail.com",
+        "konrad1109"
+      )
+      console.log("RESPONSE",response.user);
+      
+    } catch (err: any) {
+      alert(err.errors[0].message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -59,7 +57,7 @@ const Login = () => {
         style={styles.inputField}
       />
 
-      <Button title="Login" color={"#6c47ff"}></Button>
+      <Button onPress={onSignInPress} title="Login" color={"#6c47ff"}></Button>
 
       <Link href="/reset" asChild>
         <Pressable style={styles.button}>
