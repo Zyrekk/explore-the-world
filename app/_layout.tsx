@@ -1,17 +1,13 @@
-import { ClerkProvider, useAuth } from "@clerk/clerk-expo";
-import { Slot, router, useRouter, useSegments } from "expo-router";
+import { Slot, useRouter, useSegments } from "expo-router";
 import { useEffect } from "react";
 import * as SecureStore from "expo-secure-store";
-import { View } from "react-native";
-
-const CLERK_PUBLISHABLE_KEY =
-  "pk_test_c2luZ3VsYXItY2hvdy02Ny5jbGVyay5hY2NvdW50cy5kZXYk";
 
 const InitialLayout = () => {
   const router = useRouter();
+  const segments = useSegments();
 
   useEffect(() => {
-    router.replace("/home");
+    router.replace("/login");
   }, []);
   // const { isLoaded, isSignedIn } = useAuth();
   // const segments = useSegments();
@@ -53,14 +49,7 @@ const tokenCache = {
 
 const RootLayout = () => {
   return (
-    // <ClerkProvider
-    //   publishableKey={CLERK_PUBLISHABLE_KEY}
-    //   tokenCache={tokenCache}
-    // >
-
     <InitialLayout />
-
-    // </ClerkProvider>
   );
 };
 

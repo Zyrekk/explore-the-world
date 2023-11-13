@@ -13,13 +13,14 @@ import {
 import Spinner from "react-native-loading-spinner-overlay";
 
 const Login = () => {
-  const { signIn, setActive, isLoaded } = useSignIn();
+  // const { signIn, setActive, isLoaded } = useSignIn();
 
   const [emailAddress, setEmailAddress] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-
-  // const onSignInPress = async () => {
+  console.log(process.env.EXPO_APP_FIREBASE_MEASUREMENT_ID);
+  
+  const onSignInPress = async () => {
   //   if (!isLoaded) {
   //     return;
   //   }
@@ -37,7 +38,7 @@ const Login = () => {
   //   } finally {
   //     setLoading(false);
   //   }
-  // };
+  };
 
   return (
     <View style={styles.container}>
