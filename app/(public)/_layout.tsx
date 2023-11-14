@@ -14,8 +14,13 @@ const PublicLayout = () => {
       <Stack.Screen
         name="login"
         options={{
-          headerTitle: 'Clerk Auth App',
+            headerShown: false,
         }}></Stack.Screen>
+        <Stack.Screen
+            name="landing"
+            options={{
+                headerShown: false,
+            }}></Stack.Screen>
       {/*<Stack.Screen*/}
       {/*  name="register"*/}
       {/*  options={{*/}

@@ -1,25 +1,32 @@
 import {Slot, useRouter} from "expo-router";
 import {useEffect} from "react";
 import {getUserFromStorage} from "@/utils/getUserFromStorage";
+import {ApplicationProvider} from "@ui-kitten/components";
+import * as eva from "@eva-design/eva";
+import {default as theme} from "@/constants/Theme.json"
 
 const InitialLayout = () => {
     const router = useRouter();
     useEffect(() => {
         getUserFromStorage().then((res) => {
             if (res) {
-                router.replace("/home");
+                router.push("/home");
             } else {
-                router.replace("/login");
+                router.push("/landing");
             }
         })
     }, []);
 
-    return <Slot/>;
+    return (
+        <Slot/>
+    );
 };
 
 const RootLayout = () => {
     return (
-        <InitialLayout/>
+        <ApplicationProvider {...eva} theme={{...eva.dark, ...theme}}>
+            <InitialLayout/>
+        </ApplicationProvider>
     );
 };
 
