@@ -2,12 +2,15 @@ import { Tabs } from "expo-router";
 import { Feather, Ionicons } from "@expo/vector-icons";
 import MyColors from "@/constants/MyColors";
 
-
 const TabsPage = () => {
   return (
     <Tabs
+      // sceneContainerStyle={{ backgroundColor: "#000" }}
       screenOptions={{
         tabBarActiveTintColor: MyColors.primary,
+        tabBarStyle: {
+          backgroundColor: "#000",
+        },
         tabBarLabelStyle: {
           fontWeight: "bold",
         },
