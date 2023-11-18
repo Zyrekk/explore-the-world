@@ -43,7 +43,7 @@ REACT_APP_FIREBASE_MEASUREMENT_ID=
 1. Dodać tryby klikania po mapie
    *tryb tworzenia podrozy
    *tryb informacji o kraju
-   \*tryb dodawania miejsca do ulubionych
+   *tryb dodawania miejsca do ulubionych
 
 2. Dodać ulubione
 
