@@ -63,7 +63,6 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 16,
     color: "white",
-    fontFamily: "Montserrat_700Bold",
   },
   inputContainer: {
     display: "flex",
@@ -82,6 +81,5 @@ const styles = StyleSheet.create({
     fontSize: 14,
     flex: 1,
     color: "white",
-    fontFamily: "Montserrat_600SemiBold",
   },
 });

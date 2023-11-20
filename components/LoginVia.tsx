@@ -1,4 +1,4 @@
-import {View,StyleSheet, Text} from 'react-native'
+import {View,StyleSheet} from 'react-native'
 import {SocialIcon} from "react-native-elements";
 
 const LoginVia = () => {
@@ -7,14 +7,14 @@ const LoginVia = () => {
             <SocialIcon
                 raised={false}
                 type="facebook"
-                title="Sign In With Facebook"
+                title="Continue With Facebook"
                 button
                 style={{backgroundColor: "#4285f4"}}
             />
             <SocialIcon
                 raised={false}
                 type="google"
-                title="Sign In With Google"
+                title="Continue With Google"
                 button
             />
         </View>

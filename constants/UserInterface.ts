@@ -9,5 +9,5 @@ export interface UserInterface{
     lastname?: string;
     avatar?: string;
     country?: Country;
-    favoritePlaces: LatLng[];
+    favoritePlaces?: LatLng[];
 }

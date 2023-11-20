@@ -1,17 +1,23 @@
-import { Text, Pressable} from "react-native";
+import { StyleSheet, View} from "react-native";
 import React from "react";
-import { SafeAreaView } from "react-native-safe-area-context";
+import Map from "@/components/Map";
+import ListingsBottomSheet from "@/components/ListingsBottomSheet";
 
 const Home = () => {
-  return (
-    <SafeAreaView
-      style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-    >
-      <Pressable>
-        <Text>HOME</Text>
-      </Pressable>
-    </SafeAreaView>
-  );
+    return (
+        <View
+            style={styles.container}
+        >
+            <Map/>
+            <ListingsBottomSheet/>
+        </View>
+    );
 };
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    }
+})
 
 export default Home;

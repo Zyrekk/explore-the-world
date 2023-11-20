@@ -1,5 +1,5 @@
-import {Slot, useRouter} from "expo-router";
-import {useEffect} from "react";
+import {Slot, Stack, useRouter} from "expo-router";
+import {useEffect, useState} from "react";
 import {getUserFromStorage} from "@/utils/getUserFromStorage";
 import {ApplicationProvider} from "@ui-kitten/components";
 import * as eva from "@eva-design/eva";
@@ -24,6 +24,7 @@ const InitialLayout = () => {
 
 const RootLayout = () => {
     return (
+
         <ApplicationProvider {...eva} theme={{...eva.dark, ...theme}}>
             <InitialLayout/>
         </ApplicationProvider>
