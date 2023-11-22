@@ -6,7 +6,7 @@ const MainSettings = () => {
     return (
         <SafeAreaView>
             <Link href={"/settings/modal"}>
-                GGGOOOWno
+                ops
             </Link>
         </SafeAreaView>
     );
