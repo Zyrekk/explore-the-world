@@ -14,7 +14,7 @@ export const signIn = async (
   const auth = FIREBASE_AUTH;
   setLoading(true);
   try {
-    const response = await signInWithEmailAndPassword(auth, email, password);
+    const response = await signInWithEmailAndPassword(auth, email, password)
 
     const userDocRef = doc(FIREBASE_DB, "Users", response.user.uid);
     const docSnapshot = await getDoc(userDocRef);
