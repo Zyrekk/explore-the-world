@@ -10,7 +10,7 @@ interface Props{
 
 const ListingsBottomSheet = () => {
     const bottomSheetRef = useRef<BottomSheet>(null);
-    const snapPoints = useMemo(()=>['8%','80%'],[])
+    const snapPoints = useMemo(()=>['8%','100%'],[])
     const [refresh, setRefresh] = useState<number>(0);
 
     const onShowMap = () => {

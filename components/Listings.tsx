@@ -1,6 +1,7 @@
 import {View, StyleSheet, Text, Pressable, SafeAreaView} from 'react-native'
 import React from 'react'
 import {Link, useRouter} from "expo-router";
+import {resetPassword} from "@/utils/resetPassword";
 
 const Listings = () => {
     const router=useRouter()

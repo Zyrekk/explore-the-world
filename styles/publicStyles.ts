@@ -20,10 +20,12 @@ export const publicStyles = StyleSheet.create({
         width: "100%",
     },
     title: {
+        color:"white",
         fontSize: 36,
         fontWeight: "500",
     },
     subtitle: {
+        color:"white",
         fontSize: 20,
         fontWeight: "400",
     },
@@ -92,4 +94,8 @@ export const publicStyles = StyleSheet.create({
         fontSize: 21,
         color: "white",
     },
+    forgotPasswordLink:{
+        color: "white",
+        textDecorationLine:"underline",
+    }
 });

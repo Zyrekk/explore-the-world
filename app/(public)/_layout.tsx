@@ -26,6 +26,11 @@ const PublicLayout = () => {
                 options={{
                     headerShown: false,
                 }}/>
+            <Stack.Screen
+                name="reset"
+                options={{
+                    headerShown: false,
+                }}/>
         </Stack>
     );
 };

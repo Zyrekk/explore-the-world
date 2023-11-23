@@ -1,4 +1,4 @@
-import { useRouter } from "expo-router";
+import {Link, useRouter } from "expo-router";
 import React, { useState } from "react";
 import {
   View,
@@ -71,6 +71,9 @@ const Login = () => {
                   onChangeText={setPassword}
                   label={"Password"}
                 />
+                <Link href={"/reset"} style={publicStyles.forgotPasswordLink}>
+                    Forgot Password?
+                </Link>
                 <Pressable
                   onPress={() => {
                     signIn(emailAddress, password, setLoading, router);

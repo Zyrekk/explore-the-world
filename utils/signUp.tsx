@@ -1,8 +1,6 @@
 import {FIREBASE_AUTH, FIREBASE_DB} from "@/FirebaseConfig";
 import {createUserWithEmailAndPassword,sendEmailVerification} from "firebase/auth";
-import {doc, getDoc, setDoc} from "@firebase/firestore";
-import {UserInterface} from "@/constants/UserInterface";
-import {saveUserToStorage} from "@/utils/saveUserToStorage";
+import {doc, setDoc} from "@firebase/firestore";
 
 export const signUp = async (
     email: string,
@@ -39,7 +37,7 @@ export const signUp = async (
             await sendEmailVerification(response.user)
         }
         alert("Sign up successful, check your email to verify account");
-        router.replace("/login");
+        router.push("/login");
     } catch (error) {
         alert("Sign up failed");
     } finally {

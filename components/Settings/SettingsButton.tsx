@@ -11,9 +11,11 @@ interface Props {
 
 const SettingsButton = ({name,link,icon}:Props) => {
     const router=useRouter()
+    const linkRefactored=link as `http${string}`
     return (
-        // @ts-ignore
-        <Pressable onPress={()=>router.replace("/modal")}>
+
+        <Pressable onPress={()=>router.push(linkRefactored)}>
+
             <View
                 style={styles.eventButton}
             >
@@ -25,7 +27,7 @@ const SettingsButton = ({name,link,icon}:Props) => {
                 </View>
                 <AntDesign name="right" size={18} color="black"/>
             </View>
-        </Pressable>
+         </Pressable>
     );
 }
 

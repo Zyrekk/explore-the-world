@@ -1,5 +1,5 @@
 import { StyleSheet, View} from "react-native";
-import React from "react";
+import React, {useEffect} from "react";
 import Map from "@/components/Map";
 import ListingsBottomSheet from "@/components/ListingsBottomSheet";
 

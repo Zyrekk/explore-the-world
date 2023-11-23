@@ -7,14 +7,27 @@ const Settings = () => {
             <Stack.Screen
                 name="mainSettings"
                 options={{
-                    // Hide the header for all other routes.
                     headerShown: false,
                 }}
             />
             <Stack.Screen
-                name="modal"
+                name="edit"
                 options={{
-                    // Set the presentation mode to modal for our modal route.
+                    headerShown: false,
+                    presentation: 'modal',
+                }}
+            />
+            <Stack.Screen
+                name="delete"
+                options={{
+                    headerShown: false,
+                    presentation: 'modal',
+                }}
+            />
+            <Stack.Screen
+                name="password"
+                options={{
+                    headerShown: false,
                     presentation: 'modal',
                 }}
             />
