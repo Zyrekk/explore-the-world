@@ -1,5 +1,5 @@
-import {Slot, Stack, useRouter} from "expo-router";
-import {useEffect, useState} from "react";
+import {Slot, useRouter} from "expo-router";
+import {useEffect} from "react";
 import {getUserFromStorage} from "@/utils/getUserFromStorage";
 import {ApplicationProvider} from "@ui-kitten/components";
 import * as eva from "@eva-design/eva";
@@ -10,7 +10,7 @@ const InitialLayout = () => {
     useEffect(() => {
         getUserFromStorage().then((res) => {
             if (res) {
-                router.push("/home");
+                router.push("/home/mainHome");
             } else {
                 router.push("/landing");
             }

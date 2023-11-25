@@ -12,7 +12,7 @@ export interface ClickedInfoProps{
     name:string;
 }
 
-const Home = () => {
+const MainHome = () => {
     const [mode, setMode] = useState("xd");
     const bottomSheetRef = useRef<BottomSheet>(null);
     const [clickedInfo,setClickedInfo]=useState<ClickedInfoProps|null>(null)
@@ -29,4 +29,4 @@ const Home = () => {
     );
 };
 
-export default Home;
+export default MainHome;

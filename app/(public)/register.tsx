@@ -11,8 +11,8 @@ import {
 import Spinner from "react-native-loading-spinner-overlay";
 import { signIn } from "@/utils/signIn";
 import { Text } from "@ui-kitten/components";
-import { AuthInput } from "@/components/AuthInput";
-import { PasswordInput } from "@/components/PasswordInput";
+import { AuthInput } from "@/components/Auth/AuthInput";
+import { PasswordInput } from "@/components/Auth/PasswordInput";
 import { AntDesign } from "@expo/vector-icons";
 import {publicStyles} from "@/styles/publicStyles";
 import {signUp} from "@/utils/signUp";

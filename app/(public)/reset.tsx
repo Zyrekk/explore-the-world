@@ -3,7 +3,7 @@ import React, {useState} from 'react'
 import {publicStyles} from "@/styles/publicStyles";
 import Spinner from "react-native-loading-spinner-overlay";
 import {AntDesign} from "@expo/vector-icons";
-import {AuthInput} from "@/components/AuthInput";
+import {AuthInput} from "@/components/Auth/AuthInput";
 import {useRouter} from "expo-router";
 import {resetPassword} from "@/utils/resetPassword";
 

@@ -3,15 +3,16 @@ import React, {useEffect, useState} from 'react'
 import {publicStyles} from "@/styles/publicStyles";
 import {UserInterface} from "@/constants/UserInterface";
 import {getUserFromStorage} from "@/utils/getUserFromStorage";
-import Avatar, {AvatarProps} from "@/components/Avatar";
+import Avatar, {AvatarProps} from "@/components/UserEdit/Avatar";
 import CountryPicker, {
     Country,
     CountryCode
 } from "react-native-country-picker-modal";
-import EditField from "@/components/EditField";
+import EditField from "@/components/UserEdit/EditField";
 import {AntDesign} from "@expo/vector-icons";
-import CountryField from "@/components/CountryField";
+import CountryField from "@/components/UserEdit/CountryField";
 import {updateFirebaseUser} from "@/utils/updateFirebaseUser";
+import {useRouter} from "expo-router";
 
 export interface EditProps {
     country: Country | null;
@@ -29,6 +30,7 @@ interface UserUpdateProps{
 
 const Edit = () => {
     const [user, setUser] = useState<UserInterface | null>(null);
+    const router=useRouter();
     const [avatarState, setAvatarState] = useState<AvatarProps>({
         avatar: "",
         image: ""
@@ -59,7 +61,8 @@ const Edit = () => {
             userUpdates.avatar = avatarState.avatar;
         }
 
-        updateFirebaseUser(user, userUpdates);
+        updateFirebaseUser(user, userUpdates).then(()=>router.push("/settings/mainSettings"));
+
     };
 
     useEffect(() => {
@@ -79,7 +82,6 @@ const Edit = () => {
     }, []);
 
     useEffect(() => {
-        // console.log("OHO",avatarState.image)
     }, [avatarState]);
     return (
         <View style={{flex: 1}}>

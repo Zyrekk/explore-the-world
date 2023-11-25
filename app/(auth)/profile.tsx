@@ -2,8 +2,10 @@ import { Text, StyleSheet, Pressable, View, ScrollView ,Image} from "react-nativ
 import { SafeAreaView } from "react-native-safe-area-context";
 import {AntDesign} from "@expo/vector-icons";
 import {UserInterface} from "@/constants/UserInterface";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {getUserFromStorage} from "@/utils/getUserFromStorage";
+import countryEmoji from "country-emoji";
+import {Link} from "expo-router";
 
 const Profile = () => {
 
@@ -19,16 +21,16 @@ const Profile = () => {
           <Text style={styles.title}>Profile</Text>
         </View>
         <View style={styles.mainInfo}>
-          <View style={styles.avatarContainer}>
-            {user?.avatar && (
-                <Image
-                    style={styles.avatarImage}
-                    source={{
-                      uri: `data:image/jpeg;base64,${user.avatar}`,
-                    }}
-                />
-            )}
-          </View>
+            <View style={styles.avatarContainer}>
+              {user?.avatar && (
+                  <Image
+                      style={styles.avatarImage}
+                      source={{
+                        uri: `data:image/jpeg;base64,${user.avatar}`,
+                      }}
+                  />
+              )}
+            </View>
           <View style={styles.mainInfoContent}>
             <Text style={styles.mainInfoText}>
               {user?.nickname}
@@ -39,24 +41,29 @@ const Profile = () => {
             <Text style={styles.mainInfoText}>
               {user?.lastname}
             </Text>
-            <View style={styles.countryInfo}>
-              {/*<Image*/}
-              {/*    style={styles.countryInfoImage}*/}
-              {/*    source={require("../../../assets/poland.png")}*/}
-              {/*/>*/}
-              <Text style={styles.countryInfoText}>POLAND</Text>
-            </View>
+            {user &&
+                <View style={styles.countryInfo}>
+                  <Text style={{fontSize:20}}>
+                    {user.country && countryEmoji.flag(
+                        user.country?.cca2
+                    ) || "❓"}
+                  </Text>
+                  <Text style={styles.countryInfoText}>{user.country?.name.toString().toUpperCase()}</Text>
+                </View>
+            }
           </View>
         </View>
         <View style={styles.eventContainer}>
-          <Pressable style={styles.eventButton}>
-            <View style={styles.eventButtonFlex}>
-              <Text style={styles.eventButtonText}>
-                🌏 Your trips
-              </Text>
+          <Link href={"/travels"}>
+            <View style={styles.eventButton}>
+              <View style={styles.eventButtonFlex}>
+                <Text style={styles.eventButtonText}>
+                  🌏 Your trips
+                </Text>
+              </View>
+              <AntDesign name="right" size={18} color="black" />
             </View>
-            <AntDesign name="right" size={18} color="black" />
-          </Pressable>
+          </Link>
           <Pressable style={styles.eventButton}>
             <View style={styles.eventButtonFlex}>
               <Text style={styles.eventButtonText}>
