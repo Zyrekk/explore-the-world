@@ -1,11 +1,16 @@
-import React, {useMemo, useRef, useState} from 'react'
+import React, { useMemo, useState} from 'react'
 import BottomSheet from "@gorhom/bottom-sheet";
 import {TouchableOpacity, StyleSheet, Text, View, SafeAreaView} from "react-native";
 import {Ionicons} from "@expo/vector-icons";
 import MapMenu from "@/components/Map/MapMenu";
+import {ClickedInfoProps} from "@/app/(auth)/home/mainHome";
 
-const BottomSlide = () => {
-    const bottomSheetRef = useRef<BottomSheet>(null);
+interface Props{
+    bottomSheetRef:React.RefObject<BottomSheet>;
+    clickedInfo:ClickedInfoProps|null;
+    mode:string;
+}
+const BottomSlide = ({bottomSheetRef,clickedInfo,mode}:Props) => {
     const snapPoints = useMemo(()=>['11%','100%'],[])
     const [refresh, setRefresh] = useState<number>(0);
 
@@ -26,7 +31,7 @@ const BottomSlide = () => {
             style={styles.sheetContainer}>
             <SafeAreaView style={styles.contentContainer}>
                 {/*<Listings/>*/}
-                <MapMenu/>
+                <MapMenu mode={mode} clickedInfo={clickedInfo}/>
                 <View style={styles.absoluteView}>
                     <TouchableOpacity onPress={onShowMap} style={styles.btn}>
                         <Text style={{ color: '#fff' }}>Map</Text>
