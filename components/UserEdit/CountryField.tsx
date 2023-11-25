@@ -1,8 +1,9 @@
 import {View, Text, Pressable} from 'react-native'
 import React, {useState} from 'react'
-import {editStyles} from "@/components/EditField";
+import {editStyles} from "@/components/UserEdit/EditField";
 import countryEmoji from "country-emoji";
 import {EditProps} from "@/app/(auth)/settings/edit";
+import {AntDesign} from "@expo/vector-icons";
 
 
 interface CountryProps {
@@ -35,6 +36,7 @@ const CountryField = ({editUser,setShowCountryPicker}:CountryProps) => {
                             {editUser.country && editUser.country.name.toString()}
                         </Text>
                     </Pressable>
+                    <AntDesign name="edit" size={24} color="black" />
                 </View>
             </View>
         </View>

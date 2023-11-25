@@ -1,16 +1,12 @@
 import React, {useMemo, useRef, useState} from 'react'
 import BottomSheet from "@gorhom/bottom-sheet";
-import {TouchableOpacity,StyleSheet,Text, View} from "react-native";
+import {TouchableOpacity, StyleSheet, Text, View, SafeAreaView} from "react-native";
 import {Ionicons} from "@expo/vector-icons";
-import Listings from "@/components/Listings";
+import MapMenu from "@/components/Map/MapMenu";
 
-interface Props{
-
-}
-
-const ListingsBottomSheet = () => {
+const BottomSlide = () => {
     const bottomSheetRef = useRef<BottomSheet>(null);
-    const snapPoints = useMemo(()=>['8%','100%'],[])
+    const snapPoints = useMemo(()=>['11%','100%'],[])
     const [refresh, setRefresh] = useState<number>(0);
 
     const onShowMap = () => {
@@ -28,15 +24,16 @@ const ListingsBottomSheet = () => {
             enablePanDownToClose={false}
             handleIndicatorStyle={{ backgroundColor: "#3b3b3b" }}
             style={styles.sheetContainer}>
-            <View style={styles.contentContainer}>
-                <Listings/>
+            <SafeAreaView style={styles.contentContainer}>
+                {/*<Listings/>*/}
+                <MapMenu/>
                 <View style={styles.absoluteView}>
                     <TouchableOpacity onPress={onShowMap} style={styles.btn}>
                         <Text style={{ color: '#fff' }}>Map</Text>
                         <Ionicons name="map" size={20} style={{ marginLeft: 10 }} color={'#fff'} />
                     </TouchableOpacity>
                 </View>
-            </View>
+            </SafeAreaView>
         </BottomSheet>
     );
 }
@@ -73,4 +70,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default ListingsBottomSheet;
+export default BottomSlide;

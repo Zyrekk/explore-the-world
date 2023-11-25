@@ -1,5 +1,5 @@
 import * as ImagePicker from "expo-image-picker";
-import {AvatarProps} from "@/components/Avatar";
+import {AvatarProps} from "@/components/UserEdit/Avatar";
 
 export const pickImage = async (setAvatar:(avatar:AvatarProps)=>void,avatar:AvatarProps) => {
     let result = await ImagePicker.launchImageLibraryAsync({
