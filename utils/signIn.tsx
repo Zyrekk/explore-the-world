@@ -14,13 +14,17 @@ export const signIn = async (
   const auth = FIREBASE_AUTH;
   setLoading(true);
   try {
-    const response = await signInWithEmailAndPassword(auth, email, password);
+    const response = await signInWithEmailAndPassword(auth, email, password)
 
     const userDocRef = doc(FIREBASE_DB, "Users", response.user.uid);
     const docSnapshot = await getDoc(userDocRef);
 
     if (docSnapshot.exists()) {
       const userData = docSnapshot.data();
+      if(!response.user.emailVerified){
+          alert("Please verify your email")
+          return
+      }
       if (userData) {
         const fetchedUser: UserInterface = {
           uid: response.user.uid,
@@ -32,7 +36,7 @@ export const signIn = async (
           country: userData?.country,
           favoritePlaces: userData?.favoritePlaces,
         };
-        await saveUserToStorage("user", JSON.stringify(fetchedUser));
+        await saveUserToStorage(JSON.stringify(fetchedUser));
         router.replace("/home");
       } else {
         alert("User email not found");

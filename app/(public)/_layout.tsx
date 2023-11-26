@@ -1,38 +1,38 @@
 import React from 'react';
-import { Stack } from 'expo-router';
+import {Stack} from 'expo-router';
 
 const PublicLayout = () => {
-  return (
-    <Stack
-      screenOptions={{
-        headerStyle: {
-          backgroundColor: '#6c47ff',
-        },
-        headerTintColor: '#fff',
-        headerBackTitle: 'Back',
-      }}>
-      <Stack.Screen
-        name="login"
-        options={{
-            headerShown: false,
-        }}></Stack.Screen>
-        <Stack.Screen
-            name="landing"
-            options={{
-                headerShown: false,
-            }}></Stack.Screen>
-      {/*<Stack.Screen*/}
-      {/*  name="register"*/}
-      {/*  options={{*/}
-      {/*    headerTitle: 'Create Account',*/}
-      {/*  }}></Stack.Screen>*/}
-      {/*<Stack.Screen*/}
-      {/*  name="reset"*/}
-      {/*  options={{*/}
-      {/*    headerTitle: 'Reset Password',*/}
-      {/*  }}></Stack.Screen>*/}
-    </Stack>
-  );
+    return (
+        <Stack
+            screenOptions={{
+                headerStyle: {
+                    backgroundColor: '#6c47ff',
+                },
+                headerTintColor: '#fff',
+                headerBackTitle: 'Back',
+            }}>
+            <Stack.Screen
+                name="landing"
+                options={{
+                    headerShown: false,
+                }}/>
+            <Stack.Screen
+                name="login"
+                options={{
+                    headerShown: false,
+                }}/>
+            <Stack.Screen
+                name="register"
+                options={{
+                    headerShown: false,
+                }}/>
+            <Stack.Screen
+                name="reset"
+                options={{
+                    headerShown: false,
+                }}/>
+        </Stack>
+    );
 };
 
 export default PublicLayout;

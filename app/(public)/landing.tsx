@@ -1,15 +1,7 @@
 import {View, SafeAreaView, Text, StyleSheet, Pressable, ImageBackground} from 'react-native'
-import {useFonts, Montserrat_600SemiBold, Montserrat_700Bold} from '@expo-google-fonts/montserrat';
 import {useRouter} from "expo-router";
 const Landing = () => {
     const router = useRouter();
-    let [fontsLoaded, fontError] = useFonts({
-        Montserrat_600SemiBold,
-        Montserrat_700Bold,
-    });
-    if (!fontsLoaded && !fontError) {
-        return null;
-    }
 
     const navigateTo=(path:string)=>{
         // @ts-ignore
@@ -61,7 +53,6 @@ const styles = StyleSheet.create({
     title: {
         color: "white",
         fontSize: 50,
-        fontFamily: "Montserrat_700Bold",
         fontWeight: "600"
     },
     subtitle: {
@@ -103,7 +94,6 @@ const styles = StyleSheet.create({
     buttonText: {
         color: "black",
         fontWeight: "500",
-        fontFamily: "Montserrat_600SemiBold",
         fontSize: 20,
     },
     overlay: {

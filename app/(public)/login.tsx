@@ -1,8 +1,7 @@
-import { useRouter } from "expo-router";
+import {Link, useRouter } from "expo-router";
 import React, { useState } from "react";
 import {
   View,
-  StyleSheet,
   Pressable,
   SafeAreaView,
   KeyboardAvoidingView,
@@ -12,10 +11,11 @@ import {
 import Spinner from "react-native-loading-spinner-overlay";
 import { signIn } from "@/utils/signIn";
 import { Text } from "@ui-kitten/components";
-import { AuthInput } from "@/components/AuthInput";
-import { PasswordInput } from "@/components/PasswordInput";
-import LoginVia from "@/components/LoginVia";
+import { AuthInput } from "@/components/Auth/AuthInput";
+import { PasswordInput } from "@/components/Auth/PasswordInput";
+import LoginVia from "@/components/Auth/LoginVia";
 import { AntDesign } from "@expo/vector-icons";
+import {publicStyles} from "@/styles/publicStyles";
 
 const Login = () => {
   const router = useRouter();
@@ -24,17 +24,17 @@ const Login = () => {
   const [loading, setLoading] = useState<boolean>(false);
   return (
     <View style={{ flex: 1, backgroundColor: "black" }}>
-      <SafeAreaView style={styles.safeArea}>
+      <SafeAreaView style={publicStyles.safeArea}>
         {loading ? (
           <Spinner visible={loading} textContent={""} />
         ) : (
           <KeyboardAvoidingView
-            style={styles.keyboardContainer}
+            style={publicStyles.keyboardContainer}
             behavior="position"
           >
-            <ScrollView contentContainerStyle={styles.scrollContainer}>
+            <ScrollView contentContainerStyle={publicStyles.scrollContainer}>
               <TouchableOpacity
-                style={styles.backButton}
+                style={publicStyles.backButton}
                 onPress={() => {
                   router.back();
                 }}
@@ -44,18 +44,18 @@ const Login = () => {
                   color={"#FFFFFF"}
                   style={{ fontSize: 20 }}
                 />
-                <Text style={styles.backText}>Back</Text>
+                <Text style={publicStyles.backText}>Back</Text>
               </TouchableOpacity>
-              <View style={styles.headContainer}>
-                <Text style={styles.title}>Login</Text>
-                <Text style={styles.subtitle}>Please sign in to continue</Text>
+              <View style={publicStyles.headContainer}>
+                <Text style={publicStyles.title}>Login</Text>
+                <Text style={publicStyles.subtitle}>Please sign in to continue</Text>
               </View>
-              <View style={styles.formContainer}>
+              <View style={publicStyles.formContainer}>
                 <LoginVia />
-                <View style={styles.divider}>
-                  <View style={styles.dividerLine} />
-                  <Text style={styles.dividerText}>OR</Text>
-                  <View style={styles.dividerLine} />
+                <View style={publicStyles.divider}>
+                  <View style={publicStyles.dividerLine} />
+                  <Text style={publicStyles.dividerText}>OR</Text>
+                  <View style={publicStyles.dividerLine} />
                 </View>
                 <AuthInput
                   onChangeText={setEmailAddress}
@@ -71,13 +71,16 @@ const Login = () => {
                   onChangeText={setPassword}
                   label={"Password"}
                 />
+                <Link href={"/reset"} style={publicStyles.forgotPasswordLink}>
+                    Forgot Password?
+                </Link>
                 <Pressable
                   onPress={() => {
                     signIn(emailAddress, password, setLoading, router);
                   }}
-                  style={styles.signInButton}
+                  style={publicStyles.signInButton}
                 >
-                  <Text style={styles.signInText}>SIGN IN</Text>
+                  <Text style={publicStyles.signInText}>SIGN IN</Text>
                 </Pressable>
               </View>
             </ScrollView>
@@ -87,103 +90,5 @@ const Login = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  keyboardContainer: {
-    display: "flex",
-    justifyContent: "center",
-    height: "100%",
-    width: "100%",
-  },
-  safeArea: {
-    display: "flex",
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginHorizontal: 20,
-  },
-  headContainer: {
-    display: "flex",
-    gap: 8,
-    width: "100%",
-  },
-  title: {
-    fontSize: 36,
-    fontFamily: "Montserrat_700Bold",
-    fontWeight: "500",
-  },
-  subtitle: {
-    fontSize: 20,
-    fontFamily: "Montserrat_600SemiBold",
-    fontWeight: "400",
-  },
-  formContainer: {
-    display: "flex",
-    flexDirection: "column",
-    width: "100%",
-    marginTop: 40,
-    gap: 20,
-  },
-  divider: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 10,
-    marginBottom: 10,
-    width: "100%",
-  },
-  dividerLine: {
-    flex: 3,
-    backgroundColor: "#ffffff",
-    height: 2,
-  },
-  dividerText: {
-    flex: 1,
-    textAlign: "center",
-    color: "#ffffff",
-  },
-  signInButton: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#fff",
-    borderRadius: 40,
-    paddingHorizontal: 10,
-    paddingVertical: 15,
-    marginTop: 20,
-    width: "100%",
-  },
-  signInText: {
-    color: "black",
-    fontWeight: "500",
-    fontFamily: "Montserrat_600SemiBold",
-    fontSize: 20,
-  },
-  scrollContainer: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    flexGrow: 1,
-    height: "100%",
-  },
-  backButton: {
-    zIndex: 100,
-    display: "flex",
-    flexDirection: "row",
-    alignSelf: "flex-start",
-    justifyContent: "center",
-    alignItems: "center",
-    gap: 10,
-    fontSize: 26,
-    color: "white",
-    marginBottom: 30,
-  },
-  backText: {
-    fontFamily: "Montserrat_600SemiBold",
-    fontSize: 21,
-    color: "white",
-  },
-});
 
 export default Login;

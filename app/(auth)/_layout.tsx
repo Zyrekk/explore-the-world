@@ -9,7 +9,7 @@ const TabsPage = () => {
       screenOptions={{
         tabBarActiveTintColor: MyColors.primary,
         tabBarStyle: {
-          backgroundColor: "#000",
+          backgroundColor: "#fff",
         },
         tabBarLabelStyle: {
           fontWeight: "bold",

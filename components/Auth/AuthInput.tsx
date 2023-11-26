@@ -1,29 +1,28 @@
+import { ReactNode } from "react";
 import {
   StyleSheet,
   TextInput,
   Text,
   TextInputIOSProps,
   View,
-  Pressable,
 } from "react-native";
-import { useState } from "react";
-import { Ionicons } from "@expo/vector-icons";
 
-interface PasswordInputProps {
+interface AuthInputProps {
   placeholder: string | undefined;
   value: string | undefined;
   onChangeText: ((text: string) => void) | undefined;
   textContentType?: TextInputIOSProps["textContentType"];
+  secureTextEntry: boolean;
   label: string;
 }
-export const PasswordInput = ({
+export const AuthInput = ({
   placeholder,
   value,
   onChangeText,
   textContentType,
+  secureTextEntry,
   label,
-}: PasswordInputProps) => {
-  const [isVisible, setIsVisible] = useState<boolean>(false);
+}: AuthInputProps) => {
   return (
     <View style={styles.container}>
       <View
@@ -47,29 +46,8 @@ export const PasswordInput = ({
           placeholderTextColor="#fff"
           underlineColorAndroid="transparent"
           textContentType={textContentType}
-          secureTextEntry={!isVisible}
+          secureTextEntry={secureTextEntry}
         />
-        <Pressable
-          onPress={() => {
-            setIsVisible(!isVisible);
-          }}
-        >
-          {isVisible ? (
-            <Ionicons
-              name="eye"
-              size={24}
-              color="white"
-              style={{ fontSize: 16 }}
-            />
-          ) : (
-            <Ionicons
-              name="eye-off"
-              size={24}
-              color="white"
-              style={{ fontSize: 16 }}
-            />
-          )}
-        </Pressable>
       </View>
     </View>
   );
@@ -85,7 +63,6 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 16,
     color: "white",
-    fontFamily: "Montserrat_700Bold",
   },
   inputContainer: {
     display: "flex",
@@ -104,6 +81,5 @@ const styles = StyleSheet.create({
     fontSize: 14,
     flex: 1,
     color: "white",
-    fontFamily: "Montserrat_600SemiBold",
   },
 });

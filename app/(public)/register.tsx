@@ -1,109 +1,101 @@
-// import { Button, TextInput, View, StyleSheet } from 'react-native';
-// import { useSignUp } from '@clerk/clerk-expo';
-// import Spinner from 'react-native-loading-spinner-overlay';
-// import { useState } from 'react';
-// import { Stack } from 'expo-router';
-//
-// const Register = () => {
-//   const { isLoaded, signUp, setActive } = useSignUp();
-//
-//   const [emailAddress, setEmailAddress] = useState('');
-//   const [password, setPassword] = useState('');
-//   const [pendingVerification, setPendingVerification] = useState(false);
-//   const [code, setCode] = useState('');
-//   const [loading, setLoading] = useState(false);
-//
-//   // Create the user and send the verification email
-//   const onSignUpPress = async () => {
-//     if (!isLoaded) {
-//       return;
-//     }
-//     setLoading(true);
-//
-//     try {
-//       // Create the user on Clerk
-//       await signUp.create({
-//         emailAddress,
-//         password,
-//       });
-//
-//       // Send verification Email
-//       await signUp.prepareEmailAddressVerification({ strategy: 'email_code' });
-//
-//       // change the UI to verify the email address
-//       setPendingVerification(true);
-//     } catch (err: any) {
-//       alert(err.errors[0].message);
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-//
-//   // Verify the email address
-//   const onPressVerify = async () => {
-//     if (!isLoaded) {
-//       return;
-//     }
-//     setLoading(true);
-//
-//     try {
-//       const completeSignUp = await signUp.attemptEmailAddressVerification({
-//         code,
-//       });
-//
-//       await setActive({ session: completeSignUp.createdSessionId });
-//     } catch (err: any) {
-//       alert(err.errors[0].message);
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-//
-//   return (
-//     <View style={styles.container}>
-//       <Stack.Screen options={{ headerBackVisible: !pendingVerification }} />
-//       <Spinner visible={loading} />
-//
-//       {!pendingVerification && (
-//         <>
-//           <TextInput autoCapitalize="none" placeholder="simon@galaxies.dev" value={emailAddress} onChangeText={setEmailAddress} style={styles.inputField} />
-//           <TextInput placeholder="password" value={password} onChangeText={setPassword} secureTextEntry style={styles.inputField} />
-//
-//           <Button onPress={onSignUpPress} title="Sign up" color={'#6c47ff'}></Button>
-//         </>
-//       )}
-//
-//       {pendingVerification && (
-//         <>
-//           <View>
-//             <TextInput value={code} placeholder="Code..." style={styles.inputField} onChangeText={setCode} />
-//           </View>
-//           <Button onPress={onPressVerify} title="Verify Email" color={'#6c47ff'}></Button>
-//         </>
-//       )}
-//     </View>
-//   );
-// };
-//
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     justifyContent: 'center',
-//     padding: 20,
-//   },
-//   inputField: {
-//     marginVertical: 4,
-//     height: 50,
-//     borderWidth: 1,
-//     borderColor: '#6c47ff',
-//     borderRadius: 4,
-//     padding: 10,
-//     backgroundColor: '#fff',
-//   },
-//   button: {
-//     margin: 8,
-//     alignItems: 'center',
-//   },
-// });
-//
-// export default Register;
+import { useRouter } from "expo-router";
+import React, { useState } from "react";
+import {
+    View,
+    Pressable,
+    SafeAreaView,
+    KeyboardAvoidingView,
+    ScrollView,
+    TouchableOpacity,
+} from "react-native";
+import Spinner from "react-native-loading-spinner-overlay";
+import { signIn } from "@/utils/signIn";
+import { Text } from "@ui-kitten/components";
+import { AuthInput } from "@/components/Auth/AuthInput";
+import { PasswordInput } from "@/components/Auth/PasswordInput";
+import { AntDesign } from "@expo/vector-icons";
+import {publicStyles} from "@/styles/publicStyles";
+import {signUp} from "@/utils/signUp";
+
+const Register = () => {
+    const router = useRouter();
+    const [emailAddress, setEmailAddress] = useState<string>("");
+    const [nickname,setNickname]=useState<string>("");
+    const [password, setPassword] = useState<string>("");
+    const [confirmPassword, setConfirmPassword] = useState<string>("");
+    const [loading, setLoading] = useState<boolean>(false);
+    return (
+        <View style={{ flex: 1, backgroundColor: "black" }}>
+            <SafeAreaView style={publicStyles.safeArea}>
+                {loading ? (
+                    <Spinner visible={loading} textContent={""} />
+                ) : (
+                    <KeyboardAvoidingView
+                        style={publicStyles.keyboardContainer}
+                        behavior="position"
+                    >
+                        <ScrollView contentContainerStyle={publicStyles.scrollContainer}>
+                            <TouchableOpacity
+                                style={publicStyles.backButton}
+                                onPress={() => {
+                                    router.back();
+                                }}
+                            >
+                                <AntDesign
+                                    name="left"
+                                    color={"#FFFFFF"}
+                                    style={{ fontSize: 20 }}
+                                />
+                                <Text style={publicStyles.backText}>Back</Text>
+                            </TouchableOpacity>
+                            <View style={publicStyles.headContainer}>
+                                <Text style={publicStyles.title}>Register</Text>
+                                <Text style={publicStyles.subtitle}>Create account to continue</Text>
+                            </View>
+                            <View style={publicStyles.formContainer}>
+                                <AuthInput
+                                    onChangeText={setEmailAddress}
+                                    value={emailAddress}
+                                    secureTextEntry={false}
+                                    label={"Email Address*"}
+                                    placeholder={"Enter Email Address"}
+                                    textContentType={"none"}
+                                />
+                                <AuthInput
+                                    onChangeText={setNickname}
+                                    value={nickname}
+                                    secureTextEntry={false}
+                                    label={"Nickname*"}
+                                    placeholder={"Enter Nickname"}
+                                    textContentType={"none"}
+                                />
+                                <PasswordInput
+                                    placeholder={"Enter Password"}
+                                    value={password}
+                                    onChangeText={setPassword}
+                                    label={"Password*"}
+                                />
+                                <PasswordInput
+                                    placeholder={"Confirm Password"}
+                                    value={confirmPassword}
+                                    onChangeText={setConfirmPassword}
+                                    label={"Confirm Password*"}
+                                />
+                                <Pressable
+                                    onPress={() => {
+                                        signUp(emailAddress, password,confirmPassword, nickname,setLoading, router);
+                                    }}
+                                    style={publicStyles.signInButton}
+                                >
+                                    <Text style={publicStyles.signInText}>SIGN UP</Text>
+                                </Pressable>
+                            </View>
+                        </ScrollView>
+                    </KeyboardAvoidingView>
+                )}
+            </SafeAreaView>
+        </View>
+    );
+};
+
+export default Register;

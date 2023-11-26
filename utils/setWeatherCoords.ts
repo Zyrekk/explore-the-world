@@ -1,9 +1,9 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export const saveUserToStorage = async (value: string) => {
+export const setWeatherCoords = async (value: string) => {
     try {
         await AsyncStorage.setItem(
-            "user",
+            "coordinates",
             value,
         );
     } catch (error) {

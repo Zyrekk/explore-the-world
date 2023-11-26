@@ -10,7 +10,7 @@ const InitialLayout = () => {
     useEffect(() => {
         getUserFromStorage().then((res) => {
             if (res) {
-                router.push("/home");
+                router.push("/home/mainHome");
             } else {
                 router.push("/landing");
             }
@@ -24,6 +24,7 @@ const InitialLayout = () => {
 
 const RootLayout = () => {
     return (
+
         <ApplicationProvider {...eva} theme={{...eva.dark, ...theme}}>
             <InitialLayout/>
         </ApplicationProvider>
