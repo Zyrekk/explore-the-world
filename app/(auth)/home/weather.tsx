@@ -1,19 +1,16 @@
-import {View, Text} from 'react-native'
-import React, {useEffect} from 'react'
-import {getWeatherCoords} from "@/utils/getWeatherCoords";
-import axios from "axios";
+import {View} from 'react-native'
+import React from 'react'
+import CurrentWeather from "@/components/Weather/CurrentWeather";
+import Forecast from "@/components/Weather/Forecast";
+
 
 const Weather = () => {
-    useEffect(() => {
-        getWeatherCoords().then((res)=>{
-            axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${res.latitude}&lon=${res.longitude}&units=metric&appid=${process.env.EXPO_PUBLIC_APP_WEATHER_KEY}`).then(res => {
-                console.log("weather",res.data)
-            })
-        })
-    }, []);
     return (
-        <View>
-            <Text>Weather</Text>
+        <View className="bg-[#160227] h-full flex-1 items-center">
+            <View className="w-full px-[20] mt-[70] items-center">
+                <CurrentWeather/>
+                <Forecast/>
+            </View>
         </View>
     );
 }

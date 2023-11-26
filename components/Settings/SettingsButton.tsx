@@ -25,7 +25,7 @@ const SettingsButton = ({name,link,icon}:Props) => {
                         {name}
                     </Text>
                 </View>
-                <AntDesign name="right" size={18} color="black"/>
+                <AntDesign name="right" size={18} color="white"/>
             </View>
          </Pressable>
     );
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
         gap: 10,
     },
     eventButtonText: {
-        color: "black",
+        color: "#fff",
         fontSize: 18,
     },
 

@@ -5,11 +5,11 @@ import MyColors from "@/constants/MyColors";
 const TabsPage = () => {
   return (
     <Tabs
-      // sceneContainerStyle={{ backgroundColor: "#000" }}
+      sceneContainerStyle={{ backgroundColor: "#160227" }}
       screenOptions={{
         tabBarActiveTintColor: MyColors.primary,
         tabBarStyle: {
-          backgroundColor: "#fff",
+          backgroundColor: "#0B0113",
         },
         tabBarLabelStyle: {
           fontWeight: "bold",

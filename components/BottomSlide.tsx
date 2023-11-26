@@ -23,11 +23,11 @@ const BottomSlide = ({bottomSheetRef,clickedInfo,mode}:Props) => {
         <BottomSheet
             ref={bottomSheetRef}
             index={0}
-            backgroundStyle={{ backgroundColor: 'white' }}
-            handleStyle={{ backgroundColor: 'white' }}
+            backgroundStyle={{ backgroundColor: '#150227' }}
+            handleStyle={{ backgroundColor: '#150227' }}
             snapPoints={snapPoints}
             enablePanDownToClose={false}
-            handleIndicatorStyle={{ backgroundColor: "#3b3b3b" }}
+            handleIndicatorStyle={{ backgroundColor: "#fff" }}
             style={styles.sheetContainer}>
             <SafeAreaView style={styles.contentContainer}>
                 {/*<Listings/>*/}

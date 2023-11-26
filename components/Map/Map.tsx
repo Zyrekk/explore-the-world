@@ -21,13 +21,13 @@ const Map = ({openBottomSheet,setClickedInfo}:MapProps) => {
                 countryCode:res[0].isoCountryCode as string,
                 name:res[0].city as string,
             })
-            await setWeatherCoords(JSON.stringify(coords));
+            await setWeatherCoords(JSON.stringify({coords:coords,city:res[0].city as string,country:res[0].country}));
             openBottomSheet()
         }
     }
     return (
         <View className="flex-1">
-            <MapView className="w-full h-full" onPress={handleMapClick} userInterfaceStyle={"light"} showsMyLocationButton={true} showsUserLocation={true} />
+            <MapView className="w-full h-full" onPress={handleMapClick} userInterfaceStyle={"dark"} showsMyLocationButton={true} showsUserLocation={true} />
         </View>
     );
 }

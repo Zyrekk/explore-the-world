@@ -18,7 +18,7 @@ const MapMenu = ({mode,clickedInfo}:Props) => {
                 <StartJourneyButton/>
                 {clickedInfo && mode!=="normal" &&
                 <>
-                    <Text className="w-full text-center text-black text-[24px] font-semibold mb-[40] mt-[30px]">
+                    <Text className="w-full text-center text-white text-[24px] font-semibold mb-[40] mt-[30px]">
                         {clickedInfo.name}
                     </Text>
                     <View style={{gap: 20}} className="flex w-full items-center justify-center flex-col">
