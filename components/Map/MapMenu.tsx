@@ -15,8 +15,7 @@ const MapMenu = ({mode,clickedInfo}:Props) => {
     return (
         <SafeAreaView>
             <View className="w-full px-[50px]">
-                <StartJourneyButton/>
-                {clickedInfo && mode!=="normal" &&
+                {clickedInfo && mode!=="travel" &&
                 <>
                     <Text className="w-full text-center text-white text-[24px] font-semibold mb-[40] mt-[30px]">
                         {clickedInfo.name}
@@ -26,6 +25,8 @@ const MapMenu = ({mode,clickedInfo}:Props) => {
                                        icon={<MaterialCommunityIcons name="weather-cloudy" size={24} color="white"/>}/>
                         <MapMenuButton router={router} path={"/home/countryInfo"} title={"Country info"}
                                        icon={<Ionicons name="ios-information-circle-outline" size={24} color="white"/>}/>
+                        <MapMenuButton router={router} path={"/home/placeDetails"} title={"Place details"}
+                                       icon={<MaterialCommunityIcons name="details" size={24} color="white" />}/>
                     </View>
                 </>
                 }

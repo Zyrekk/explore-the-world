@@ -4,13 +4,15 @@ import {TouchableOpacity, StyleSheet, Text, View, SafeAreaView} from "react-nati
 import {Ionicons} from "@expo/vector-icons";
 import MapMenu from "@/components/Map/MapMenu";
 import {ClickedInfoProps} from "@/app/(auth)/home/mainHome";
+import StartJourneyButton from "@/components/Map/StartJourneyButton";
 
 interface Props{
     bottomSheetRef:React.RefObject<BottomSheet>;
     clickedInfo:ClickedInfoProps|null;
     mode:string;
+    setMode:(mode:string)=>void;
 }
-const BottomSlide = ({bottomSheetRef,clickedInfo,mode}:Props) => {
+const BottomSlide = ({bottomSheetRef,clickedInfo,mode,setMode}:Props) => {
     const snapPoints = useMemo(()=>['11%','100%'],[])
     const [refresh, setRefresh] = useState<number>(0);
 
@@ -31,6 +33,7 @@ const BottomSlide = ({bottomSheetRef,clickedInfo,mode}:Props) => {
             style={styles.sheetContainer}>
             <SafeAreaView style={styles.contentContainer}>
                 {/*<Listings/>*/}
+                <StartJourneyButton setMode={setMode}/>
                 <MapMenu mode={mode} clickedInfo={clickedInfo}/>
                 <View style={styles.absoluteView}>
                     <TouchableOpacity onPress={onShowMap} style={styles.btn}>
