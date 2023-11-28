@@ -14,7 +14,7 @@ const MapMenuButton = ({icon,title,path}:Props) => {
             // @ts-ignore
             router.push(path)
         }} className="w-full rounded-[18px] bg-black">
-            <View className="flex flex-row gap-5 items-center justify-center px-[15] py-[15]">
+            <View className="flex flex-row gap-5 items-center justify-between px-[60] py-[15]">
                 <Text className="text-[16px] font-semibold text-white">
                     {title}
                 </Text>

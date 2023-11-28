@@ -61,7 +61,7 @@ const Profile = () => {
                   🌏 Your trips
                 </Text>
               </View>
-              <AntDesign name="right" size={18} color="black" />
+              <AntDesign name="right" size={18} color="white" />
             </View>
           </Link>
           <Pressable style={styles.eventButton}>
@@ -70,7 +70,7 @@ const Profile = () => {
                 🏆 Achievements
               </Text>
             </View>
-            <AntDesign name="right" size={18} color="black" />
+            <AntDesign name="right" size={18} color="white" />
           </Pressable>
           <Pressable style={styles.eventButton}>
             <View style={styles.eventButtonFlex}>
@@ -78,7 +78,7 @@ const Profile = () => {
                 ️️✈️ Flight tickets
               </Text>
             </View>
-            <AntDesign name="right" size={18} color="black" />
+            <AntDesign name="right" size={18} color="white" />
           </Pressable>
           <Pressable style={styles.eventButton}>
             <View style={styles.eventButtonFlex}>
@@ -86,7 +86,7 @@ const Profile = () => {
                 ️🧑 Friends
               </Text>
             </View>
-            <AntDesign name="right" size={18} color="black" />
+            <AntDesign name="right" size={18} color="white" />
           </Pressable>
         </View>
       </ScrollView>
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
   },
   title: {
     paddingTop: 20,
-    color: "black",
+    color: "white",
     fontSize: 32,
   },
   mainInfoContent: {
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
   avatarContainer: {
     overflow: "hidden",
     borderWidth: 2,
-    borderColor: "black",
+    borderColor: "white",
     display: "flex",
     borderRadius: 100,
     justifyContent: "center",
@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
     height: "101%",
   },
   mainInfoText: {
-    color: "black",
+    color: "white",
     paddingTop: 15,
     fontSize: 22,
   },
@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
   },
   countryInfoText: {
     fontSize: 14,
-    color: "black",
+    color: "white",
   },
   eventContainer: {
     marginTop: 35,
@@ -201,16 +201,16 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   eventButtonText: {
-    color: "black",
+    color: "white",
     fontSize: 18,
   },
   titleText: {
-    color: "black",
+    color: "white",
     paddingTop: 10,
     fontSize: 16,
   },
   timeText: {
-    color: "black",
+    color: "white",
     paddingTop: 8,
     fontSize: 18,
   },
@@ -231,7 +231,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   singleCountryText: {
-    color: "black",
+    color: "white",
     fontSize: 10,
   },
   singleCountryImage: {

@@ -5,6 +5,7 @@ import BottomSlide from "@/components/BottomSlide";
 import StartJourneyButton from "@/components/Map/StartJourneyButton";
 import BottomSheet from "@gorhom/bottom-sheet";
 import {LatLng} from "react-native-maps";
+import ExitTravelModeBtn from "@/components/Map/ExitTravelModeBtn";
 
 export interface ClickedInfoProps{
     countryCode:string;
@@ -13,18 +14,24 @@ export interface ClickedInfoProps{
 }
 
 const MainHome = () => {
-    const [mode, setMode] = useState("xd");
+    const modes={
+        normal:"normal",
+        travel:"travel",
+    }
+    const [mode, setMode] = useState("normal");
     const bottomSheetRef = useRef<BottomSheet>(null);
     const [clickedInfo,setClickedInfo]=useState<ClickedInfoProps|null>(null)
     const openBottomSheet = () => {
         bottomSheetRef.current?.expand();
     }
     return (
-        <View
-            className="flex-1"
-        >
+        <View className="flex-1">
             <Map openBottomSheet={openBottomSheet} setClickedInfo={setClickedInfo}/>
-            <BottomSlide mode={mode} bottomSheetRef={bottomSheetRef} clickedInfo={clickedInfo}/>
+            {mode==="travel"&&<ExitTravelModeBtn setMode={setMode}/>}
+            {
+                clickedInfo && mode!=="travel"&&
+                <BottomSlide mode={mode} setMode={setMode} bottomSheetRef={bottomSheetRef} clickedInfo={clickedInfo}/>
+            }
         </View>
     );
 };

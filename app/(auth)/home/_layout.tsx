@@ -25,6 +25,13 @@ const _Layout = () => {
                     presentation: 'modal',
                 }}
             />
+            <Stack.Screen
+                name="placeDetails"
+                options={{
+                    headerShown: false,
+                    presentation: 'modal',
+                }}
+            />
         </Stack>
     );
 }
