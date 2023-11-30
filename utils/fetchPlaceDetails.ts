@@ -1,5 +1,5 @@
 import axios from "axios";
-import { PlaceDetailsResponse } from "@/app/(auth)/home/placeDetails";
+import {PlaceDetailsResponse} from "@/components/Favorites/FavDetails";
 
 export const fetchPlaceDetails = async (placeId: string): Promise<PlaceDetailsResponse> => {
     const options = "rating,icon,website,photos,type,opening_hours,name,formatted_address,formatted_phone_number";

@@ -27,13 +27,13 @@ const Map = ({openBottomSheet,setClickedInfo}:MapProps) => {
             openBottomSheet()
         }
     }
-    const handlePlaceId=async(placeId:string)=>{
-        await setPlaceId(JSON.stringify({placeid:placeId}));
+    const handlePlaceId=async(placeId:string,coords:LatLng)=>{
+        await setPlaceId(JSON.stringify({placeid:placeId,coords:coords}));
     }
     return (
         <View className="flex-1">
             <MapView provider={"google"} onPoiClick={(event)=>{
-                handlePlaceId(event.nativeEvent.placeId)
+                handlePlaceId(event.nativeEvent.placeId,event.nativeEvent.coordinate)
                 handleMapClick(event)
 
             }} className="w-full h-full" userInterfaceStyle={"dark"} showsMyLocationButton={true} showsUserLocation={true}>
