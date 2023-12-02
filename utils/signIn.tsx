@@ -3,7 +3,6 @@ import { doc, getDoc } from "@firebase/firestore";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { UserInterface } from "@/constants/UserInterface";
 import { saveUserToStorage } from "@/utils/saveUserToStorage";
-import { useRouter } from "expo-router";
 
 export const signIn = async (
   email: string,

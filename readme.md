@@ -4,7 +4,7 @@ My engineering thesis, a travel planning app.
 
 ## Tech Stack
 
-**Frontend:** React native, Typescript, Expo, Expo router
+**Frontend:** React native, Typescript, Expo, Expo router, Native wind
 
 **Database:** Firebase Cloud
 
@@ -42,7 +42,6 @@ REACT_APP_FIREBASE_MEASUREMENT_ID=
 
 1. Dodać tryby klikania po mapie
    *tryb tworzenia podrozy
-   *tryb informacji o kraju
    *tryb dodawania miejsca do ulubionych
 
 2. Dodać ulubione
