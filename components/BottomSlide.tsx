@@ -5,14 +5,27 @@ import {Ionicons} from "@expo/vector-icons";
 import MapMenu from "@/components/Map/MapMenu";
 import {ClickedInfoProps} from "@/app/(auth)/home/mainHome";
 import StartJourneyButton from "@/components/Map/StartJourneyButton";
+import {LatLng} from "react-native-maps";
+import DraggableList from "@/components/Map/DraggableList";
 
 interface Props{
     bottomSheetRef:React.RefObject<BottomSheet>;
     clickedInfo:ClickedInfoProps|null;
     mode:string;
     setMode:(mode:string)=>void;
+    travelPoints: {
+        id:string,
+        latlng:LatLng,
+        name:string,
+    }[];
+    setTravelPoints: (points: {
+        id:string,
+        latlng:LatLng,
+        name:string,
+    }[]) => void;
 }
-const BottomSlide = ({bottomSheetRef,clickedInfo,mode,setMode}:Props) => {
+
+const BottomSlide = ({travelPoints,setTravelPoints,bottomSheetRef,clickedInfo,mode,setMode}:Props) => {
     const snapPoints = useMemo(()=>['11%','100%'],[])
     const [refresh, setRefresh] = useState<number>(0);
 
@@ -31,17 +44,31 @@ const BottomSlide = ({bottomSheetRef,clickedInfo,mode,setMode}:Props) => {
             enablePanDownToClose={false}
             handleIndicatorStyle={{ backgroundColor: "#fff" }}
             style={styles.sheetContainer}>
-            <SafeAreaView style={styles.contentContainer}>
-                {/*<Listings/>*/}
-                <StartJourneyButton setMode={setMode}/>
-                <MapMenu mode={mode} clickedInfo={clickedInfo}/>
-                <View style={styles.absoluteView}>
-                    <TouchableOpacity onPress={onShowMap} style={styles.btn}>
-                        <Text style={{ color: '#fff' }}>Map</Text>
-                        <Ionicons name="map" size={20} style={{ marginLeft: 10 }} color={'#fff'} />
-                    </TouchableOpacity>
+            {mode==="normal" &&
+                <SafeAreaView style={styles.contentContainer}>
+                    <StartJourneyButton setMode={setMode}/>
+                    <MapMenu mode={mode} clickedInfo={clickedInfo}/>
+                    <View style={styles.absoluteView}>
+                        <TouchableOpacity onPress={onShowMap} style={styles.btn}>
+                            <Text style={{ color: '#fff' }}>Map</Text>
+                            <Ionicons name="map" size={20} style={{ marginLeft: 10 }} color={'#fff'} />
+                        </TouchableOpacity>
+                    </View>
+                </SafeAreaView>
+            }
+            {mode==="travel" &&
+                <View style={styles.contentContainer}>
+                    <Text style={{marginTop:40,color:"white",fontSize:22}}>Drag & drop your waypoints</Text>
+                    <DraggableList travelPoints={travelPoints}
+                                   setTravelPoints={setTravelPoints}/>
+                    <View style={styles.absoluteView}>
+                        <TouchableOpacity onPress={onShowMap} style={styles.btn}>
+                            <Text style={{ color: '#fff' }}>Map</Text>
+                            <Ionicons name="map" size={20} style={{ marginLeft: 10 }} color={'#fff'} />
+                        </TouchableOpacity>
+                    </View>
                 </View>
-            </SafeAreaView>
+            }
         </BottomSheet>
     );
 }
@@ -49,6 +76,7 @@ const BottomSlide = ({bottomSheetRef,clickedInfo,mode,setMode}:Props) => {
 const styles = StyleSheet.create({
     contentContainer: {
         flex: 1,
+        alignItems:"center"
     },
     absoluteView: {
         position: 'absolute',
