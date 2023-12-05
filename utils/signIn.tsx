@@ -34,6 +34,7 @@ export const signIn = async (
           avatar: userData?.avatar,
           country: userData?.country,
           favoritePlaces: userData?.favoritePlaces,
+          travels: userData?.travels,
         };
         await saveUserToStorage(JSON.stringify(fetchedUser));
         router.replace("/home");

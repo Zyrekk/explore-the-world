@@ -6,11 +6,18 @@ import BottomSheet from "@gorhom/bottom-sheet";
 import { LatLng } from "react-native-maps";
 import ExitTravelModeBtn from "@/components/Map/ExitTravelModeBtn";
 import DeleteMarkerButton from "@/components/Map/DeleteMarkerButton";
+import SaveTravelButton from "@/components/Map/SaveTravelButton";
 
 export interface ClickedInfoProps {
   countryCode: string;
   latlng: LatLng;
   name: string;
+}
+
+export interface TravelPointProps{
+    id:string,
+    latlng:LatLng,
+    name:string,
 }
 
 const MainHome = () => {
@@ -21,16 +28,12 @@ const MainHome = () => {
   const [mode, setMode] = useState("normal");
   const bottomSheetRef = useRef<BottomSheet>(null);
   const [clickedInfo, setClickedInfo] = useState<ClickedInfoProps | null>(null);
-  const [travelPoints,setTravelPoints]=useState<{
-    id:string,
-    latlng:LatLng,
-    name:string,
-  }[]>([])
+  const [travelPoints,setTravelPoints]=useState<TravelPointProps[]>([])
   const openBottomSheet = () => {
     bottomSheetRef.current?.expand();
   };
   return (
-    <View className="flex-1">
+    <View className="flex-1 bg-[#160227]">
       <Map
           mode={mode}
         openBottomSheet={openBottomSheet}
@@ -41,6 +44,7 @@ const MainHome = () => {
       />
       {clickedInfo && <DeleteMarkerButton setClickedInfo={setClickedInfo} />}
       {mode === "travel" && <ExitTravelModeBtn setTravelPoints={setTravelPoints} setMode={setMode} />}
+      {mode ==="travel" && travelPoints.length>2 && <SaveTravelButton setTravelPoints={setTravelPoints} travelPoints={travelPoints} setMode={setMode}/>}
       {clickedInfo && (
         <BottomSlide
           mode={mode}

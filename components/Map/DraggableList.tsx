@@ -1,29 +1,19 @@
-import React, {useState} from "react";
-import {Text, View, StyleSheet, TouchableOpacity, Dimensions} from "react-native";
+import React from "react";
+import {Text, StyleSheet, TouchableOpacity, Dimensions} from "react-native";
 import DraggableFlatList, {
     RenderItemParams,
     ScaleDecorator,
 } from "react-native-draggable-flatlist";
 import {LatLng} from "react-native-maps";
-import {reverseGeocode} from "@/utils/geocode";
+import {TravelPointProps} from "@/app/(auth)/home/mainHome";
 
 interface Props {
-    travelPoints: {
-        id: string,
-        latlng: LatLng,
-        name:string,
-    }[];
-    setTravelPoints: (points: {
-        id: string,
-        latlng: LatLng,
-        name:string,
-    }[]) => void;
+    travelPoints: TravelPointProps[];
+    setTravelPoints: (points: TravelPointProps[]) => void;
 }
 
 const DraggableList = ({travelPoints, setTravelPoints}: Props) => {
     const windowWidth = Dimensions.get('window').width;
-
-
     const renderItem = ({item, drag, isActive}: RenderItemParams<{
         id: string,
         latlng: LatLng,

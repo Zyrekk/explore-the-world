@@ -3,9 +3,8 @@ import BottomSheet from "@gorhom/bottom-sheet";
 import {TouchableOpacity, StyleSheet, Text, View, SafeAreaView} from "react-native";
 import {Ionicons} from "@expo/vector-icons";
 import MapMenu from "@/components/Map/MapMenu";
-import {ClickedInfoProps} from "@/app/(auth)/home/mainHome";
+import {ClickedInfoProps, TravelPointProps} from "@/app/(auth)/home/mainHome";
 import StartJourneyButton from "@/components/Map/StartJourneyButton";
-import {LatLng} from "react-native-maps";
 import DraggableList from "@/components/Map/DraggableList";
 
 interface Props{
@@ -13,16 +12,8 @@ interface Props{
     clickedInfo:ClickedInfoProps|null;
     mode:string;
     setMode:(mode:string)=>void;
-    travelPoints: {
-        id:string,
-        latlng:LatLng,
-        name:string,
-    }[];
-    setTravelPoints: (points: {
-        id:string,
-        latlng:LatLng,
-        name:string,
-    }[]) => void;
+    travelPoints: TravelPointProps[];
+    setTravelPoints: (points: TravelPointProps[]) => void;
 }
 
 const BottomSlide = ({travelPoints,setTravelPoints,bottomSheetRef,clickedInfo,mode,setMode}:Props) => {
@@ -46,7 +37,9 @@ const BottomSlide = ({travelPoints,setTravelPoints,bottomSheetRef,clickedInfo,mo
             style={styles.sheetContainer}>
             {mode==="normal" &&
                 <SafeAreaView style={styles.contentContainer}>
-                    <StartJourneyButton setMode={setMode}/>
+                    <>
+                        <StartJourneyButton setMode={setMode}/>
+                    </>
                     <MapMenu mode={mode} clickedInfo={clickedInfo}/>
                     <View style={styles.absoluteView}>
                         <TouchableOpacity onPress={onShowMap} style={styles.btn}>

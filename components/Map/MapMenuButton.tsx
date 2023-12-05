@@ -13,7 +13,7 @@ const MapMenuButton = ({icon,title,path}:Props) => {
         <Pressable onPress={()=>{
             // @ts-ignore
             router.push(path)
-        }} className="w-full rounded-[18px] bg-black">
+        }} className="w-full min-w-[270] rounded-[18px] bg-black">
             <View className="flex flex-row gap-5 items-center justify-between px-[60] py-[15]">
                 <Text className="text-[16px] font-semibold text-white">
                     {title}

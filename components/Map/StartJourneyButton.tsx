@@ -10,8 +10,8 @@ const StartJourneyButton = ({setMode}:Props) => {
     return (
             <TouchableOpacity onPress={()=>{
                 setMode("travel")
-            }} className="w-full bg-black text-white py-[15] rounded-[30px]">
-                    <Text className="text-white text-center font-semibold text-[16px]"> Start the journey here  🚀</Text>
+            }} className="min-w-[270px] bg-black text-white px-[60] py-[15] rounded-[18px]">
+                    <Text className="text-white text-center font-semibold text-[16px]"> Start the journey 🚀</Text>
             </TouchableOpacity>
     );
 }

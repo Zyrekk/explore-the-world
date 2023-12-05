@@ -1,77 +1,26 @@
-import React, { useState } from "react";
-import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
-import DraggableFlatList, {
-    RenderItemParams,
-    ScaleDecorator,
-} from "react-native-draggable-flatlist";
+import {View, Text, SafeAreaView} from 'react-native'
+import React, {useState} from 'react'
+import {useFocusEffect} from "expo-router";
+import {getUserFromStorage} from "@/utils/getUserFromStorage";
+import {UserInterface} from "@/constants/UserInterface";
+import {TravelPointProps} from "@/app/(auth)/home/mainHome";
+import TravelMap from "@/components/Travels/TravelMap";
 
-const NUM_ITEMS = 2;
-function getColor(i: number) {
-    const multiplier = 255 / (NUM_ITEMS - 1);
-    const colorVal = i * multiplier;
-    return `rgb(${colorVal}, ${Math.abs(128 - colorVal)}, ${255 - colorVal})`;
-}
-
-type Item = {
-    key: string;
-    label: string;
-    height: number;
-    width: number;
-    backgroundColor: string;
-};
-
-const initialData: Item[] = [...Array(NUM_ITEMS)].map((d, index) => {
-    const backgroundColor = getColor(index);
-    return {
-        key: `item-${index}`,
-        label: String(index) + "",
-        height: 100,
-        width: 60 + Math.random() * 40,
-        backgroundColor,
-    };
-});
-
-export default function travels() {
-    const [data, setData] = useState(initialData);
-
-    const renderItem = ({ item, drag, isActive }: RenderItemParams<Item>) => {
-        return (
-            <ScaleDecorator>
-                <TouchableOpacity
-                    onLongPress={drag}
-                    disabled={isActive}
-                    style={[
-                        styles.rowItem,
-                        { backgroundColor: isActive ? "red" : item.backgroundColor },
-                    ]}
-                >
-                    <Text style={styles.text}>{item.label}</Text>
-                </TouchableOpacity>
-            </ScaleDecorator>
-        );
-    };
-
+const Travels = () => {
+    const [clickedTravel,setClickedTravel]=useState<TravelPointProps|null>(null)
+    const [user, setUser] = useState<UserInterface | null>(null);
+    useFocusEffect(() => {
+        getUserFromStorage().then((fetchedUser) => {
+            if (JSON.stringify(fetchedUser) !== JSON.stringify(user)) {
+                setUser(fetchedUser)
+            }
+        })
+    });
     return (
-        <DraggableFlatList
-            data={data}
-            onDragEnd={({ data }) => setData(data)}
-            keyExtractor={(item) => item.key}
-            renderItem={renderItem}
-        />
+        <View className="flex-1">
+            <TravelMap/>
+        </View>
     );
 }
 
-const styles = StyleSheet.create({
-    rowItem: {
-        height: 100,
-        width: 100,
-        alignItems: "center",
-        justifyContent: "center",
-    },
-    text: {
-        color: "white",
-        fontSize: 24,
-        fontWeight: "bold",
-        textAlign: "center",
-    },
-});
+export default Travels;

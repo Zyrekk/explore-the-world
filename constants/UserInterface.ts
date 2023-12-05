@@ -10,4 +10,5 @@ export interface UserInterface{
     avatar?: string;
     country?: Country;
     favoritePlaces?: {coords:LatLng,id:string}[];
+    travels?:{coords:LatLng}[][];
 }
