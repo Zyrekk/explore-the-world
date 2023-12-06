@@ -5,9 +5,10 @@ import {getUserFromStorage} from "@/utils/getUserFromStorage";
 import {UserInterface} from "@/constants/UserInterface";
 import {TravelPointProps} from "@/app/(auth)/home/mainHome";
 import TravelMap from "@/components/Travels/TravelMap";
+import TravelsBottomSlide from "@/components/Travels/TravelsBottomSlide";
 
 const Travels = () => {
-    const [clickedTravel,setClickedTravel]=useState<TravelPointProps|null>(null)
+    const [clickedTravel,setClickedTravel]=useState<TravelPointProps[]|null>(null)
     const [user, setUser] = useState<UserInterface | null>(null);
     useFocusEffect(() => {
         getUserFromStorage().then((fetchedUser) => {
@@ -18,7 +19,8 @@ const Travels = () => {
     });
     return (
         <View className="flex-1">
-            <TravelMap/>
+            <TravelMap clickedTravel={clickedTravel}/>
+            {user && <TravelsBottomSlide user={user} setUser={setUser} setClickedTravel={setClickedTravel}/>}
         </View>
     );
 }
