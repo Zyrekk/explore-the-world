@@ -1,8 +1,8 @@
 import {Text, StyleSheet, Pressable, View, ScrollView, Image} from "react-native";
 import {SafeAreaView} from "react-native-safe-area-context";
-import {AntDesign} from "@expo/vector-icons";
+import {AntDesign, MaterialCommunityIcons} from "@expo/vector-icons";
 import {UserInterface} from "@/constants/UserInterface";
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {getUserFromStorage} from "@/utils/getUserFromStorage";
 import countryEmoji from "country-emoji";
 import {Link, useFocusEffect} from "expo-router";
@@ -19,7 +19,7 @@ const Profile = () => {
     });
 
     return (
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView className="bg-[#160227]" style={styles.container}>
             <ScrollView style={styles.scroll}>
                 <View style={styles.titleContainer}>
                     <Text style={styles.title}>Profile</Text>
@@ -50,7 +50,7 @@ const Profile = () => {
                                 <Text style={{fontSize: 20}}>
                                     {user.country && countryEmoji.flag(
                                         user.country?.cca2
-                                    ) || "❓"}
+                                    ) || ""}
                                 </Text>
                                 <Text
                                     style={styles.countryInfoText}>{user.country?.name.toString().toUpperCase()}</Text>
@@ -85,14 +85,16 @@ const Profile = () => {
                         </View>
                         <AntDesign name="right" size={18} color="white"/>
                     </Pressable>
-                    <Pressable style={styles.eventButton}>
+                    <Link href={"/profile/translate"}>
+                    <View style={styles.eventButton}>
                         <View style={styles.eventButtonFlex}>
                             <Text style={styles.eventButtonText}>
-                                ️🧑 Friends
+                                ️<MaterialCommunityIcons name="translate" size={24} color="white" />  Translate
                             </Text>
                         </View>
                         <AntDesign name="right" size={18} color="white"/>
-                    </Pressable>
+                    </View>
+                    </Link>
                 </View>
             </ScrollView>
         </SafeAreaView>

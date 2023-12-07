@@ -22,6 +22,10 @@ const SaveTravelAs = ({setTravelPoints,setIsSaveClicked,travelPoints,setMode}:Pr
         })
     }, []);
     const handleSaveTravel = async(travel:TravelPointProps[]) => {
+        if(value===""){
+            alert("Please type travel name")
+            return
+        }
         if(user){
             const newTravel={
                 name:value,

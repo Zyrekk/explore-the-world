@@ -84,14 +84,14 @@ const Edit = () => {
     useEffect(() => {
     }, [avatarState]);
     return (
-        <View style={{flex: 1}}>
+        <View className="bg-[#160227]" style={{flex: 1}}>
             <SafeAreaView style={publicStyles.safeArea}>
                 <View
                     style={publicStyles.keyboardContainer}
                 >
                     <ScrollView contentContainerStyle={publicStyles.scrollContainer}>
                         <View style={publicStyles.headContainer}>
-                            <Text style={[publicStyles.title, {marginTop: 50, color: "black"}]}>Edit profile</Text>
+                            <Text style={[publicStyles.title, {marginTop: 50, color: "white"}]}>Edit profile</Text>
                         </View>
                         <View style={styles.editSection}>
                             <Avatar avatar={avatarState} setAvatar={setAvatarState}/>
@@ -102,7 +102,7 @@ const Edit = () => {
                                            name="user"
                                            style={[{
                                                fontSize: 16,
-                                               color: "black"
+                                               color: "white"
                                            }]}
                                        />}
                                        placeholder={"Name"}
@@ -114,7 +114,7 @@ const Edit = () => {
                                            name="user"
                                            style={[{
                                                fontSize: 16,
-                                               color: "black"
+                                               color: "white"
                                            }]}
                                        />}
                                        placeholder={"Lastname"}

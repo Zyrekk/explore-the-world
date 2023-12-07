@@ -5,6 +5,7 @@ import Loader from "@/components/Loader";
 import {getLocation} from "@/utils/getLocation";
 import {TravelPointProps} from "@/app/(auth)/home/mainHome";
 import MapViewDirections from "react-native-maps-directions";
+import HideTravelMarkers from "@/components/Travels/HideTravelMarkers";
 
 interface Props{
     clickedTravel:TravelPointProps[]|null

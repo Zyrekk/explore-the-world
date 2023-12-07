@@ -8,7 +8,7 @@ import {getLocation} from "@/utils/getLocation";
 import Loader from "@/components/Loader";
 
 interface FavMapProps {
-    favList:FavList[];
+    favList:FavList[]|null;
     router:any;
 }
 const FavMap = ({favList,router}:FavMapProps) => {

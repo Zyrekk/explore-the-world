@@ -1,5 +1,4 @@
 import {Stack} from 'expo-router';
-import TabsPage from "@/app/(auth)/_layout";
 
 const Settings = () => {
     return (

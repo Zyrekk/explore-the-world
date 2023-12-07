@@ -14,7 +14,7 @@ const CountryField = ({editUser,setShowCountryPicker}:CountryProps) => {
     return (
         <View style={editStyles.dataEditionContent}>
             <View style={editStyles.singleValueEdit}>
-                <Text style={{color:"black"}}>
+                <Text style={{color:"white"}}>
                     Nationality{" "}
                 </Text>
                 <View
@@ -32,11 +32,11 @@ const CountryField = ({editUser,setShowCountryPicker}:CountryProps) => {
                             setShowCountryPicker(true);
                         }}
                     >
-                        <Text style={[{color:"black",fontSize:16}]}>
+                        <Text style={[{color:"white",fontSize:16}]}>
                             {editUser.country && editUser.country.name.toString()}
                         </Text>
                     </Pressable>
-                    <AntDesign name="edit" size={24} color="black" />
+                    <AntDesign name="edit" size={24} color="white" />
                 </View>
             </View>
         </View>

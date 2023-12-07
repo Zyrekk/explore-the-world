@@ -30,7 +30,7 @@ const MainFavorites = () => {
 
     return (
         <View className="flex-1">
-            {favList && <FavMap favList={favList} router={router}/>}
+             <FavMap favList={favList} router={router}/>
         </View>
     );
 }
