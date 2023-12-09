@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OTA_AirDetailsRS
+        PrimaryLangID="eng"
+        Version="1.0"
+        TransactionIdentifier=""
+        FLSNote="This XML adds attributes not in the OTA XML spec.  All such attributes start with FLS"
+        FLSDevice = "ota-xml-expanded"
+        xmlns="http://www.opentravel.org/OTA/2003/05">
+    <Success></Success>
+    <FLSResponseFields
+            FLSOriginCode="WAW"
+            FLSOriginName="Warsaw"
+            FLSDestinationCode="GDN"
+            FLSDestinationName="Gdansk"
+            FLSStartDate="2023-12-17"
+            FLSEndDate="2023-12-17"
+
+            FLSResultCount="4"
+            FLSRoutesFound="8"
+            FLSBranchCount="32"
+            FLSTargetCount="34"
+            FLSRecordCount="2903"
+    />
+    <FlightDetails TotalFlightTime="PT0H55M"
+                   TotalMiles="185"
+                   TotalTripTime="PT0H55M"
+                   FLSDepartureDateTime="2023-12-17T13:15:00"
+                   FLSDepartureTimeOffset="+0100"
+                   FLSDepartureCode="WAW"
+                   FLSDepartureName="Warsaw"
+                   FLSArrivalDateTime="2023-12-17T14:10:00"
+                   FLSArrivalTimeOffset="+0100"
+                   FLSArrivalCode="GDN"
+                   FLSArrivalName="Gdansk"
+                   FLSFlightType="NonStop"
+                   FLSFlightLegs="1"
+                   FLSFlightDays="......7"
+                   FLSDayIndicator=""
+
+    >
+        <FlightLegDetails
+                DepartureDateTime="2023-12-17T13:15:00"
+                FLSDepartureTimeOffset="+0100"
+                ArrivalDateTime="2023-12-17T14:10:00"
+                FLSArrivalTimeOffset="+0100"
+
+                FlightNumber="3837"
+                JourneyDuration="PT0H55M"
+                SequenceNumber="1"
+                LegDistance="185"
+                FLSMeals="R"
+                FLSInflightServices="  9"
+                FLSUUID="WAWGDN20231217LO3837"
+
+
+        >
+            <DepartureAirport CodeContext="IATA" LocationCode="WAW" FLSLocationName="Frederic Chopin Airport" Terminal=" " FLSDayIndicator="" />
+            <ArrivalAirport CodeContext="IATA" LocationCode="GDN" FLSLocationName="Lech Walesa Airport" Terminal=" " FLSDayIndicator="" />
+            <MarketingAirline Code="LO" CodeContext="IATA" CompanyShortName="LOT Polish Airlines" />
+            <Equipment AirEquipType="E95" />
+        </FlightLegDetails>
+    </FlightDetails>
+    <FlightDetails TotalFlightTime="PT1H00M"
+                   TotalMiles="185"
+                   TotalTripTime="PT1H00M"
+                   FLSDepartureDateTime="2023-12-17T15:25:00"
+                   FLSDepartureTimeOffset="+0100"
+                   FLSDepartureCode="WAW"
+                   FLSDepartureName="Warsaw"
+                   FLSArrivalDateTime="2023-12-17T16:25:00"
+                   FLSArrivalTimeOffset="+0100"
+                   FLSArrivalCode="GDN"
+                   FLSArrivalName="Gdansk"
+                   FLSFlightType="NonStop"
+                   FLSFlightLegs="1"
+                   FLSFlightDays="......7"
+                   FLSDayIndicator=""
+
+    >
+        <FlightLegDetails
+                DepartureDateTime="2023-12-17T15:25:00"
+                FLSDepartureTimeOffset="+0100"
+                ArrivalDateTime="2023-12-17T16:25:00"
+                FLSArrivalTimeOffset="+0100"
+
+                FlightNumber="3815"
+                JourneyDuration="PT1H00M"
+                SequenceNumber="1"
+                LegDistance="185"
+                FLSMeals="R"
+                FLSInflightServices="  9"
+                FLSUUID="WAWGDN20231217LO3815"
+
+
+        >
+            <DepartureAirport CodeContext="IATA" LocationCode="WAW" FLSLocationName="Frederic Chopin Airport" Terminal=" " FLSDayIndicator="" />
+            <ArrivalAirport CodeContext="IATA" LocationCode="GDN" FLSLocationName="Lech Walesa Airport" Terminal=" " FLSDayIndicator="" />
+            <MarketingAirline Code="LO" CodeContext="IATA" CompanyShortName="LOT Polish Airlines" />
+            <Equipment AirEquipType="E90" />
+        </FlightLegDetails>
+    </FlightDetails>
+    <FlightDetails TotalFlightTime="PT0H55M"
+                   TotalMiles="185"
+                   TotalTripTime="PT0H55M"
+                   FLSDepartureDateTime="2023-12-17T19:55:00"
+                   FLSDepartureTimeOffset="+0100"
+                   FLSDepartureCode="WAW"
+                   FLSDepartureName="Warsaw"
+                   FLSArrivalDateTime="2023-12-17T20:50:00"
+                   FLSArrivalTimeOffset="+0100"
+                   FLSArrivalCode="GDN"
+                   FLSArrivalName="Gdansk"
+                   FLSFlightType="NonStop"
+                   FLSFlightLegs="1"
+                   FLSFlightDays="......7"
+                   FLSDayIndicator=""
+
+    >
+        <FlightLegDetails
+                DepartureDateTime="2023-12-17T19:55:00"
+                FLSDepartureTimeOffset="+0100"
+                ArrivalDateTime="2023-12-17T20:50:00"
+                FLSArrivalTimeOffset="+0100"
+
+                FlightNumber="3825"
+                JourneyDuration="PT0H55M"
+                SequenceNumber="1"
+                LegDistance="185"
+                FLSMeals="R"
+                FLSInflightServices="  9"
+                FLSUUID="WAWGDN20231217LO3825"
+
+
+        >
+            <DepartureAirport CodeContext="IATA" LocationCode="WAW" FLSLocationName="Frederic Chopin Airport" Terminal=" " FLSDayIndicator="" />
+            <ArrivalAirport CodeContext="IATA" LocationCode="GDN" FLSLocationName="Lech Walesa Airport" Terminal=" " FLSDayIndicator="" />
+            <MarketingAirline Code="LO" CodeContext="IATA" CompanyShortName="LOT Polish Airlines" />
+            <Equipment AirEquipType="E75" />
+        </FlightLegDetails>
+    </FlightDetails>
+    <FlightDetails TotalFlightTime="PT1H00M"
+                   TotalMiles="185"
+                   TotalTripTime="PT1H00M"
+                   FLSDepartureDateTime="2023-12-17T23:05:00"
+                   FLSDepartureTimeOffset="+0100"
+                   FLSDepartureCode="WAW"
+                   FLSDepartureName="Warsaw"
+                   FLSArrivalDateTime="2023-12-18T00:05:00"
+                   FLSArrivalTimeOffset="+0100"
+                   FLSArrivalCode="GDN"
+                   FLSArrivalName="Gdansk"
+                   FLSFlightType="NonStop"
+                   FLSFlightLegs="1"
+                   FLSFlightDays="......7"
+                   FLSDayIndicator="+1"
+
+    >
+        <FlightLegDetails
+                DepartureDateTime="2023-12-17T23:05:00"
+                FLSDepartureTimeOffset="+0100"
+                ArrivalDateTime="2023-12-18T00:05:00"
+                FLSArrivalTimeOffset="+0100"
+                DateChangeNbr="+1"
+                FlightNumber="3827"
+                JourneyDuration="PT1H00M"
+                SequenceNumber="1"
+                LegDistance="185"
+                FLSMeals="R"
+                FLSInflightServices="  9"
+                FLSUUID="WAWGDN20231217LO3827"
+
+
+        >
+            <DepartureAirport CodeContext="IATA" LocationCode="WAW" FLSLocationName="Frederic Chopin Airport" Terminal=" " FLSDayIndicator="" />
+            <ArrivalAirport CodeContext="IATA" LocationCode="GDN" FLSLocationName="Lech Walesa Airport" Terminal=" " FLSDayIndicator="+1" />
+            <MarketingAirline Code="LO" CodeContext="IATA" CompanyShortName="LOT Polish Airlines" />
+            <Equipment AirEquipType="E95" />
+        </FlightLegDetails>
+    </FlightDetails>
+</OTA_AirDetailsRS>

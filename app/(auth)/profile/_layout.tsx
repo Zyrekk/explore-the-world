@@ -18,6 +18,13 @@ const _Layout = () => {
                     presentation: 'modal',
                 }}
             />
+            <Stack.Screen
+                name="flights"
+                options={{
+                    headerShown: false,
+                    presentation: 'modal',
+                }}
+            />
         </Stack>
     );
 }

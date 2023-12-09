@@ -77,14 +77,16 @@ const Profile = () => {
                         </View>
                         <AntDesign name="right" size={18} color="white"/>
                     </Pressable>
-                    <Pressable style={styles.eventButton}>
+                    <Link href={"/profile/flights"}>
+                    <View style={styles.eventButton}>
                         <View style={styles.eventButtonFlex}>
                             <Text style={styles.eventButtonText}>
-                                ️️✈️ Flight tickets
+                                ️️✈️ Flights
                             </Text>
                         </View>
                         <AntDesign name="right" size={18} color="white"/>
-                    </Pressable>
+                    </View>
+                    </Link>
                     <Link href={"/profile/translate"}>
                     <View style={styles.eventButton}>
                         <View style={styles.eventButtonFlex}>
