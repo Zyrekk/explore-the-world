@@ -69,19 +69,11 @@ const Profile = () => {
                             <AntDesign name="right" size={18} color="white"/>
                         </View>
                     </Link>
-                    <Pressable style={styles.eventButton}>
-                        <View style={styles.eventButtonFlex}>
-                            <Text style={styles.eventButtonText}>
-                                🏆 Achievements
-                            </Text>
-                        </View>
-                        <AntDesign name="right" size={18} color="white"/>
-                    </Pressable>
                     <Link href={"/profile/flights"}>
                     <View style={styles.eventButton}>
                         <View style={styles.eventButtonFlex}>
                             <Text style={styles.eventButtonText}>
-                                ️️✈️ Flights
+                                ️️✈️ Search lights
                             </Text>
                         </View>
                         <AntDesign name="right" size={18} color="white"/>
