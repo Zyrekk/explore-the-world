@@ -75,7 +75,7 @@ export const publicStyles = StyleSheet.create({
         display: "flex",
         alignItems: "center",
         justifyContent: "flex-start",
-        flexGrow: 1,
+        width:"100%",
         height: "100%",
     },
     backButton: {
