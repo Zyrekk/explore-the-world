@@ -29004,18 +29004,6 @@
     "tz": "America/Denver"
   },
   {
-    "icao": "KEDC",
-    "iata": null,
-    "name": "Austin Executive Airport",
-    "city": "Austin",
-    "state": "Texas",
-    "country": "US",
-    "elevation": 189,
-    "lat": 30.4000778,
-    "lon": -97.5760335,
-    "tz": "America/Chicago"
-  },
-  {
     "icao": "KEDE",
     "iata": "EDE",
     "name": "Northeastern Regional Airport",

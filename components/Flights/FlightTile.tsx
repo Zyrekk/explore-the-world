@@ -66,7 +66,7 @@ export interface Flight {
 const FlightTile = ({data}: { data: Flight }) => {
     const flight = flightParser(data)
     return (
-        <View className="w-full bg-white rounded-[20px] px-[10px] py-[20px] flex flex-col items-center mt-[20px]">
+        <View className="w-full bg-white rounded-[20px] px-[10px] py-[20px] flex flex-col items-center mt-[15]">
             <Text className="font-bold text-[18px]">{flight.airline}</Text>
             <View className="flex flex-row items-center justify-center mt-[15px]">
                 <View className="flex flex-col items-end">
