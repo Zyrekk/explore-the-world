@@ -73,7 +73,7 @@ const Profile = () => {
                     <View style={styles.eventButton}>
                         <View style={styles.eventButtonFlex}>
                             <Text style={styles.eventButtonText}>
-                                ️️✈️ Search lights
+                                ️️✈️ Search flights
                             </Text>
                         </View>
                         <AntDesign name="right" size={18} color="white"/>
