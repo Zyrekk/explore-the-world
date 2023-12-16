@@ -1,20 +1,31 @@
 import React, {useEffect, useState} from 'react';
-import {View} from 'react-native';
+import {SafeAreaView, View} from 'react-native';
 import MapView, { LatLng, Marker} from 'react-native-maps';
 import {AntDesign} from '@expo/vector-icons';
 import {setPlaceId} from "@/utils/setPlaceId";
 import {FavList} from "@/app/(auth)/favorites/mainFavorites";
+import {getLocation} from "@/utils/getLocation";
+import Loader from "@/components/Loader";
 
 interface FavMapProps {
-    favList:FavList[];
+    favList:FavList[]|null;
     router:any;
 }
 const FavMap = ({favList,router}:FavMapProps) => {
+    const [location, setLocation] = useState<LatLng | null>(null);
     const [currentFavList,setCurrentFavList]=useState<FavList[]|null>(favList)
 
     useEffect(() => {
         setCurrentFavList(favList)
     }, [favList]);
+
+    useEffect(() => {
+        getLocation().then((res) => {
+            if (res) {
+                setLocation(res)
+            }
+        })
+    }, []);
 
 
     const handlePlaceId=async(placeId:string,coords:LatLng)=>{
@@ -22,8 +33,14 @@ const FavMap = ({favList,router}:FavMapProps) => {
     }
 
     return (
-        <View style={{flex: 1}}>
-            <MapView
+        <View style={{flex: 1}} className="bg-[#160227]">
+            {location ? <MapView
+                    initialRegion={{
+                        latitude: location.latitude,
+                        longitude: location.longitude,
+                        latitudeDelta: 1,
+                        longitudeDelta: 1,
+                    }}
                 provider={'google'}
                 style={{flex: 1}}
                 userInterfaceStyle={'dark'}
@@ -42,7 +59,12 @@ const FavMap = ({favList,router}:FavMapProps) => {
                         </View>
                     </Marker>
                 ))}
-            </MapView>
+            </MapView>:
+                <SafeAreaView className="flex-1 items-center justify-center">
+                    <Loader text={"Map loading..."}/>
+
+                </SafeAreaView>
+            }
         </View>
     );
 };

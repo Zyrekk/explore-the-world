@@ -14,10 +14,10 @@ const MapMenu = ({mode,clickedInfo}:Props) => {
     const router=useRouter()
     return (
         <SafeAreaView>
-            <View className="w-full px-[50px]">
+            <View className="w-full flex items-center px-[50px]">
                 {clickedInfo && mode!=="travel" &&
                 <>
-                    <Text className="w-full text-center text-white text-[24px] font-semibold mb-[40] mt-[30px]">
+                    <Text className="w-full text-center flex-wrap flex text-white text-[24px] font-semibold mb-[40] mt-[30px]">
                         {clickedInfo.name}
                     </Text>
                     <View style={{gap: 20}} className="flex w-full items-center justify-center flex-col">

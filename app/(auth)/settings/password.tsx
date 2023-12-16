@@ -15,14 +15,14 @@ const Password = () => {
     }, []);
 
     return(
-        <View style={{ flex: 1 }}>
+        <View className="bg-[#160227]" style={{ flex: 1 }}>
             <SafeAreaView style={publicStyles.safeArea}>
                     <View
                         style={publicStyles.keyboardContainer}
                     >
                         <ScrollView contentContainerStyle={publicStyles.scrollContainer}>
                             <View style={publicStyles.headContainer}>
-                                <Text style={[publicStyles.title,{marginTop:50,color:"black"}]}>Password reset</Text>
+                                <Text style={[publicStyles.title,{marginTop:50,color:"white"}]}>Password reset</Text>
                             </View>
                             <View style={publicStyles.formContainer}>
                                 <Pressable

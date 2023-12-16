@@ -20,8 +20,8 @@ const Avatar = ({avatar,setAvatar}:Props) => {
                 style={styles.avatarEditLayout}
                 onPress={() => pickImage(setAvatar,avatar)}
             >
-                <AntDesign name="edit" size={24} color="black" />
-                <Text style={{color:"black"}}>
+                <AntDesign name="edit" size={24} color="white" />
+                <Text style={{color:"white"}}>
                     Edit avatar
                 </Text>
             </TouchableOpacity>
@@ -36,7 +36,7 @@ const styles=StyleSheet.create({
         // backgroundColor:"#c4c4c4",
         overflow: "hidden",
         borderWidth: 2,
-        borderColor: "black",
+        borderColor: "white",
         display: "flex",
         borderRadius: 100,
         justifyContent: "center",

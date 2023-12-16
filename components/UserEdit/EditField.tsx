@@ -15,7 +15,7 @@ const EditField = ({editUser,type,setEditUser,placeholder,icon}:EditFieldProps) 
     return (
         <View style={editStyles.dataEditionContent}>
             <View style={editStyles.singleValueEdit}>
-                <Text style={{color:"black"}}>
+                <Text style={{color:"white"}}>
                     {placeholder}
                 </Text>
                 <View
@@ -27,13 +27,13 @@ const EditField = ({editUser,type,setEditUser,placeholder,icon}:EditFieldProps) 
                             setEditUser({...editUser,[type]:text})
                         }}
                         value={editUser[type]}
-                        style={[editStyles.input, { fontSize: 16,color:"black"}]}
+                        style={[editStyles.input, { fontSize: 16,color:"white"}]}
                         placeholder={placeholder}
                         autoCorrect={false}
-                        placeholderTextColor="black"
+                        placeholderTextColor="white"
                         underlineColorAndroid="transparent"
                     />
-                    <AntDesign name="edit" size={24} color="black" />
+                    <AntDesign name="edit" size={24} color="white" />
                 </View>
             </View>
         </View>
@@ -63,7 +63,7 @@ export const editStyles=StyleSheet.create({
         borderRadius: 40,
         width: "100%",
         borderWidth: 2,
-        borderColor: "black",
+        borderColor: "white",
         height: 50,
         gap: 10,
         flexDirection: "row",

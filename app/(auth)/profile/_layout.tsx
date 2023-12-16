@@ -1,30 +1,25 @@
-import {Stack} from 'expo-router';
 
-const Settings = () => {
+import React from 'react'
+import {Stack} from "expo-router";
+
+const _Layout = () => {
     return (
         <Stack>
             <Stack.Screen
-                name="mainSettings"
+                name="mainProfile"
                 options={{
                     headerShown: false,
                 }}
             />
             <Stack.Screen
-                name="edit"
-                options={{
-                    headerShown: false,
-                    presentation: 'modal',
-                }}
-            />
-            <Stack.Screen
-                name="delete"
+                name="translate"
                 options={{
                     headerShown: false,
                     presentation: 'modal',
                 }}
             />
             <Stack.Screen
-                name="password"
+                name="flights"
                 options={{
                     headerShown: false,
                     presentation: 'modal',
@@ -34,4 +29,4 @@ const Settings = () => {
     );
 }
 
-export default Settings;
+export default _Layout;

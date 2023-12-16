@@ -1,7 +1,6 @@
-import {View, Text} from 'react-native'
+import {View} from 'react-native'
 import React, {useEffect, useState} from 'react'
 import FavMap from "@/components/Favorites/FavMap";
-import {UserInterface} from "@/constants/UserInterface";
 import {getUserFromStorage} from "@/utils/getUserFromStorage";
 import {useFocusEffect, useRouter} from "expo-router";
 import {LatLng} from "react-native-maps";
@@ -31,7 +30,7 @@ const MainFavorites = () => {
 
     return (
         <View className="flex-1">
-            {favList && <FavMap favList={favList} router={router}/>}
+             <FavMap favList={favList} router={router}/>
         </View>
     );
 }

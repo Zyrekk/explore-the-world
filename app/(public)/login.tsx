@@ -51,12 +51,12 @@ const Login = () => {
                 <Text style={publicStyles.subtitle}>Please sign in to continue</Text>
               </View>
               <View style={publicStyles.formContainer}>
-                <LoginVia />
-                <View style={publicStyles.divider}>
-                  <View style={publicStyles.dividerLine} />
-                  <Text style={publicStyles.dividerText}>OR</Text>
-                  <View style={publicStyles.dividerLine} />
-                </View>
+                {/*<LoginVia />*/}
+                {/*<View style={publicStyles.divider}>*/}
+                {/*  <View style={publicStyles.dividerLine} />*/}
+                {/*  <Text style={publicStyles.dividerText}>OR</Text>*/}
+                {/*  <View style={publicStyles.dividerLine} />*/}
+                {/*</View>*/}
                 <AuthInput
                   onChangeText={setEmailAddress}
                   value={emailAddress}
