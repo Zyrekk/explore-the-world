@@ -83,7 +83,7 @@ const TravelsBottomSlide = ({user,setUser,setClickedTravel}: Props) => {
     );
 }
 
-const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
     contentContainer: {
         flex: 1,
         alignItems: "center",

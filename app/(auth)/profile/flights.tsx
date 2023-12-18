@@ -26,14 +26,16 @@ const Flights = () => {
     const [flights, setFlights] = useState<null | Flight[]>()
 
     useEffect(() => {
-        if (departureInfo && arrivalInfo && fetchDate) {
+        if(click!==0){
             setLoading(true)
+        }
+        if (departureInfo && arrivalInfo && fetchDate) {
             fetchFlights(departureInfo?.iata, arrivalInfo?.iata, fetchDate).then((fl) => {
-                if(fl){
+                if (fl) {
                     parseString(fl, (err: any, res: any) => {
                         const uniqueid: string[] = [];
                         const uniqueFlights: Flight[] = [];
-                        if(res.OTA_AirDetailsRS!==undefined && res.OTA_AirDetailsRS.FlightDetails!==undefined){
+                        if (res.OTA_AirDetailsRS !== undefined && res.OTA_AirDetailsRS.FlightDetails !== undefined) {
                             res.OTA_AirDetailsRS.FlightDetails.forEach((el: Flight) => {
                                 if (!uniqueid.includes(el.FlightLegDetails[0].$.FLSUUID)) {
                                     uniqueid.push(el.FlightLegDetails[0].$.FLSUUID)
@@ -41,13 +43,11 @@ const Flights = () => {
                                 }
                             })
                             setFlights(uniqueFlights)
-                        }
-                        else{
+                        } else {
                             alert("No flights found")
                         }
                     });
-                }
-                else{
+                } else {
                     alert("No flights found")
                 }
             })
@@ -69,7 +69,8 @@ const Flights = () => {
             </Pressable>
             {isClickedDate &&
                 <>
-                    <RNDateTimePicker className="w-full" minimumDate={new Date()} display={"spinner"} mode={"date"} value={date}
+                    <RNDateTimePicker className="w-full" minimumDate={new Date()} display={"spinner"} mode={"date"}
+                                      value={date}
                                       onChange={(event, date) => {
                                           if (date) {
                                               setDate(date)
@@ -94,7 +95,8 @@ const Flights = () => {
             {loading ?
                 <Loader text={"Fetching flights"}/> :
                 <ScrollView style={{gap: 15}} className=" w-full flex-col">
-                    {flights &&<Text style={{paddingTop: 30}} className="text-white text-[24px] text-center pb-[10px] font-bold">SEARCH
+                    {flights && <Text style={{paddingTop: 30}}
+                                      className="text-white text-[24px] text-center pb-[10px] font-bold">SEARCH
                         RESULTS</Text>}
                     {flights &&
                         flights.map((flight, index) =>

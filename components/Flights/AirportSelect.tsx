@@ -29,10 +29,10 @@ const AirportSelect = ({setData,title,z}:Props) => {
     const [show, setShow] = useState(false);
     const searchAirport=(query:string) =>{
         query = query.toLowerCase();
-
-        return airportList.filter((airport:AirportInterface)=> {
-            return airport.name.toLowerCase().includes(query) || airport.iata.toLowerCase().includes(query);
+        const filtered=airportList.filter((airport:AirportInterface)=> {
+            return airport.city.toLowerCase().includes(query) || airport.iata.toLowerCase().includes(query);
         });
+        return filtered
     }
     return (
         <View style={{zIndex:z}} className="relative bg-white h-[60] py-[5] rounded-[10px]">
@@ -48,7 +48,7 @@ const AirportSelect = ({setData,title,z}:Props) => {
                         setShow(true)
                     }
                 }}/>
-                {show && input.length>1 &&
+                {show && input.length>2 &&
                     <ScrollView className="bg-[#160227] w-full max-h-[230px] border-[1px] border-white rounded-b-[18px] py-[10px] absolute top-[100%] left-0">
                         {searchAirport(input).map((airport,index) =>(
                             <Pressable className="mt-[5]" key={index} onPress={() => {

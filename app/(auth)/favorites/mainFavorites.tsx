@@ -4,6 +4,7 @@ import FavMap from "@/components/Favorites/FavMap";
 import {getUserFromStorage} from "@/utils/getUserFromStorage";
 import {useFocusEffect, useRouter} from "expo-router";
 import {LatLng} from "react-native-maps";
+import FavBottomSlide from "@/components/Favorites/FavBottomSlide";
 
 export interface FavList {
     coords: LatLng;
@@ -31,6 +32,7 @@ const MainFavorites = () => {
     return (
         <View className="flex-1">
              <FavMap favList={favList} router={router}/>
+            {favList && <FavBottomSlide favList={favList} router={router}/>}
         </View>
     );
 }

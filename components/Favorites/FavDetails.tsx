@@ -63,14 +63,21 @@ const FavDetails = ({refresh}:{refresh:boolean}) => {
     const [placeFav,setPlaceFav]=useState<PlaceInfo|null>(null)
     useEffect(() => {
         getPlaceId().then((res) => {
-            fetchPlaceDetails(res.placeid).then((res) => setPlaceDetails(res))
-            setPlaceFav(res)
+            fetchPlaceDetails(res.placeid).then((res) => {
+                if(res.status!=="REQUEST_DENIED"){
+                    setPlaceDetails(res)
+                }
+                else{
+                    alert("GOOGLE KEY EXPIRED ")
+                }
+            })
+                    setPlaceFav(res)
         })
     }, []);
     return (
-        <ScrollView>
-            <View className="bg-[#160227] flex">
-                {placeDetails &&
+        <ScrollView className="bg-[#160227]">
+            <View className="bg-[#160227] flex flex-grow">
+                {placeDetails ?
                     <>
                         <ScrollView
                             showsHorizontalScrollIndicator={false}
@@ -112,7 +119,10 @@ const FavDetails = ({refresh}:{refresh:boolean}) => {
                             {placeDetails.result.formatted_phone_number && <StandardInfo icon={<Feather name="phone" size={24} color="#3AA3E4"/>} text={placeDetails.result.formatted_phone_number}/>}
                             {placeDetails.result.website && <StandardInfo icon={<MaterialCommunityIcons name="web" size={24} color="#3AA3E4" />} text={placeDetails.result.website}/>}
                         </View>
-                    </>
+                    </>:
+                    <Text className=" text-center flex-wrap flex text-white text-[24px] font-semibold mb-[40] mt-[30px]">
+                        GOOGLE KEY EXPIRED, DATA NOT FOUND
+                    </Text>
                 }
 
             </View>
