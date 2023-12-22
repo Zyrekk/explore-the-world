@@ -11,6 +11,8 @@ import {flightParser, ParsedFlight} from "@/utils/flightParser";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
 import AirportSelect, {AirportInterface} from "@/components/Flights/AirportSelect";
 import Loader from "@/components/Loader";
+import {setAirportData} from "@/utils/setAirportData";
+import {getAirportData} from "@/utils/getAirportData";
 
 
 const Flights = () => {
@@ -25,10 +27,23 @@ const Flights = () => {
 
     const [flights, setFlights] = useState<null | Flight[]>()
 
+    const clearData=()=>{
+
+        setDepartureInfo(null)
+        setArrivalInfo(null)
+        setDate(new Date())
+        setFlights(null)
+        setAirportData(JSON.stringify(
+            {
+                departureInfo:null,
+                arrivalInfo:null,
+                date:new Date(),
+                flights:null
+            }))
+    }
+
     useEffect(() => {
-        if(click!==0){
             setLoading(true)
-        }
         if (departureInfo && arrivalInfo && fetchDate) {
             fetchFlights(departureInfo?.iata, arrivalInfo?.iata, fetchDate).then((fl) => {
                 if (fl) {
@@ -43,6 +58,14 @@ const Flights = () => {
                                 }
                             })
                             setFlights(uniqueFlights)
+                            setAirportData(JSON.stringify(
+                                {
+                                    departureInfo:departureInfo,
+                                    arrivalInfo:arrivalInfo,
+                                    date:date,
+                                    flights:uniqueFlights
+                                }
+                            ))
                         } else {
                             alert("No flights found")
                         }
@@ -51,16 +74,24 @@ const Flights = () => {
                     alert("No flights found")
                 }
             })
-            setLoading(false)
         }
-
+        setLoading(false)
     }, [click]);
+
+    useEffect(() => {
+        getAirportData().then((data)=>{
+            setDepartureInfo(data.departureInfo)
+            setArrivalInfo(data.arrivalInfo)
+            setDate(new Date(data.date))
+            setFlights(data.flights)
+        })
+    }, []);
 
 
     return (
         <View style={{gap: 15}} className="flex flex-col flex-1 bg-[#160227] px-[30] pt-[20px] pb-[50px]">
-            <AirportSelect title={"Departure"} setData={setDepartureInfo} z={1000000}/>
-            <AirportSelect title={"Arrival"} setData={setArrivalInfo} z={1000}/>
+            <AirportSelect title={"Departure"} setData={setDepartureInfo} z={1000000} data={departureInfo?departureInfo:undefined}/>
+            <AirportSelect title={"Arrival"} setData={setArrivalInfo} z={1000} data={arrivalInfo?arrivalInfo:undefined}/>
             <Pressable onPress={() => {
                 setIsClickedDate(!isClickedDate)
             }} style={{gap: 5}} className=" bg-white min-h-[60] py-[5] px-[5] rounded-[10px]">
@@ -79,18 +110,26 @@ const Flights = () => {
                     <Pressable onPress={() => {
                         setIsClickedDate(false)
                     }}
-                               className="flex-1 items-center justify-center bg-black min-h-[60] py-[5] px-[5] rounded-[10px]">
+                               className="flex-1 items-center justify-center bg-black min-h-[60] max-h-[60] py-[5] px-[5] rounded-[10px]">
                         <Text className="text-white text-[20px] font-semibold">Confirm date</Text>
                     </Pressable>
                 </>
             }
-            {!isClickedDate && date && departureInfo && arrivalInfo &&
+            {!isClickedDate && date && departureInfo && arrivalInfo && !flights &&
                 <Pressable
                     onPress={() => setClick(click + 1)}
                     className="items-center justify-center bg-black h-[60] py-[5] px-[5] rounded-[10px]">
                     <Text className="text-white text-[20px] font-semibold">SEARCH</Text>
                 </Pressable>
             }
+            {!isClickedDate && date && departureInfo && arrivalInfo && flights &&
+                <Pressable
+                    onPress={clearData}
+                    className="items-center justify-center bg-black h-[60] py-[5] px-[5] rounded-[10px]">
+                    <Text className="text-white text-[20px] font-semibold">CLEAR DATA</Text>
+                </Pressable>
+            }
+
 
             {loading ?
                 <Loader text={"Fetching flights"}/> :

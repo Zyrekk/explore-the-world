@@ -1,5 +1,5 @@
 import {View, Text, ScrollView, Pressable, TextInput} from 'react-native'
-import React, {useRef, useState} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import airportList from "@/constants/airports.json"
 import countryEmoji from "country-emoji";
 
@@ -20,12 +20,11 @@ interface Props{
     title:string;
     setData:(data:AirportInterface)=>void;
     z:number;
+    data?:AirportInterface;
 }
-const AirportSelect = ({setData,title,z}:Props) => {
+const AirportSelect = ({setData,title,z,data}:Props) => {
     const inputRef=useRef<TextInput>(null)
-    const [input,setInput]=useState<string>("")
-    const airports:AirportInterface[]=airportList
-    // const [value, setValue] = useState<AirportInterface|null>(null);
+    const [input,setInput]=useState<string>( data?data?.name:"")
     const [show, setShow] = useState(false);
     const searchAirport=(query:string) =>{
         query = query.toLowerCase();
@@ -34,6 +33,10 @@ const AirportSelect = ({setData,title,z}:Props) => {
         });
         return filtered
     }
+
+    useEffect(() => {
+        setInput(data?.name || "")
+    }, [data]);
     return (
         <View style={{zIndex:z}} className="relative bg-white h-[60] py-[5] rounded-[10px]">
             <Pressable onPress={() => {
