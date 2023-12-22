@@ -1,5 +1,5 @@
 import {View, Text, Pressable, TextInput, ScrollView} from 'react-native'
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {FontAwesome5} from "@expo/vector-icons";
 
 interface Props{
@@ -46,6 +46,13 @@ const CustomSelect = ({initLang,setLang}:Props) => {
 
     const [value, setValue] = useState<{short:string,long:string}>(initLang);
     const [show, setShow] = useState(false);
+
+    useEffect(() => {
+        setValue(initLang);
+        setLang(initLang);
+
+
+    }, [initLang]);
 
     return (
         <View className="relative z-[100]">

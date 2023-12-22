@@ -1,8 +1,10 @@
 import {View, Text, SafeAreaView, TextInput, Pressable, ScrollView} from 'react-native'
-import React, {useState} from 'react'
-import {Entypo, FontAwesome5, MaterialCommunityIcons} from "@expo/vector-icons";
+import React, {useEffect, useState} from 'react'
+import {Entypo, Ionicons, MaterialCommunityIcons} from "@expo/vector-icons";
 import CustomSelect from "@/components/CustomSelect";
 import axios from "axios";
+import {setTranslateData} from "@/utils/setTranslateData";
+import {getTranslateData} from "@/utils/getTranslateData";
 
 const Translate = () => {
     const [lang1, setLang1] = useState<{ short: string, long: string }>({short: "EN", long: "English"})
@@ -21,23 +23,106 @@ const Translate = () => {
         source_lang: lang1.short
     }
 
+    const swapLanguages = () => {
+        const temp=lang2
+        const temp2=output
+        if(output){
+            setTranslateData(JSON.stringify(
+                {
+                    lang1: {
+                        short: lang2.short,
+                        long: lang2.long
+                    },
+                    lang2: {
+                        short: lang1.short,
+                        long: lang1.long
+                    },
+
+                    input: output,
+                    output: input,
+                }))
+            setLang2({short: lang1.short, long: lang1.long})
+            setLang1({short: temp.short, long: temp.long})
+            setOutput(input)
+            setInput(temp2)
+        }
+        else{
+            setTranslateData(JSON.stringify(
+                {
+                    lang1: {
+                        short: lang2.short,
+                        long: lang2.long
+                    },
+                    lang2: {
+                        short: lang1.short,
+                        long: lang1.long
+                    },
+                }))
+            setLang2({short: lang1.short, long: lang1.long})
+            setLang1({short: temp.short, long: temp.long})
+        }
+    }
+
+
     const translate = async () => {
         axios.post("https://api-free.deepl.com/v2/translate", body, {headers})
             .then(response => {
-                    setOutput(response.data.translations[0].text)
+                setOutput(response.data.translations[0].text)
+                setTranslateData(JSON.stringify(
+                    {
+                        lang1: {
+                            short: lang1.short,
+                            long: lang1.long
+                        },
+                        lang2: {
+                            short: lang2.short,
+                            long: lang2.long
+                        },
+                        input: input,
+                        output: response.data.translations[0].text,
+                    }
+                ));
             })
             .catch(error => {
                 console.error('Error:', error);
             });
     }
 
+    const clear = () => {
+        setInput("")
+        setOutput("")
+        setTranslateData(JSON.stringify(
+            {
+                lang1: {
+                    short: lang1.short,
+                    long: lang1.long
+                },
+                lang2: {
+                    short: lang2.short,
+                    long: lang2.long
+                },
+                input: "",
+                output: "",
+            }
+        ));
+    }
+
+    useEffect(() => {
+        getTranslateData().then(data => {
+            if(data){
+                setInput(data.input)
+                setOutput(data.output)
+                setLang1(data.lang1)
+                setLang2(data.lang2)
+            }
+        })
+    }, []);
+
     return (
         <View className="flex-1 bg-[#160227]">
             <SafeAreaView className="px-[10px]">
                 <ScrollView>
-                    <Text className="text-white text-center text-[32px] mt-[30px]">Translate</Text>
-
-                    <View className="border-[2px] border-white mt-[60px] mx-[20px] rounded-[18px] py-[10px]">
+                    <View className="border-[2px] border-white mt-[30px] mx-[20px] rounded-[18px] py-[10px]">
                         <CustomSelect initLang={lang1} setLang={setLang1}/>
                         <TextInput onChangeText={(text) => {
                             setInput(text)
@@ -46,7 +131,22 @@ const Translate = () => {
                                    placeholderTextColor="white" placeholder="Type here..."/>
                     </View>
 
-                    <View className="border-[2px] border-white mt-[30px] mx-[20px] rounded-[18px] mb-[20px] py-[10px]">
+                    <View style={{gap:40}} className="flex items-center flex-row justify-center mt-[15px]">
+                        <Pressable className="flex items-center justify-center" onPress={swapLanguages}>
+                            <View className="rounded-full border-[2px] border-white p-2">
+                                <Ionicons name="swap-vertical" size={24} color="white"/>
+                            </View>
+                            <Text className="text-white text-[16px] mt-[5px]">Swap</Text>
+                        </Pressable>
+                        <Pressable className="flex items-center justify-center" onPress={clear}>
+                            <View className="rounded-full border-[2px] border-white p-2">
+                                <Entypo name="cross" size={24} color="white" />
+                            </View>
+                            <Text className="text-white text-[16px] mt-[5px]">Clear</Text>
+                        </Pressable>
+                    </View>
+
+                    <View className="border-[2px] border-white mt-[15px] mx-[20px] rounded-[18px] mb-[20px] py-[10px]">
                         <CustomSelect initLang={lang2} setLang={setLang2}/>
                         <Text className="text-white min-h-[200px] max-h-[200px] text-[18px] px-[10px] py-[10px]">
                             {output}
