@@ -1,10 +1,11 @@
-import {View, Text, SafeAreaView, ScrollView, StyleSheet, TouchableOpacity,Image} from 'react-native'
+import {View, Text, SafeAreaView, ScrollView, StyleSheet, TouchableOpacity} from 'react-native'
 import React, {useEffect, useState} from 'react'
 import {publicStyles} from "@/styles/publicStyles";
 import {UserInterface} from "@/constants/UserInterface";
 import {getUserFromStorage} from "@/utils/getUserFromStorage";
 import Avatar, {AvatarProps} from "@/components/UserEdit/Avatar";
 import CountryPicker, {
+    DARK_THEME,
     Country,
     CountryCode
 } from "react-native-country-picker-modal";
@@ -122,6 +123,7 @@ const Edit = () => {
                             <CountryField setShowCountryPicker={setShowCountryPicker} editUser={editUser} />
                             {showCountryPicker && (
                                 <CountryPicker
+                                    theme={DARK_THEME}
                                     {...{
                                         countryCode:editUser.countryCode,
                                         withFilter: true,

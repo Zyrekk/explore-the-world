@@ -5,7 +5,6 @@ import {
     Pressable,
     SafeAreaView,
     KeyboardAvoidingView,
-    ScrollView,
     TouchableOpacity,
 } from "react-native";
 import Spinner from "react-native-loading-spinner-overlay";
@@ -13,7 +12,6 @@ import {signIn} from "@/utils/signIn";
 import {Text} from "@ui-kitten/components";
 import {AuthInput} from "@/components/Auth/AuthInput";
 import {PasswordInput} from "@/components/Auth/PasswordInput";
-import LoginVia from "@/components/Auth/LoginVia";
 import {AntDesign} from "@expo/vector-icons";
 import {publicStyles} from "@/styles/publicStyles";
 
