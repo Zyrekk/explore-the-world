@@ -16,7 +16,7 @@ My engineering thesis, a travel planning app.
 | **Google maps**    | Route plan on a map |
 | **OpenWeatherMap** | Weather information |
 | **DeepL**          | Translator          |
-| **Skyscanner**     | Flight search       |
+| **TODO**     | Flight search       |
 
 ## Installation
 
@@ -24,7 +24,7 @@ My engineering thesis, a travel planning app.
   npm install
 ```
 
-## .env variables
+## .env variables TODO
 
 ```
 REACT_APP_KEY=
@@ -37,29 +37,6 @@ REACT_APP_FIREBASE_MESSAGING_SENDER_ID=
 REACT_APP_FIREBASE_MEASUREMENT_ID=
 
 ```
-
-## TODO
-
-1. Dodać tryby klikania po mapie
-   *tryb tworzenia podrozy
-   *tryb dodawania miejsca do ulubionych
-
-2. Dodać ulubione
-
-3. Dodawanie trasay do bazy danych
-   *szukanie po nazwach
-   *mozliwosc przesuwania waypointow drag cos w tym stylu
-   \*pokazywanie trasy na mapie
-
-4. Dodać tłumacz deepl
-
-5. Bilety lotnicze
-
-6. Podsumowanie wycieczki
-
-7. osobista mapa
-
-8. info krajowe https://visalist.io/integrate
 
 ## User flow
 

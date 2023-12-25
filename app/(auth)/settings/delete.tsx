@@ -1,12 +1,43 @@
-import {View, Text, SafeAreaView, ScrollView, Pressable, StyleSheet} from 'react-native'
-import React from 'react'
+import {View, Text, SafeAreaView, ScrollView, Pressable, StyleSheet, TextInput} from 'react-native'
+import React, {useEffect, useState} from 'react'
 import {deleteUserFromFirebase} from "@/utils/deleteUserFromFirebase";
 import {publicStyles} from "@/styles/publicStyles";
 import {useRouter} from "expo-router";
 import {deleteUserFromStorage} from "@/utils/deleteUserFromStorage";
+import {PasswordInput} from "@/components/Auth/PasswordInput";
+import {signIn} from "@/utils/signIn";
+import {deleteConfirm} from "@/utils/deleteConfirm";
+import {UserInterface} from "@/constants/UserInterface";
+import {getUserFromStorage} from "@/utils/getUserFromStorage";
 
 const Delete = () => {
+    const [password,setPassword]=useState("")
     const router=useRouter()
+    const [user,setUser]=useState<UserInterface | null>(null)
+
+    useEffect(() => {
+        getUserFromStorage().then((res)=>{
+            setUser(res)
+        })
+    }, []);
+
+    const deleteAccount= ()=>{
+        if(user){
+            deleteConfirm(user.email,password).then((res)=>{
+                if(res){
+                    deleteUserFromFirebase()
+                    deleteUserFromStorage().then(()=>{
+                        router.replace("/landing")
+                        alert("Account deleted")
+                    })
+                }
+                else{
+                    alert("Wrong password")
+                }
+            })
+        }
+    }
+
     return(
         <View className="bg-[#160227]" style={{ flex: 1 }}>
             <SafeAreaView style={publicStyles.safeArea}>
@@ -18,13 +49,10 @@ const Delete = () => {
                             <Text style={[publicStyles.title,{marginTop:50,color:"white"}]}>Confirm delete</Text>
                         </View>
                         <View style={publicStyles.formContainer}>
+                            <PasswordInput label={"Password"} onChangeText={setPassword} value={password} placeholder={"Enter Password"} textContentType={"password"}/>
                             <Pressable
                                 onPress={() => {
-                                    deleteUserFromFirebase()
-                                    deleteUserFromStorage().then(()=>{
-                                        router.replace("/landing")
-                                        alert("Account deleted")
-                                    })
+                                    deleteAccount()
                                 }}
                                 style={[publicStyles.signInButton,{backgroundColor: "black"}]}
                             >

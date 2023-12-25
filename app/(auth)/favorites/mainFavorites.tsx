@@ -9,6 +9,7 @@ import FavBottomSlide from "@/components/Favorites/FavBottomSlide";
 export interface FavList {
     coords: LatLng;
     id: string;
+    address:string;
 }
 
 const MainFavorites = () => {
@@ -21,12 +22,14 @@ const MainFavorites = () => {
                 setFavList(fetchedUser?.favoritePlaces);
             }
         });
+        console.log('xD1')
     });
 
     useEffect(() => {
         getUserFromStorage().then((fetchedUser) => {
             setFavList(fetchedUser?.favoritePlaces);
         });
+        console.log('xD12')
     }, []);
 
     return (
