@@ -80,10 +80,12 @@ const Flights = () => {
 
     useEffect(() => {
         getAirportData().then((data)=>{
-            setDepartureInfo(data.departureInfo)
-            setArrivalInfo(data.arrivalInfo)
-            setDate(new Date(data.date))
-            setFlights(data.flights)
+            if(data){
+                setDepartureInfo(data.departureInfo)
+                setArrivalInfo(data.arrivalInfo)
+                setDate(new Date(data.date))
+                setFlights(data.flights)
+            }
         })
     }, []);
 
