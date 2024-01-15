@@ -16,101 +16,39 @@ My engineering thesis, a travel planning app.
 | **Google maps**    | Route plan on a map |
 | **OpenWeatherMap** | Weather information |
 | **DeepL**          | Translator          |
-| **TODO**     | Flight search       |
+| **TimeTable lookup**     | Flight search       |
 
 ## Installation
+
+In the root directory of the application, run the following command
 
 ```npm
   npm install
 ```
 
-## .env variables TODO
+## .env variables
 
 ```
-REACT_APP_KEY=
-REACT_APP_FIREBASE_KEY=
-REACT_APP_FIREBASE_ID=
-REACT_APP_FIREBASE_AUTH_DOMAIN=
-REACT_APP_FIREBASE_PROJECT_ID=
-REACT_APP_FIREBASE_STORAGE_BUCKET=
-REACT_APP_FIREBASE_MESSAGING_SENDER_ID=
-REACT_APP_FIREBASE_MEASUREMENT_ID=
+EXPO_PUBLIC_APP_KEY=AIzaSyBFSyrDgCj3hhjozKaA8xI9Nbc_vQkeldE
+EXPO_PUBLIC_APP_DEEPL_KEY='DeepL-Auth-Key 8f795d6b-fa75-0654-0e45-62180fe96d44:fx'
+EXPO_PUBLIC_APP_FLIGHTS_KEY='51a319854bmsha6bbf1d84eb41a4p1a762djsnd8c23d40d581'
+EXPO_PUBLIC_APP_FIREBASE_KEY=AIzaSyDknUQaRG8SUhUPL906O3gYFtTqu3lzugQ
+EXPO_PUBLIC_APP_FIREBASE_ID=1:820862504134:web:63e30dc46bd5531a431bc7
+EXPO_PUBLIC_APP_FIREBASE_AUTH_DOMAIN=explore-the-world-23c1e.firebaseapp.com
+EXPO_PUBLIC_APP_FIREBASE_PROJECT_ID=explore-the-world-23c1e
+EXPO_PUBLIC_APP_FIREBASE_STORAGE_BUCKET=explore-the-world-23c1e.appspot.com
+EXPO_PUBLIC_APP_FIREBASE_MESSAGING_SENDER_ID=820862504134
+EXPO_PUBLIC_APP_FIREBASE_MEASUREMENT_ID=G-SDTPF788YB
+EXPO_PUBLIC_APP_WEATHER_KEY=d4d1cd3c219bc143faa42c3af738a582
 
 ```
 
-## User flow
+## Enabling the application
 
-Oto przykładowy user flow dla aplikacji mobilnej do planowania podróży:
+```npm
+  npx expo start
+```
 
-1. **Strona główna aplikacji:**
-
-   - Użytkownik otwiera aplikację.
-   - Pojawia się mapa jako główny ekran.
-   - Na mapie można zobaczyć oznaczenia ulubionych miejsc użytkownika.
-
-   **Interakcje:**
-
-   - Użytkownik może przeciągnąć mapę, aby zobaczyć różne miejsca.
-   - Na górze ekranu znajduje się przycisk "Utwórz nową podróż".
-
-2. **Tworzenie nowej podróży:**
-
-   - Użytkownik naciska przycisk "Utwórz nową podróż".
-   - Pojawi się ekran umożliwiający wprowadzenie danych o nowej podróży, takie jak nazwa, data rozpoczęcia i
-     zakończenia, opis, zdjęcie itp.
-   - Użytkownik może także wybrać miejsca na mapie, które chce dodać do swojej podróży.
-
-   **Interakcje:**
-
-   - Użytkownik wprowadza dane podróży.
-   - Użytkownik wybiera miejsca na mapie i dodaje je do planowanej podróży.
-
-3. **Panel użytkownika:**
-
-   - Po utworzeniu lub zalogowaniu się użytkownik ma dostęp do panelu użytkownika.
-   - Panel użytkownika zawiera zakładki takie jak "Zaplanowane podróże", "Najbliższa podróż", "Ulubione miejsca" i "
-     Znajomi".
-
-   **Interakcje:**
-
-   - Użytkownik może wybrać dowolną zakładkę, aby przejść do odpowiedniego widoku.
-
-4. **Zaplanowane podróże:**
-
-   - Użytkownik klika na zakładkę "Zaplanowane podróże".
-   - Pojawi się lista wszystkich jego zaplanowanych podróży.
-   - Użytkownik może kliknąć na konkretną podróż, aby zobaczyć jej szczegóły.
-
-   **Interakcje:**
-
-   - Użytkownik może przeglądać listę i wybierać konkretne podróże do przeglądania.
-
-5. **Najbliższa podróż:**
-
-   - Użytkownik klika na zakładkę "Najbliższa podróż".
-   - Pojawi się widok informujący użytkownika o nadchodzącej podróży, jeśli taka istnieje.
-
-6. **Ulubione miejsca:**
-
-   - Użytkownik klika na zakładkę "Ulubione miejsca".
-   - Pojawi się lista ulubionych miejsc użytkownika.
-
-   **Interakcje:**
-
-   - Użytkownik może przeglądać listę ulubionych miejsc i wybrać konkretne miejsce do przeglądania.
-
-7. **Znajomi:**
-
-   - Użytkownik klika na zakładkę "Znajomi".
-   - Pojawi się lista jego znajomych.
-   - Po kliknięciu na znajomego użytkownik zobaczy listę podróży, które dany znajomy zaplanował.
-
-   **Interakcje:**
-
-   - Użytkownik może wybierać znajomych i przeglądać ich zaplanowane podróże.
-
-To jest ogólny user flow dla aplikacji do planowania podróży. Oczywiście, mogą pojawić się dodatkowe funkcje i
-interakcje, w zależności od szczegółów projektu.
 
 ## Authors
 
